@@ -1,0 +1,176 @@
+import { useContext, useEffect, useState } from 'react'
+import { useParams, useNavigate } from 'react-router'
+import Layout from '../layout/Layout'
+import useFetch from '../../hooks/useFetch'
+import { AuthContext, ROLE } from '../../services/authContext/AuthContext'
+
+const formatSchedule = (schedule) => {
+  if (!schedule) return ''
+  const start = new Date(schedule)
+  const end = new Date(start.getTime() + 60 * 60 * 1000)
+
+  const day = start.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+
+  const fmt = (d) =>
+    d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
+
+  return `${day} at ${fmt(start)} – ${fmt(end)}`
+}
+
+const GymClassDetail = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
+  const { get, post, del, isLoading } = useFetch()
+  const { user } = useContext(AuthContext)
+  const [gymClass, setGymClass] = useState(null)
+  
+  const currentUserId = user?.id || user?.userId || 'unknown'
+  const isClient = user?.role === ROLE.MEMBER
+
+  const fetchClass = () => {
+    get(`GymClass/${id}`, true, (data) => setGymClass(data))
+  }
+
+  useEffect(() => {
+    fetchClass()
+  }, [id])
+
+  if (isLoading && !gymClass) {
+    return (
+      <Layout>
+        <div className="flex min-h-[50vh] items-center justify-center">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-zinc-800 border-t-orange-500" />
+        </div>
+      </Layout>
+    )
+  }
+
+  if (!gymClass) {
+    return (
+      <Layout>
+        <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4 text-center">
+          <h1 className="text-2xl font-bold text-white">Class Not Found</h1>
+          <p className="text-zinc-400">The class you're looking for doesn't exist or was removed.</p>
+          <button onClick={() => navigate('/classes')} className="text-orange-500 hover:underline">
+            ← Back to Classes
+          </button>
+        </div>
+      </Layout>
+    )
+  }
+
+  const { className, classDescription, maxCapacity, schedule, trainer, inscribedClients } = gymClass
+  const currentInscriptions = inscribedClients?.length ?? 0
+  const isFull = currentInscriptions >= maxCapacity
+  
+  // Note: we just check if any inscribed client has our mock id, or simulate it.
+  const isJoined = inscribedClients?.some(c => c.clientId === currentUserId)
+
+  const handleJoinLeave = () => {
+    if (isJoined) {
+      // Mock leave
+      del(`GymClass/${id}/leave`, {}, true, () => {
+        fetchClass()
+      })
+    } else {
+      // Mock join
+      post(`GymClass/${id}/join`, {}, true, () => {
+        fetchClass()
+      })
+    }
+  }
+
+  return (
+    <Layout>
+      <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+        <button 
+          onClick={() => navigate('/classes')}
+          className="mb-8 flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white"
+        >
+          <span>←</span> Back to Classes
+        </button>
+
+        <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-xl">
+          {/* Header Section */}
+          <div className="relative border-b border-zinc-800 p-8 sm:p-10">
+            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-orange-500 to-amber-500" />
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                  {className}
+                </h1>
+                <p className="mt-2 text-lg text-zinc-400">{classDescription || 'No description provided.'}</p>
+              </div>
+              <div className="flex flex-col items-start gap-3 sm:items-end">
+                <span className={`inline-flex rounded-full px-3 py-1 text-sm font-semibold uppercase tracking-widest ${isFull ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-green-500/10 text-green-400 border border-green-500/20'}`}>
+                  {isFull ? 'Waitlist Only' : 'Available'}
+                </span>
+                <span className="text-sm font-medium text-zinc-300">
+                  {currentInscriptions} / {maxCapacity} Spots Filled
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Details Section */}
+          <div className="grid gap-8 p-8 sm:grid-cols-2 sm:p-10">
+            <div className="flex flex-col gap-6">
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">Instructor</h3>
+                <div className="mt-2 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-800 text-orange-500 font-bold">
+                    {trainer?.name?.charAt(0) || 'T'}
+                  </div>
+                  <div>
+                    <p className="font-medium text-white">{trainer?.name}</p>
+                    {trainer?.specialization && (
+                      <p className="text-sm text-zinc-400">{trainer.specialization}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">Schedule</h3>
+                <p className="mt-2 font-medium text-white">{formatSchedule(schedule)}</p>
+              </div>
+            </div>
+
+            <div className="flex flex-col justify-end">
+              <button
+                onClick={handleJoinLeave}
+                disabled={!isClient || (!isJoined && isFull)}
+                className={`w-full rounded-xl px-6 py-4 text-base font-bold transition-all duration-200 
+                  ${!isClient
+                    ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
+                    : isJoined 
+                      ? 'bg-zinc-800 text-white hover:bg-zinc-700 hover:text-red-400' 
+                      : (!isJoined && isFull) 
+                        ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
+                        : 'bg-orange-500 text-white hover:bg-orange-600 hover:shadow-lg hover:shadow-orange-500/20'
+                  }`}
+              >
+                {!user 
+                  ? 'Log in to Book' 
+                  : !isClient 
+                    ? 'Clients Only' 
+                    : isJoined 
+                      ? 'Leave Class' 
+                      : isFull 
+                        ? 'Class is Full' 
+                        : 'Book Your Spot'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Layout>
+  )
+}
+
+export default GymClassDetail
