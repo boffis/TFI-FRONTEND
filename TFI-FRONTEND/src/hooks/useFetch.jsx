@@ -22,6 +22,7 @@ const useFetch = () => {
             .then(async res => {
                 if (!res.ok) {
                     const errData = await res.json();
+                    console.log(errData)
                     console.log(errData.message)
                     throw new Error(errData.message || "Algo ha salido mal");
                 }

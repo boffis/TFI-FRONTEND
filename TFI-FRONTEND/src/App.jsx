@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
+import { initMercadoPago } from '@mercadopago/sdk-react'
 import Home from './components/home/Home'
 import Classes from './components/home/Classes'
 import Login from './components/auth/Login'
@@ -23,6 +24,8 @@ import ProtectedLogin from './components/protected/ProtectedLogin'
 import ProtectedStatus from './components/protected/ProtectedStatus'
 
 function App() {
+  initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY);
+
   return (
     <BrowserRouter>
       <Routes>

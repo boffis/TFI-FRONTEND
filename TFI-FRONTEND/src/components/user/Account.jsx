@@ -46,7 +46,7 @@ const Account = () => {
             {/* Conditional lists for Client */}
             {user.role === 'Client' && (
               <>
-                <UserMembershipsCard memberships={user.memberships} />
+                <UserMembershipsCard memberships={user.memberships} allowCancel={true} />
                 <AccountInscriptionsCard />
                 <UserPaymentsCard payments={user.payments} />
               </>

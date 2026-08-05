@@ -46,14 +46,15 @@
         })
     }
 
-    const handleCancelMembership = () => {
-        // If a membership can be cancelled from the front-end, it might mean we remove it or mark it inactive.
-        // For now, this is undefined by the prompt, so we can just leave it or remove the active one.
-        // We'll remove the last one for simplicity, though the backend should handle this mostly.
+    const handleCancelMembership = (membershipId) => {
         setUser((prevUser) => {
         if (!prevUser) return null
-        const newMemberships = [...(prevUser.memberships || [])]
-        newMemberships.pop()
+        const newMemberships = (prevUser.memberships || []).map((m) => {
+            if (m.membershipId === membershipId) {
+                return { ...m, isCancelled: true }
+            }
+            return m;
+        })
         return { ...prevUser, memberships: newMemberships }
         })
     }

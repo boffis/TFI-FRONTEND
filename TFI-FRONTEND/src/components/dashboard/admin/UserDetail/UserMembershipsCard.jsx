@@ -1,7 +1,43 @@
 import { FaIdCard } from 'react-icons/fa'
 import { FaCircleCheck, FaCircleXmark } from 'react-icons/fa6'
+import { useContext, useState } from 'react'
+import { AuthContext } from '../../../../services/authContext/AuthContext'
 
-const UserMembershipsCard = ({ memberships }) => {
+const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
+  const { user, handleCancelMembership } = useContext(AuthContext)
+  const [cancellingId, setCancellingId] = useState(null)
+
+  const handleCancelClick = async (membershipId) => {
+    if (!window.confirm('Are you sure you want to cancel this subscription?')) return;
+    
+    setCancellingId(membershipId)
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}Payment/Unsubscribe/${membershipId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${user?.token}`
+        }
+      })
+
+      if (!response.ok) {
+        let errorMsg = 'Failed to cancel subscription'
+        try {
+          const err = await response.json()
+          errorMsg = err.detail || errorMsg
+        } catch {}
+        throw new Error(errorMsg)
+      }
+
+      const result = await response.json()
+      alert(result.message || 'Subscription cancelled successfully.')
+      handleCancelMembership(membershipId)
+    } catch (error) {
+      console.error('Cancel subscription error:', error)
+      alert(error.message || 'Failed to cancel subscription. Please try again.')
+    } finally {
+      setCancellingId(null)
+    }
+  }
   if (!memberships || memberships.length === 0) {
     return (
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6">
@@ -28,6 +64,7 @@ const UserMembershipsCard = ({ memberships }) => {
         {memberships.map((m) => {
           const expDate = m.expirationDate ? new Date(m.expirationDate) : null
           const isActive = expDate && expDate > new Date()
+          const isCancelled = m.isCancelled
           const formattedExp = expDate
             ? expDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
             : '—'
@@ -36,7 +73,9 @@ const UserMembershipsCard = ({ memberships }) => {
             <div
               key={m.membershipId}
               className={`rounded-xl border p-4 transition-all duration-200 ${
-                isActive
+                isCancelled
+                  ? 'border-orange-500/30 bg-orange-500/5'
+                  : isActive
                   ? 'border-emerald-500/30 bg-emerald-500/5'
                   : 'border-zinc-700/50 bg-zinc-800/30'
               }`}
@@ -45,7 +84,9 @@ const UserMembershipsCard = ({ memberships }) => {
                 <span className="text-sm font-bold text-white">
                   {m.membershipPlan?.name ?? 'Membership Plan'}
                 </span>
-                {isActive
+                {isCancelled
+                  ? <span className="flex items-center gap-1 text-xs font-semibold text-orange-400"><FaCircleXmark /> Cancelled</span>
+                  : isActive
                   ? <span className="flex items-center gap-1 text-xs font-semibold text-emerald-400"><FaCircleCheck /> Active</span>
                   : <span className="flex items-center gap-1 text-xs font-semibold text-red-400"><FaCircleXmark /> Expired</span>
                 }
@@ -61,6 +102,16 @@ const UserMembershipsCard = ({ memberships }) => {
                 )}
                 <p className="font-mono pt-1 text-zinc-600">{m.membershipId}</p>
               </div>
+
+              {allowCancel && isActive && !isCancelled && (
+                <button
+                  onClick={() => handleCancelClick(m.membershipId)}
+                  disabled={cancellingId === m.membershipId}
+                  className="mt-3 w-full rounded-xl bg-red-500/10 border border-red-500/20 py-2 text-xs font-bold text-red-400 hover:bg-red-500/20 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
+                >
+                  {cancellingId === m.membershipId ? 'Cancelling...' : 'Cancel Subscription'}
+                </button>
+              )}
             </div>
           )
         })}

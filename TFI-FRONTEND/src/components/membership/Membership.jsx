@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
+import { useNavigate } from 'react-router'
+import { AuthContext, ROLE } from '../../services/authContext/AuthContext'
 import Layout from '../layout/Layout'
 import useFetch from '../../hooks/useFetch'
+import CheckoutModal from './CheckoutModal'
 
 // ─── Skeleton card ────────────────────────────────────────────────────────────
 const SkeletonCard = () => (
@@ -12,7 +15,7 @@ const SkeletonCard = () => (
 )
 
 // ─── Plan card ────────────────────────────────────────────────────────────────
-const PlanCard = ({ type, price }) => {
+const PlanCard = ({ type, price, onSelect }) => {
   const isPopular = type?.toLowerCase().includes('month') || type?.toLowerCase().includes('standard')
 
   return (
@@ -64,6 +67,7 @@ const PlanCard = ({ type, price }) => {
 
       {/* CTA */}
       <button
+        onClick={onSelect}
         className={`
           w-full rounded-xl py-3 text-sm font-bold tracking-wide transition-all duration-200
           ${isPopular
@@ -81,8 +85,26 @@ const PlanCard = ({ type, price }) => {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 const Membership = () => {
   const { get, isLoading } = useFetch()
+  const { user } = useContext(AuthContext)
+  const navigate = useNavigate()
   const [plans, setPlans] = useState([])
   const [error, setError] = useState(null)
+  const [selectedPlan, setSelectedPlan] = useState(null)
+
+  const handleSelectPlan = (plan) => {
+    if (!user) {
+      // Redirect to login or show message
+      navigate('/login')
+      return
+    }
+    
+    if (user.role !== ROLE.MEMBER) {
+      alert('Only clients can purchase membership plans.')
+      return
+    }
+
+    setSelectedPlan(plan)
+  }
 
   useEffect(() => {
     get(
@@ -135,6 +157,7 @@ const Membership = () => {
                 key={plan.membershipPlanId}
                 type={plan.type}
                 price={plan.price}
+                onSelect={() => handleSelectPlan(plan)}
               />
             ))}
           </div>
@@ -149,6 +172,11 @@ const Membership = () => {
         )}
 
       </section>
+
+      {/* Checkout Modal */}
+      {selectedPlan && (
+        <CheckoutModal plan={selectedPlan} onClose={() => setSelectedPlan(null)} />
+      )}
     </Layout>
   )
 }
