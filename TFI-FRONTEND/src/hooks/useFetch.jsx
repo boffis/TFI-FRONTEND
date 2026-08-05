@@ -1,8 +1,6 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../services/authContext/AuthContext";
-
-
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
+import { getApiUrl } from "../utils/apiUrl";
 
 const useFetch = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -11,7 +9,7 @@ const useFetch = () => {
     const call = (url, method, isPrivate, header, body, onSucces, onError) => {
         setIsLoading(true);
 
-        fetch(baseUrl + url, {
+        fetch(getApiUrl(url), {
             method,
             headers: {
                 ...header,

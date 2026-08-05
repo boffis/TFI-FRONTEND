@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../services/authContext/AuthContext'
-
-const baseUrl = import.meta.env.VITE_API_BASE_URL
+import { getApiUrl } from '../utils/apiUrl'
 
 /**
  * Fetches the list of active trainers from GET /user/activeTrainers.
@@ -15,7 +14,7 @@ const useTrainers = () => {
 
   useEffect(() => {
     setIsLoadingTrainers(true)
-    fetch(baseUrl + 'user/activeTrainers', {
+    fetch(getApiUrl('user/activeTrainers'), {
       method: 'GET',
       headers: { Authorization: `Bearer ${user?.token}` },
     })

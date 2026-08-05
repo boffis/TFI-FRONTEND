@@ -2,6 +2,7 @@ import { FaIdCard } from 'react-icons/fa'
 import { FaCircleCheck, FaCircleXmark } from 'react-icons/fa6'
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../../../services/authContext/AuthContext'
+import { getApiUrl } from '../../../../utils/apiUrl'
 
 const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
   const { user, handleCancelMembership } = useContext(AuthContext)
@@ -12,7 +13,7 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
     
     setCancellingId(membershipId)
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}Payment/Unsubscribe/${membershipId}`, {
+      const response = await fetch(getApiUrl(`Payment/Unsubscribe/${membershipId}`), {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${user?.token}`

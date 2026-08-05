@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { CardPayment } from '@mercadopago/sdk-react';
 import { AuthContext } from '../../services/authContext/AuthContext';
+import { getApiUrl } from '../../utils/apiUrl';
 
 const CheckoutModal = ({ plan, onClose }) => {
   const { user, handleNewMembership } = useContext(AuthContext);
@@ -23,7 +24,7 @@ const CheckoutModal = ({ plan, onClose }) => {
   const onSubmit = async (formData) => {
     setErrorMsg(null);
     return new Promise((resolve, reject) => {
-      fetch(`${import.meta.env.VITE_API_BASE_URL}Payment/Subscribe`, {
+      fetch(getApiUrl('Payment/Subscribe'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
