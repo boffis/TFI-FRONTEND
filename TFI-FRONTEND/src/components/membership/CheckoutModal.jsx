@@ -21,26 +21,44 @@ const CheckoutModal = ({ plan, onClose }) => {
     }
   };
 
-  const onSubmit = async (formData) => {
+  const onSubmit = async (param) => {
     setErrorMsg(null);
     return new Promise((resolve, reject) => {
+      // Unpack Mercado Pago CardPayment brick callback parameter
+      const cardData = param?.formData || param || {};
+      const paymentMethodId = cardData.payment_method_id || cardData.paymentMethodId;
+      const token = cardData.token;
+      const issuerId = cardData.issuer_id || cardData.issuerId;
+      const transactionAmount = cardData.transaction_amount || cardData.transactionAmount || Number(plan.price);
+      const installments = cardData.installments || 1;
+
+      const payload = {
+        ...cardData,
+        token,
+        payment_method_id: paymentMethodId,
+        paymentMethodId: paymentMethodId,
+        issuer_id: issuerId,
+        issuerId: issuerId,
+        transaction_amount: transactionAmount,
+        transactionAmount: transactionAmount,
+        installments,
+        membershipPlanId: plan.membershipPlanId
+      };
+
       fetch(getApiUrl('Payment/Subscribe'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${user?.token}`
         },
-        body: JSON.stringify({
-           ...formData,
-           membershipPlanId: plan.membershipPlanId
-        }),
+        body: JSON.stringify(payload),
       })
         .then(async (response) => {
           if (!response.ok) {
             let errorMessage = 'Payment failed';
             try {
               const err = await response.json();
-              errorMessage = err.detail || errorMessage;
+              errorMessage = err.message || err.detail || errorMessage;
             } catch (e) {
               // response is not json
             }
