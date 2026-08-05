@@ -5,72 +5,6 @@ import ScheduledClassCard from '../classes/ScheduledClassCard'
 import Search from '../shared/Search'
 import useFetch from '../../hooks/useFetch'
 
-// ─── Mock data (shape matches real API response) ──────────────────────────────
-const MOCK_DATA = {
-  specialClasses: [
-    {
-      gymClassId: '11111111-0000-0000-0000-000000000001',
-      className: 'HIIT Blast',
-      classDescription: 'High-intensity interval training for all levels.',
-      maxCapacity: 20,
-      trainer: { trainerId: 'tr-1', name: 'Marcus Webb', specialization: 'Strength & Conditioning' },
-      schedule: '2026-08-04T08:00:00',
-    },
-    {
-      gymClassId: '11111111-0000-0000-0000-000000000002',
-      className: 'Power Yoga',
-      classDescription: 'Deep stretching and mindful movement.',
-      maxCapacity: 15,
-      trainer: { trainerId: 'tr-2', name: 'Sofia Reyes', specialization: 'Yoga & Flexibility' },
-      schedule: '2026-08-05T09:30:00',
-    },
-    {
-      gymClassId: '11111111-0000-0000-0000-000000000003',
-      className: 'Boxing Workshop',
-      classDescription: 'Introductory session to boxing techniques.',
-      maxCapacity: 12,
-      trainer: { trainerId: 'tr-3', name: 'Darius Cole', specialization: 'Combat Sports' },
-      schedule: '2026-08-07T18:00:00',
-    },
-  ],
-  scheduledClasses: [
-    {
-      gymClassScheduleId: '22222222-0000-0000-0000-000000000001',
-      className: 'Indoor Cycling',
-      classDescription: 'High-energy spin session.',
-      maxCapacity: 25,
-      trainer: { trainerId: 'tr-4', name: 'Jake Torino', specialization: 'Endurance & Cardio' },
-      dayOfWeek: 1, // Monday
-      timeOfDay: '07:00:00',
-      isWeekly: true,
-      isActive: true,
-    },
-    {
-      gymClassScheduleId: '22222222-0000-0000-0000-000000000002',
-      className: 'Core & Stability',
-      classDescription: 'Functional core work for all levels.',
-      maxCapacity: 18,
-      trainer: { trainerId: 'tr-5', name: 'Lena Marsh', specialization: 'Functional Training' },
-      dayOfWeek: 3, // Wednesday
-      timeOfDay: '10:00:00',
-      isWeekly: true,
-      isActive: true,
-    },
-    {
-      gymClassScheduleId: '22222222-0000-0000-0000-000000000003',
-      className: 'Pilates Flow',
-      classDescription: 'Low-impact Pilates for strength and posture.',
-      maxCapacity: 16,
-      trainer: { trainerId: 'tr-6', name: 'Natalie Cruz', specialization: 'Pilates & Rehab' },
-      dayOfWeek: 5, // Friday
-      timeOfDay: '11:00:00',
-      isWeekly: true,
-      isActive: true,
-    },
-  ],
-}
-// ──────────────────────────────────────────────────────────────────────────────
-
 // Normalize raw API shapes into flat props that the cards expect
 const normalizeSpecial = (item) => ({
   classId: item.gymClassId,
@@ -132,13 +66,13 @@ const Classes = () => {
       false,
       (data) => {
         console.log(data)
-        setSpecialClasses((data.specialClasses ?? []).map(normalizeSpecial))
-        setScheduledClasses((data.scheduledClasses ?? []).map(normalizeScheduled))
+        setSpecialClasses((data?.specialClasses ?? []).map(normalizeSpecial))
+        setScheduledClasses((data?.scheduledClasses ?? []).map(normalizeScheduled))
       },
-      // Backend not ready — fall back to mock data
-      () => {
-        setSpecialClasses(MOCK_DATA.specialClasses.map(normalizeSpecial))
-        setScheduledClasses(MOCK_DATA.scheduledClasses.map(normalizeScheduled))
+      (err) => {
+        console.error('Failed to fetch classes:', err)
+        setSpecialClasses([])
+        setScheduledClasses([])
       }
     )
   }, [])
