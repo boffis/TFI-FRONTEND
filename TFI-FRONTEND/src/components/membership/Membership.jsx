@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router'
 import { AuthContext, ROLE } from '../../services/authContext/AuthContext'
 import Layout from '../layout/Layout'
 import useFetch from '../../hooks/useFetch'
-import CheckoutModal from './CheckoutModal'
 
 // ─── Skeleton card ────────────────────────────────────────────────────────────
 const SkeletonCard = () => (
@@ -89,7 +88,6 @@ const Membership = () => {
   const navigate = useNavigate()
   const [plans, setPlans] = useState([])
   const [error, setError] = useState(null)
-  const [selectedPlan, setSelectedPlan] = useState(null)
 
   const handleSelectPlan = (plan) => {
     if (!user) {
@@ -103,7 +101,7 @@ const Membership = () => {
       return
     }
 
-    setSelectedPlan(plan)
+    navigate('/checkout', { state: { plan } })
   }
 
   useEffect(() => {
@@ -172,11 +170,6 @@ const Membership = () => {
         )}
 
       </section>
-
-      {/* Checkout Modal */}
-      {selectedPlan && (
-        <CheckoutModal plan={selectedPlan} onClose={() => setSelectedPlan(null)} />
-      )}
     </Layout>
   )
 }

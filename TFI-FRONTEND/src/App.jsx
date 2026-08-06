@@ -9,6 +9,7 @@ import ConfirmEmail from './components/auth/ConfirmEmail'
 import ForgotPassword from './components/auth/ForgotPassword'
 import ResetPassword from './components/auth/ResetPassword'
 import Membership from './components/membership/Membership'
+import CheckoutPage from './components/membership/CheckoutPage'
 import AdminDashboard from './components/dashboard/admin/AdminDashboard'
 import UserDetail from './components/dashboard/admin/UserDetail/UserDetail'
 import NewGymClassForm from './components/dashboard/admin/forms/NewGymClassForm'
@@ -42,6 +43,7 @@ function App() {
 
         {/* Protected Routes - require authentication */}
         <Route element={<ProtectedLogin />}>
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/account" element={<Account />} />
           <Route path="/class/:id" element={<UserGymClassDetail />} />
           <Route path="/schedule/:id" element={<UserGymClassScheduleDetail />} />
