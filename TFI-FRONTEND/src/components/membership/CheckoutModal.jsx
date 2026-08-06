@@ -13,41 +13,53 @@ const CheckoutModal = ({ plan, onClose }) => {
 
   // ─── MP Brick config ─────────────────────────────────────────────────────────
 
+  // `amount` is required by the brick to display the correct value.
+  // No `customization` needed for CardPayment — it only tokenizes the card,
+  // it does not process the payment or filter payment methods.
   const initialization = {
     amount: Number(plan.price),
-  };
-
-  const customization = {
-    paymentMethods: {
-      types: {
-        excluded: ['ticket'],
-      },
-    },
   };
 
   // ─── Callbacks ───────────────────────────────────────────────────────────────
 
   /**
-   * The CardPayment brick requires onSubmit to return a Promise.
-   * useFetch uses callbacks, so we wrap it in a Promise here.
+   * Called by the CardPayment brick after the card is tokenized.
+   * The brick does NOT charge anything — it only gives us a card token.
+   * We must return a Promise so the brick can manage its own loading/error UI.
+   *
+   * formData shape from MP (snake_case):
+   * {
+   *   token:              string   ← card token (alphanumeric, used as card_token_id in /preapproval)
+   *   issuer_id:          string
+   *   payment_method_id:  string
+   *   transaction_amount: number
+   *   installments:       number
+   *   payer: {
+   *     email: string
+   *     identification: { type: string, number: string }
+   *   }
+   * }
    */
-  const onSubmit = (param) => {
+  const onSubmit = (formData) => {
     setErrorMsg(null);
 
-    // Normalise brick callback data (formData wrapper or flat object)
-    const cardData = param?.formData ?? param ?? {};
+    // Debug: inspect token and full shape before sending
+    console.log('[CheckoutModal] CardPayment formData:', formData);
+    console.log('[CheckoutModal] token:', formData?.token);
 
+    // Build ONLY the fields the backend expects — no spread, no extras.
     const payload = {
-      ...cardData,
-      token: cardData.token,
-      payment_method_id: cardData.payment_method_id ?? cardData.paymentMethodId,
-      paymentMethodId: cardData.payment_method_id ?? cardData.paymentMethodId,
-      issuer_id: cardData.issuer_id ?? cardData.issuerId,
-      issuerId: cardData.issuer_id ?? cardData.issuerId,
-      transaction_amount: cardData.transaction_amount ?? cardData.transactionAmount ?? Number(plan.price),
-      transactionAmount: cardData.transaction_amount ?? cardData.transactionAmount ?? Number(plan.price),
-      installments: cardData.installments ?? 1,
+      token:           formData.token,
+      issuerId:        formData.issuer_id,
+      paymentMethodId: formData.payment_method_id,
       membershipPlanId: plan.membershipPlanId,
+      payer: {
+        email: formData.payer?.email,
+        identification: {
+          type:   formData.payer?.identification?.type,
+          number: formData.payer?.identification?.number,
+        },
+      },
     };
 
     return new Promise((resolve, reject) => {
@@ -130,7 +142,6 @@ const CheckoutModal = ({ plan, onClose }) => {
           <div className={!isReady ? 'opacity-0 h-0 overflow-hidden' : ''}>
             <CardPayment
               initialization={initialization}
-              customization={customization}
               onSubmit={onSubmit}
               onReady={onReady}
               onError={onError}
