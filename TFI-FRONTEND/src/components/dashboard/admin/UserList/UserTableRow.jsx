@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router'
 import { FaCircleCheck, FaCircleXmark } from 'react-icons/fa6'
-import { capitalizeWords, capitalizeFirst } from '../../../../../utils/formatters'
+import { capitalizeWords, capitalizeFirst } from '../../../../utils/formatters'
 
 const ROLE_BADGE = {
   Client:  'bg-blue-500/15 text-blue-400 border-blue-500/30',
