@@ -33,8 +33,7 @@ const UserInscriptionsCard = ({ inscriptions }) => {
               <FaDumbbell className="text-orange-500/70 text-xs" />
               <span className="text-xs font-bold uppercase tracking-widest text-orange-500/80">Class</span>
             </div>
-            <p className="text-xs font-mono text-zinc-500 break-all">{ins.gymClassId}</p>
-            <p className="mt-2 text-[10px] font-mono text-zinc-700 break-all">{ins.inscriptionId}</p>
+            {/* Removed gymClassId and inscriptionId */}
           </div>
         ))}
       </div>

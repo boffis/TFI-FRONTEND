@@ -46,7 +46,7 @@ const UserTaughtClassesCard = ({ taughtClasses }) => {
                  <p className="text-xs text-zinc-500">{cls.schedule}</p>
             )}
            
-            <p className="mt-2 text-[10px] font-mono text-zinc-700 break-all">{cls.gymClassId}</p>
+            {/* Removed gymClassId */}
           </div>
         ))}
       </div>

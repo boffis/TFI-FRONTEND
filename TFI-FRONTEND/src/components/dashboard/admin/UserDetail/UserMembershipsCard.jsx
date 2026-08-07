@@ -101,7 +101,6 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
                 {m.membershipPlan?.durationInDays !== undefined && (
                   <p><span className="text-zinc-400">Duration:</span> {m.membershipPlan.durationInDays} days</p>
                 )}
-                <p className="font-mono pt-1 text-zinc-600">{m.membershipId}</p>
               </div>
 
               {allowCancel && isActive && !isCancelled && (
