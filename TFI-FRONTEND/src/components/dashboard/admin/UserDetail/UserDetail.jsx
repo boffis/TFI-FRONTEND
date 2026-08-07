@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router'
 import { FaArrowLeft } from 'react-icons/fa'
 import Layout from '../../../layout/Layout'
 import useFetch from '../../../../hooks/useFetch'
+import { capitalizeWords } from '../../../../utils/formatters'
 import UserInfoCard from './UserInfoCard'
 import UserRoleCard from './UserRoleCard'
 import UserPaymentsCard from './UserPaymentsCard'
@@ -72,7 +73,7 @@ const UserDetail = () => {
                 User Profile
               </p>
               <h1 className="text-4xl font-extrabold tracking-tight text-white">
-                {userData.name}
+                {capitalizeWords(userData.name)}
               </h1>
               <p className="mt-1 text-sm text-zinc-500">
                 ID: <span className="font-mono text-zinc-400">{userData.userId}</span>

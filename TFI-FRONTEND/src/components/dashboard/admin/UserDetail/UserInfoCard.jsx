@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { FaPencil, FaCheck, FaXmark } from 'react-icons/fa6'
 import useFetch from '../../../../hooks/useFetch'
+import { capitalizeWords, capitalizeFirst } from '../../../../utils/formatters'
 
 const GENDER_OPTIONS = ['Male', 'Female', 'Other', 'Prefer not to say']
 
@@ -157,11 +158,11 @@ const UserInfoCard = ({ userData, onUpdated }) => {
       {/* Fields */}
       {!editing ? (
         <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-          <Field label="Name"          value={userData.name} />
+          <Field label="Name"          value={capitalizeWords(userData.name)} />
           <Field label="Email"         value={userData.email} />
           <Field label="Date of Birth" value={userData.dateOfBirth?.split('T')[0]} />
           <Field label="DNI"           value={userData.dni} />
-          <Field label="Gender"        value={userData.gender} />
+          <Field label="Gender"        value={capitalizeFirst(userData.gender)} />
           <Field label="Phone"         value={userData.phoneNumber} />
           {userData.role === 'Trainer' && (
             <Field label="Specialization" value={userData.specialization} />

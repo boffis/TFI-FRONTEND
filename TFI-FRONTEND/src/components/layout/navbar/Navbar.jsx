@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router'
 import { HiUser, HiChevronDown } from 'react-icons/hi'
 import { AuthContext, ROLE } from '../../../services/authContext/AuthContext'
+import { capitalizeWords, capitalizeFirst } from '../../../utils/formatters'
 
 const navLinks = [
   { to: '/home', label: 'Home' },
@@ -57,7 +58,7 @@ const UserMenu = ({ user, onLogout }) => {
         className="flex items-center gap-2 rounded-lg border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 transition-colors hover:border-zinc-500 hover:text-white focus:outline-none"
       >
         <HiUser className="h-4 w-4 text-orange-500" />
-        <span>Welcome, {user.name?.split(" ")[0]}</span>
+        <span>Welcome, {capitalizeFirst(user.name?.split(" ")[0])}</span>
         <HiChevronDown
           className={`h-4 w-4 text-zinc-500 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
         />
@@ -71,7 +72,7 @@ const UserMenu = ({ user, onLogout }) => {
               Signed in as
             </p>
             <p className="mt-0.5 truncate text-sm font-semibold text-white">
-              {user.name}
+              {capitalizeWords(user.name)}
             </p>
           </div>
 

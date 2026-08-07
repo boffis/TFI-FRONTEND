@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import Layout from '../layout/Layout'
 import { AuthContext } from '../../services/authContext/AuthContext'
+import { capitalizeWords } from '../../utils/formatters'
 import AccountInfoCard from './AccountInfoCard'
 import AccountDeleteCard from './AccountDeleteCard'
 import AccountInscriptionsCard from './AccountInscriptionsCard'
@@ -31,7 +32,7 @@ const Account = () => {
             My Account
           </p>
           <h1 className="text-4xl font-extrabold tracking-tight text-white">
-            {user.name}
+            {capitalizeWords(user.name)}
           </h1>
           <p className="mt-1 text-sm text-zinc-500">
             Manage your personal information and preferences.

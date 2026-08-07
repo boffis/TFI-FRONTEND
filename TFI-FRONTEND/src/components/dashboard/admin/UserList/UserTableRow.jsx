@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router'
 import { FaCircleCheck, FaCircleXmark } from 'react-icons/fa6'
+import { capitalizeWords, capitalizeFirst } from '../../../../../utils/formatters'
 
 const ROLE_BADGE = {
   Client:  'bg-blue-500/15 text-blue-400 border-blue-500/30',
@@ -38,12 +39,12 @@ const UserTableRow = ({ user }) => {
       "
     >
       <td className="px-4 py-3 font-medium text-white group-hover:text-orange-400 transition-colors duration-150 whitespace-nowrap">
-        {user.name}
+        {capitalizeWords(user.name)}
       </td>
       <td className="px-4 py-3 text-zinc-300 whitespace-nowrap">{user.email}</td>
       <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{user.dni}</td>
       <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{formattedDob}</td>
-      <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{user.gender}</td>
+      <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{capitalizeFirst(user.gender)}</td>
       <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{user.phoneNumber}</td>
       <td className="px-4 py-3 whitespace-nowrap">
         <span className={`inline-block rounded-full border px-3 py-0.5 text-xs font-bold tracking-wide ${badgeClass}`}>

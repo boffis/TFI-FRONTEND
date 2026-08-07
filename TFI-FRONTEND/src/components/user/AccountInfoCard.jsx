@@ -2,6 +2,7 @@ import { useState, useContext } from 'react'
 import { FaPencil, FaCheck, FaXmark } from 'react-icons/fa6'
 import useFetch from '../../hooks/useFetch'
 import { AuthContext } from '../../services/authContext/AuthContext'
+import { capitalizeWords, capitalizeFirst } from '../../utils/formatters'
 
 const GENDER_OPTIONS = ['Male', 'Female', 'Other', 'Prefer not to say']
 
@@ -164,8 +165,8 @@ const AccountInfoCard = () => {
 
       {!editing ? (
         <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-          <Field label="Name" value={user.name} />
-          <Field label="Gender" value={user.gender} />
+          <Field label="Name" value={capitalizeWords(user.name)} />
+          <Field label="Gender" value={capitalizeFirst(user.gender)} />
           <Field label="Phone" value={user.phoneNumber} />
           {user.role === 'Trainer' && (
             <Field label="Specialization" value={user.specialization} />
