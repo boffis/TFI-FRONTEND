@@ -15,6 +15,7 @@ const CheckoutPage = () => {
 
   const [isReady, setIsReady] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState(null); // null | 'success' | 'error'
+  const [isProcessing, setIsProcessing] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
 
   // If no plan is found in state, redirect back to memberships page
@@ -37,6 +38,7 @@ const CheckoutPage = () => {
   const onSubmit = (formData) => {
     setErrorMsg(null);
     setPaymentStatus(null);
+    setIsProcessing(true);
 
     const payload = {
       token:           formData.token,
@@ -59,6 +61,7 @@ const CheckoutPage = () => {
         payload,
         (response) => {
           setPaymentStatus('success');
+          setIsProcessing(false);
           handleNewMembership({
             membershipId: response?.membershipId,
             expirationDate: response?.expirationDate,
@@ -77,6 +80,7 @@ const CheckoutPage = () => {
           console.error('Payment error:', error);
           setErrorMsg(message);
           setPaymentStatus('error');
+          setIsProcessing(false);
           reject();
         }
       );
@@ -140,8 +144,19 @@ const CheckoutPage = () => {
 
           {/* Right Column: Payment & Feedback */}
           <div className="lg:col-span-7">
-            {/* Show success message if payment was successful */}
-            {paymentStatus === 'success' ? (
+            {/* Processing overlay */}
+            {isProcessing ? (
+              <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-8 flex flex-col items-center justify-center gap-6 min-h-[280px]">
+                <div className="relative flex h-16 w-16 items-center justify-center">
+                  <div className="absolute h-16 w-16 animate-spin rounded-full border-4 border-zinc-700 border-t-orange-500" />
+                </div>
+                <div className="text-center">
+                  <p className="text-lg font-bold text-white">Processing payment…</p>
+                  <p className="mt-1 text-sm text-zinc-400">Please don't close this window.</p>
+                </div>
+              </div>
+            ) : paymentStatus === 'success' ? (
+              /* Success screen */
               <div className="rounded-2xl border border-green-500/30 bg-green-500/10 p-8 text-center flex flex-col items-center justify-center">
                 <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-500/20 text-green-400">
                   <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
