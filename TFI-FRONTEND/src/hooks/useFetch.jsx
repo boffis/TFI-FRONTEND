@@ -19,10 +19,15 @@ const useFetch = () => {
         })
             .then(async res => {
                 if (!res.ok) {
-                    const errData = await res.json();
-                    console.log(errData)
-                    console.log(errData.message)
-                    throw new Error(errData.message || "Algo ha salido mal");
+                    // Backend errors are ASP.NET ProblemDetails ({ title, detail, status }),
+                    // not { message } — read detail/title so real error reasons reach the user.
+                    let errData = {};
+                    try {
+                        errData = await res.json();
+                    } catch {
+                        // Non-JSON error body (e.g. empty 401) — fall through to statusText.
+                    }
+                    throw new Error(errData.detail || errData.title || res.statusText || "Algo ha salido mal");
                 }
 
                 const contentLength = res.headers.get('content-length')

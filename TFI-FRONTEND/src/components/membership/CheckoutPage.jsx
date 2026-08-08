@@ -39,6 +39,10 @@ const CheckoutPage = () => {
     setErrorMsg(null);
     setPaymentStatus(null);
     setIsProcessing(true);
+    // The Brick unmounts while isProcessing is true and remounts fresh if we return
+    // to the form (e.g. on error) — reset isReady so the shimmer masks that remount
+    // instead of showing the blank, not-yet-initialized Brick.
+    setIsReady(false);
 
     const payload = {
       token:           formData.token,
