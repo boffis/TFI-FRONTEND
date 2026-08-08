@@ -7,10 +7,21 @@ import { getApiUrl } from '../../../../utils/apiUrl'
 const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
   const { user, handleCancelMembership } = useContext(AuthContext)
   const [cancellingId, setCancellingId] = useState(null)
+  const [modalState, setModalState] = useState({ isOpen: false, type: '', message: '', onConfirm: null })
 
-  const handleCancelClick = async (membershipId) => {
-    if (!window.confirm('Are you sure you want to cancel this subscription?')) return;
-    
+  const closeDialog = () => setModalState({ isOpen: false, type: '', message: '', onConfirm: null })
+
+  const handleCancelClick = (membershipId) => {
+    setModalState({
+      isOpen: true,
+      type: 'confirm',
+      message: 'Are you sure you want to cancel this subscription?',
+      onConfirm: () => performCancel(membershipId)
+    })
+  }
+
+  const performCancel = async (membershipId) => {
+    closeDialog()
     setCancellingId(membershipId)
     try {
       const response = await fetch(getApiUrl(`Payment/Unsubscribe/${membershipId}`), {
@@ -30,11 +41,11 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
       }
 
       const result = await response.json()
-      alert(result.message || 'Subscription cancelled successfully.')
+      setModalState({ isOpen: true, type: 'success', message: result.message || 'Subscription cancelled successfully.' })
       handleCancelMembership(membershipId)
     } catch (error) {
       console.error('Cancel subscription error:', error)
-      alert(error.message || 'Failed to cancel subscription. Please try again.')
+      setModalState({ isOpen: true, type: 'error', message: error.message || 'Failed to cancel subscription. Please try again.' })
     } finally {
       setCancellingId(null)
     }
@@ -116,6 +127,41 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
           )
         })}
       </div>
+
+      {/* Modal Overlay */}
+      {modalState.isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="w-full max-w-sm rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-2xl animate-in fade-in zoom-in duration-200">
+            <h3 className={`text-lg font-bold mb-2 ${
+              modalState.type === 'error' ? 'text-red-500' :
+              modalState.type === 'success' ? 'text-emerald-500' :
+              'text-white'
+            }`}>
+              {modalState.type === 'confirm' ? 'Confirm Cancellation' : 
+               modalState.type === 'error' ? 'Error' : 'Success'}
+            </h3>
+            <p className="text-zinc-400 text-sm mb-6">
+              {modalState.message}
+            </p>
+            <div className="flex justify-end gap-3">
+              {modalState.type === 'confirm' ? (
+                <>
+                  <button onClick={closeDialog} className="px-4 py-2 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors">
+                    Keep Subscription
+                  </button>
+                  <button onClick={modalState.onConfirm} className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors shadow-lg shadow-red-500/20">
+                    Yes, Cancel
+                  </button>
+                </>
+              ) : (
+                <button onClick={closeDialog} className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-zinc-800 hover:bg-zinc-700 transition-colors">
+                  Close
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
