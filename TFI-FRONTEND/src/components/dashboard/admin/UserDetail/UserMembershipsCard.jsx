@@ -3,6 +3,7 @@ import { FaCircleCheck, FaCircleXmark } from 'react-icons/fa6'
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../../../services/authContext/AuthContext'
 import { getApiUrl } from '../../../../utils/apiUrl'
+import { formatDate } from '../../../../utils/formatters'
 
 const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
   const { user, handleCancelMembership } = useContext(AuthContext)
@@ -62,6 +63,66 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
     )
   }
 
+  const renderMembership = (m) => {
+    const expDate = m.expirationDate ? new Date(m.expirationDate) : null
+    const isActive = expDate && expDate > new Date()
+    const isCancelled = m.isCancelled
+    const formattedExp = formatDate(m.expirationDate)
+
+    return (
+      <div
+        key={m.membershipId}
+        className={`rounded-xl border p-4 transition-all duration-200 ${
+          isCancelled
+            ? 'border-orange-500/30 bg-orange-500/5'
+            : isActive
+            ? 'border-emerald-500/30 bg-emerald-500/5'
+            : 'border-zinc-700/50 bg-zinc-800/30'
+        }`}
+      >
+        <div className="mb-3 flex items-center justify-between">
+          <span className="text-sm font-bold text-white">
+            {m.membershipPlan?.name ?? 'Membership Plan'}
+          </span>
+          {isCancelled
+            ? <span className="flex items-center gap-1 text-xs font-semibold text-orange-400"><FaCircleXmark /> Cancelled</span>
+            : isActive
+            ? <span className="flex items-center gap-1 text-xs font-semibold text-emerald-400"><FaCircleCheck /> Active</span>
+            : <span className="flex items-center gap-1 text-xs font-semibold text-red-400"><FaCircleXmark /> Expired</span>
+          }
+        </div>
+
+        <div className="space-y-1 text-xs text-zinc-500">
+          <p><span className="text-zinc-400">Expires:</span> {formattedExp}</p>
+          {m.membershipPlan?.price !== undefined && (
+            <p><span className="text-zinc-400">Price:</span> ${m.membershipPlan.price?.toFixed(2)}</p>
+          )}
+          {m.membershipPlan?.durationInDays !== undefined && (
+            <p><span className="text-zinc-400">Duration:</span> {m.membershipPlan.durationInDays} days</p>
+          )}
+        </div>
+
+        {allowCancel && isActive && !isCancelled && (
+          <button
+            onClick={() => handleCancelClick(m.membershipId)}
+            disabled={cancellingId === m.membershipId}
+            className="mt-3 w-full rounded-xl bg-red-500/10 border border-red-500/20 py-2 text-xs font-bold text-red-400 hover:bg-red-500/20 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
+          >
+            {cancellingId === m.membershipId ? 'Cancelling...' : 'Cancel Subscription'}
+          </button>
+        )}
+      </div>
+    )
+  }
+
+  const sorted = [...memberships].sort(
+    (a, b) => new Date(b.expirationDate) - new Date(a.expirationDate)
+  )
+  const now = new Date()
+  const isCurrent = (m) => !m.isCancelled && m.expirationDate && new Date(m.expirationDate) > now
+  const current = sorted.filter(isCurrent)
+  const history = sorted.filter((m) => !isCurrent(m))
+
   return (
     <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 backdrop-blur-sm">
       <div className="mb-5 flex items-center gap-2">
@@ -72,61 +133,25 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
         </span>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        {memberships.map((m) => {
-          const expDate = m.expirationDate ? new Date(m.expirationDate) : null
-          const isActive = expDate && expDate > new Date()
-          const isCancelled = m.isCancelled
-          const formattedExp = expDate
-            ? expDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
-            : '—'
+      {current.length > 0 && (
+        <div className="mb-5">
+          <h3 className="mb-3 text-xs font-bold uppercase tracking-widest text-zinc-500">Current</h3>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {current.map(renderMembership)}
+          </div>
+        </div>
+      )}
 
-          return (
-            <div
-              key={m.membershipId}
-              className={`rounded-xl border p-4 transition-all duration-200 ${
-                isCancelled
-                  ? 'border-orange-500/30 bg-orange-500/5'
-                  : isActive
-                  ? 'border-emerald-500/30 bg-emerald-500/5'
-                  : 'border-zinc-700/50 bg-zinc-800/30'
-              }`}
-            >
-              <div className="mb-3 flex items-center justify-between">
-                <span className="text-sm font-bold text-white">
-                  {m.membershipPlan?.name ?? 'Membership Plan'}
-                </span>
-                {isCancelled
-                  ? <span className="flex items-center gap-1 text-xs font-semibold text-orange-400"><FaCircleXmark /> Cancelled</span>
-                  : isActive
-                  ? <span className="flex items-center gap-1 text-xs font-semibold text-emerald-400"><FaCircleCheck /> Active</span>
-                  : <span className="flex items-center gap-1 text-xs font-semibold text-red-400"><FaCircleXmark /> Expired</span>
-                }
-              </div>
-
-              <div className="space-y-1 text-xs text-zinc-500">
-                <p><span className="text-zinc-400">Expires:</span> {formattedExp}</p>
-                {m.membershipPlan?.price !== undefined && (
-                  <p><span className="text-zinc-400">Price:</span> ${m.membershipPlan.price?.toFixed(2)}</p>
-                )}
-                {m.membershipPlan?.durationInDays !== undefined && (
-                  <p><span className="text-zinc-400">Duration:</span> {m.membershipPlan.durationInDays} days</p>
-                )}
-              </div>
-
-              {allowCancel && isActive && !isCancelled && (
-                <button
-                  onClick={() => handleCancelClick(m.membershipId)}
-                  disabled={cancellingId === m.membershipId}
-                  className="mt-3 w-full rounded-xl bg-red-500/10 border border-red-500/20 py-2 text-xs font-bold text-red-400 hover:bg-red-500/20 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
-                >
-                  {cancellingId === m.membershipId ? 'Cancelling...' : 'Cancel Subscription'}
-                </button>
-              )}
-            </div>
-          )
-        })}
-      </div>
+      {history.length > 0 && (
+        <div>
+          <h3 className="mb-3 text-xs font-bold uppercase tracking-widest text-zinc-500">
+            {current.length > 0 ? 'History' : 'Memberships'}
+          </h3>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {history.map(renderMembership)}
+          </div>
+        </div>
+      )}
 
       {/* Modal Overlay */}
       {modalState.isOpen && (

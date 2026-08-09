@@ -1,4 +1,5 @@
 import { FaCreditCard } from 'react-icons/fa'
+import { formatDateTime } from '../../../../utils/formatters'
 
 const METHOD_BADGE = {
   Cash:        'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
@@ -19,6 +20,10 @@ const UserPaymentsCard = ({ payments }) => {
     )
   }
 
+  const sortedPayments = [...payments].sort(
+    (a, b) => new Date(b.paymentDate) - new Date(a.paymentDate)
+  )
+
   return (
     <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 backdrop-blur-sm">
       <div className="mb-5 flex items-center gap-2">
@@ -33,7 +38,7 @@ const UserPaymentsCard = ({ payments }) => {
         <table className="min-w-full text-sm">
           <thead>
             <tr className="border-b border-zinc-800 bg-zinc-900">
-              {['Price', 'Method', 'State', 'Date'].map((h) => (
+              {['Price', 'Method', 'State', 'Date & Time'].map((h) => (
                 <th key={h} className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-widest text-zinc-500">
                   {h}
                 </th>
@@ -41,18 +46,16 @@ const UserPaymentsCard = ({ payments }) => {
             </tr>
           </thead>
           <tbody>
-            {payments.map((p) => {
+            {sortedPayments.map((p) => {
               const badgeClass = METHOD_BADGE[p.paymentMethod] ?? 'bg-zinc-700/30 text-zinc-400 border-zinc-600/30'
-              
+
               // We can style the state badge depending on what the string is
               let stateBadgeClass = 'bg-zinc-700/30 text-zinc-400 border-zinc-600/30'
               if (p.paymentState === 'Approved' || p.paymentState === 'Success') stateBadgeClass = 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
               if (p.paymentState === 'Pending' || p.paymentState === 'In_Process') stateBadgeClass = 'bg-orange-500/15 text-orange-400 border-orange-500/30'
               if (p.paymentState === 'Rejected' || p.paymentState === 'Cancelled' || p.paymentState === 'Failed') stateBadgeClass = 'bg-red-500/15 text-red-400 border-red-500/30'
 
-              const date = p.paymentDate
-                ? new Date(p.paymentDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
-                : '—'
+              const date = formatDateTime(p.paymentDate)
               return (
                 <tr key={p.paymentId} className="border-b border-zinc-800/60 hover:bg-zinc-800/30 transition-colors duration-150">
                   <td className="px-4 py-3 font-semibold text-emerald-400">${p.price?.toFixed(2)}</td>
