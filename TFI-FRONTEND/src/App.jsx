@@ -11,6 +11,7 @@ import ResetPassword from './components/auth/ResetPassword'
 import Membership from './components/membership/Membership'
 import CheckoutPage from './components/membership/CheckoutPage'
 import AdminDashboard from './components/dashboard/admin/AdminDashboard'
+import TrainerDashboard from './components/dashboard/trainer/TrainerDashboard'
 import UserDetail from './components/dashboard/admin/UserDetail/UserDetail'
 import NewGymClassForm from './components/dashboard/admin/forms/NewGymClassForm'
 import NewGymClassScheduleForm from './components/dashboard/admin/forms/NewGymClassScheduleForm'
@@ -47,6 +48,11 @@ function App() {
           <Route path="/account" element={<Account />} />
           <Route path="/class/:id" element={<UserGymClassDetail />} />
           <Route path="/schedule/:id" element={<UserGymClassScheduleDetail />} />
+
+          {/* Protected Routes - require Trainer role */}
+          <Route element={<ProtectedStatus roleNeeded="Trainer" />}>
+            <Route path="/trainer/dashboard" element={<TrainerDashboard />} />
+          </Route>
 
           {/* Protected Routes - require Admin role */}
           <Route element={<ProtectedStatus roleNeeded="Admin" />}>
