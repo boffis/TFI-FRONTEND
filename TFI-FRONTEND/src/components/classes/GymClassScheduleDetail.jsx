@@ -139,7 +139,7 @@ const GymClassScheduleDetail = () => {
                       schedule={instance.schedule}
                       trainer={instance.trainer}
                       maxCapacity={instance.maxCapacity}
-                      inscribedClients={instance.inscribedClients}
+                      inscriptionCount={instance.inscriptionCount}
                     />
                   ))}
                 </div>

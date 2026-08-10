@@ -108,7 +108,7 @@ const Navbar = () => {
   const { user, handleLogout } = useContext(AuthContext)
 
   return (
-    <header className="border-b border-zinc-800 bg-zinc-950/90 backdrop-blur">
+    <header className="relative z-50 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
         {/* Brand */}
         <NavLink to="/home" className="text-xl font-bold tracking-tight text-white">

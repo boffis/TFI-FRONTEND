@@ -69,10 +69,10 @@ const GymClassDetail = () => {
     )
   }
 
-  const { className, classDescription, maxCapacity, schedule, trainer, inscribedClients } = gymClass
-  const currentInscriptions = inscribedClients?.length ?? 0
+  const { className, classDescription, maxCapacity, schedule, trainer, inscriptionCount, isCurrentUserInscribed } = gymClass
+  const currentInscriptions = inscriptionCount ?? 0
   const isFull = currentInscriptions >= maxCapacity
-  const isJoined = inscribedClients?.some(c => c.clientId === currentUserId)
+  const isJoined = isCurrentUserInscribed
 
   const handleJoinLeave = () => {
     setActionError(null)

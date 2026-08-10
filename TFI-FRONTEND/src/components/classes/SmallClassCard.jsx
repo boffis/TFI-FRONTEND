@@ -16,9 +16,9 @@ const formatSchedule = (schedule) => {
   return `${day}  ·  ${fmt(start)} – ${fmt(end)}`
 }
 
-const SmallClassCard = ({ gymClassId, className, schedule, trainer, maxCapacity, inscribedClients }) => {
+const SmallClassCard = ({ gymClassId, className, schedule, trainer, maxCapacity, inscriptionCount }) => {
   const navigate = useNavigate()
-  const isFull = inscribedClients?.length >= maxCapacity
+  const isFull = inscriptionCount >= maxCapacity
 
   return (
     <div
@@ -26,7 +26,8 @@ const SmallClassCard = ({ gymClassId, className, schedule, trainer, maxCapacity,
       className="group flex cursor-pointer items-center justify-between rounded-lg border border-zinc-800 bg-zinc-900/40 p-4 transition-colors hover:border-zinc-700 hover:bg-zinc-800/50"
     >
       <div>
-        <p className="font-semibold text-zinc-100">{formatSchedule(schedule)}</p>
+        <p className="font-semibold text-zinc-100">{className}</p>
+        <p className="text-sm text-zinc-400">{formatSchedule(schedule)}</p>
         <p className="text-sm text-zinc-400">Trainer: {trainer?.name}</p>
       </div>
       <div className="flex flex-col items-end gap-1">
@@ -34,7 +35,7 @@ const SmallClassCard = ({ gymClassId, className, schedule, trainer, maxCapacity,
           {isFull ? 'Full' : 'Available'}
         </span>
         <span className="text-xs text-zinc-500">
-          {inscribedClients?.length ?? 0} / {maxCapacity} spots
+          {inscriptionCount ?? 0} / {maxCapacity} spots
         </span>
       </div>
     </div>
