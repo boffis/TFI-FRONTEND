@@ -26,12 +26,9 @@ const AccountInscriptionsCard = () => {
   const handleLeave = (gymClassId, inscriptionId) => {
     setDeletingId(inscriptionId)
     setError(null)
-    
-    // Assuming backend endpoint is something like DELETE /gymclass/{classId}/inscription/{inscriptionId} 
-    // or DELETE /inscription/{inscriptionId}
-    // Let's use the latter for simplicity, assuming typical REST.
+
     dele(
-      `inscription/${inscriptionId}`,
+      `GymClass/${gymClassId}/leave/${user?.userId}`,
       true,
       () => {
         handleDisenrollClass(gymClassId)

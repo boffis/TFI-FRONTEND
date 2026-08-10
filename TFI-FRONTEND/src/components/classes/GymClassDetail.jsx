@@ -22,15 +22,20 @@ const formatSchedule = (schedule) => {
   return `${day} at ${fmt(start)} – ${fmt(end)}`
 }
 
+const hasActiveMembership = (user) =>
+  !!user?.memberships?.some((m) => !m.isCancelled && m.expirationDate && new Date(m.expirationDate) > new Date())
+
 const GymClassDetail = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { get, post, del, isLoading } = useFetch()
+  const { get, post, dele, isLoading } = useFetch()
   const { user } = useContext(AuthContext)
   const [gymClass, setGymClass] = useState(null)
-  
-  const currentUserId = user?.id || user?.userId || 'unknown'
+  const [actionError, setActionError] = useState(null)
+
+  const currentUserId = user?.userId
   const isClient = user?.role === ROLE.MEMBER
+  const isMember = hasActiveMembership(user)
 
   const fetchClass = () => {
     get(`GymClass/${id}`, true, (data) => setGymClass(data))
@@ -67,21 +72,32 @@ const GymClassDetail = () => {
   const { className, classDescription, maxCapacity, schedule, trainer, inscribedClients } = gymClass
   const currentInscriptions = inscribedClients?.length ?? 0
   const isFull = currentInscriptions >= maxCapacity
-  
-  // Note: we just check if any inscribed client has our mock id, or simulate it.
   const isJoined = inscribedClients?.some(c => c.clientId === currentUserId)
 
   const handleJoinLeave = () => {
+    setActionError(null)
+
+    // Clients without an active membership can't book — send them to get one instead.
+    if (!isJoined && !isMember) {
+      navigate('/memberships')
+      return
+    }
+
     if (isJoined) {
-      // Mock leave
-      del(`GymClass/${id}/leave`, {}, true, () => {
-        fetchClass()
-      })
+      dele(
+        `GymClass/${id}/leave/${currentUserId}`,
+        true,
+        () => fetchClass(),
+        (err) => setActionError(err?.message ?? 'Failed to leave class.')
+      )
     } else {
-      // Mock join
-      post(`GymClass/${id}/join`, {}, true, () => {
-        fetchClass()
-      })
+      post(
+        `GymClass/${id}/join/${currentUserId}`,
+        true,
+        null,
+        () => fetchClass(),
+        (err) => setActionError(err?.message ?? 'Failed to join class.')
+      )
     }
   }
 
@@ -141,29 +157,45 @@ const GymClassDetail = () => {
               </div>
             </div>
 
-            <div className="flex flex-col justify-end">
+            <div className="flex flex-col justify-end gap-3">
+              {actionError && (
+                <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-400">
+                  {actionError}
+                </div>
+              )}
+
+              {isClient && !isJoined && !isMember && (
+                <p className="text-sm text-zinc-400">
+                  You need an active membership to book this class.
+                </p>
+              )}
+
               <button
                 onClick={handleJoinLeave}
-                disabled={!isClient || (!isJoined && isFull)}
-                className={`w-full rounded-xl px-6 py-4 text-base font-bold transition-all duration-200 
+                disabled={!isClient || (!isJoined && isMember && isFull)}
+                className={`w-full rounded-xl px-6 py-4 text-base font-bold transition-all duration-200
                   ${!isClient
                     ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
-                    : isJoined 
-                      ? 'bg-zinc-800 text-white hover:bg-zinc-700 hover:text-red-400' 
-                      : (!isJoined && isFull) 
-                        ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
-                        : 'bg-orange-500 text-white hover:bg-orange-600 hover:shadow-lg hover:shadow-orange-500/20'
+                    : isJoined
+                      ? 'bg-zinc-800 text-white hover:bg-zinc-700 hover:text-red-400'
+                      : !isMember
+                        ? 'bg-orange-500 text-white hover:bg-orange-600 hover:shadow-lg hover:shadow-orange-500/20'
+                        : isFull
+                          ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
+                          : 'bg-orange-500 text-white hover:bg-orange-600 hover:shadow-lg hover:shadow-orange-500/20'
                   }`}
               >
-                {!user 
-                  ? 'Log in to Book' 
-                  : !isClient 
-                    ? 'Clients Only' 
-                    : isJoined 
-                      ? 'Leave Class' 
-                      : isFull 
-                        ? 'Class is Full' 
-                        : 'Book Your Spot'}
+                {!user
+                  ? 'Log in to Book'
+                  : !isClient
+                    ? 'Clients Only'
+                    : isJoined
+                      ? 'Leave Class'
+                      : !isMember
+                        ? 'Get a Membership'
+                        : isFull
+                          ? 'Class is Full'
+                          : 'Book Your Spot'}
               </button>
             </div>
           </div>

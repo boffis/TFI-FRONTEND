@@ -2,11 +2,12 @@ import { FaIdCard } from 'react-icons/fa'
 import { FaCircleCheck, FaCircleXmark } from 'react-icons/fa6'
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../../../services/authContext/AuthContext'
-import { getApiUrl } from '../../../../utils/apiUrl'
+import useFetch from '../../../../hooks/useFetch'
 import { formatDate } from '../../../../utils/formatters'
 
 const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
-  const { user, handleCancelMembership } = useContext(AuthContext)
+  const { handleCancelMembership } = useContext(AuthContext)
+  const { post } = useFetch()
   const [cancellingId, setCancellingId] = useState(null)
   const [modalState, setModalState] = useState({ isOpen: false, type: '', message: '', onConfirm: null })
 
@@ -21,35 +22,25 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
     })
   }
 
-  const performCancel = async (membershipId) => {
+  const performCancel = (membershipId) => {
     closeDialog()
     setCancellingId(membershipId)
-    try {
-      const response = await fetch(getApiUrl(`Payment/Unsubscribe/${membershipId}`), {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${user?.token}`
-        }
-      })
 
-      if (!response.ok) {
-        let errorMsg = 'Failed to cancel subscription'
-        try {
-          const err = await response.json()
-          errorMsg = err.detail || errorMsg
-        } catch {}
-        throw new Error(errorMsg)
+    post(
+      `Payment/Unsubscribe/${membershipId}`,
+      true,
+      null,
+      (result) => {
+        setModalState({ isOpen: true, type: 'success', message: result?.message || 'Subscription cancelled successfully.' })
+        handleCancelMembership(membershipId)
+        setCancellingId(null)
+      },
+      (err) => {
+        console.error('Cancel subscription error:', err)
+        setModalState({ isOpen: true, type: 'error', message: err?.message || 'Failed to cancel subscription. Please try again.' })
+        setCancellingId(null)
       }
-
-      const result = await response.json()
-      setModalState({ isOpen: true, type: 'success', message: result.message || 'Subscription cancelled successfully.' })
-      handleCancelMembership(membershipId)
-    } catch (error) {
-      console.error('Cancel subscription error:', error)
-      setModalState({ isOpen: true, type: 'error', message: error.message || 'Failed to cancel subscription. Please try again.' })
-    } finally {
-      setCancellingId(null)
-    }
+    )
   }
   if (!memberships || memberships.length === 0) {
     return (
