@@ -18,6 +18,15 @@ export const formatDate = (dateStr) => {
   return new Date(dateStr).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 };
 
+export const formatMoney = (value) =>
+  new Intl.NumberFormat('es-AR', {
+    style: 'currency',
+    currency: 'ARS',
+    maximumFractionDigits: 0,
+  }).format(value ?? 0);
+
+export const formatPercent = (value) => `${(value ?? 0).toFixed(1)}%`;
+
 export const formatDateTime = (dateStr) => {
   if (!dateStr) return '—';
   return new Date(dateStr).toLocaleString('en-GB', {

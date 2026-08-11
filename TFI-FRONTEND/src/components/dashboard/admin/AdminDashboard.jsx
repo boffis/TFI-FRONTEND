@@ -4,11 +4,13 @@ import DashboardNav from './DashboardNav'
 import UserList from './UserList/UserList'
 import ClassList from './ClassList/ClassList'
 import MembershipPlanList from './MembershipPlanList/MembershipPlanList'
+import Metrics from './Metrics/Metrics'
 
 const SECTION_COMPONENTS = {
   users: <UserList />,
   classes: <ClassList />,
   plans: <MembershipPlanList />,
+  metrics: <Metrics />,
 }
 
 const AdminDashboard = () => {

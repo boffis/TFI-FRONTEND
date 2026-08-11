@@ -1,9 +1,10 @@
-import { FaUsers, FaDumbbell, FaClipboardList } from 'react-icons/fa'
+import { FaUsers, FaDumbbell, FaClipboardList, FaChartBar } from 'react-icons/fa'
 
 const TABS = [
   { id: 'users', label: 'Users', icon: FaUsers },
   { id: 'classes', label: 'Classes', icon: FaDumbbell },
   { id: 'plans', label: 'Plans', icon: FaClipboardList },
+  { id: 'metrics', label: 'Metrics', icon: FaChartBar },
 ]
 
 const DashboardNav = ({ activeTab, onTabChange }) => {
