@@ -1,4 +1,6 @@
 import { FaDumbbell } from 'react-icons/fa'
+import AttendanceBadge from '../../../shared/AttendanceBadge'
+import { formatDateTime } from '../../../../utils/formatters'
 
 const UserInscriptionsCard = ({ inscriptions }) => {
   if (!inscriptions || inscriptions.length === 0) {
@@ -33,7 +35,11 @@ const UserInscriptionsCard = ({ inscriptions }) => {
               <FaDumbbell className="text-orange-500/70 text-xs" />
               <span className="text-xs font-bold uppercase tracking-widest text-orange-500/80">Class</span>
             </div>
-            {/* Removed gymClassId and inscriptionId */}
+            <p className="text-sm font-bold text-white">{ins.className || '—'}</p>
+            <p className="mt-1 text-xs text-zinc-400">{formatDateTime(ins.schedule)}</p>
+            <div className="mt-2">
+              <AttendanceBadge status={ins.attendanceStatus} />
+            </div>
           </div>
         ))}
       </div>

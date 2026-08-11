@@ -81,12 +81,21 @@ const GymClassDetail = () => {
                 <GymClassInfoCard classData={classData} onUpdated={loadClass} />
               </div>
               <div className="flex flex-col gap-6">
-                <GymClassDeleteCard classId={id} classNameStr={classData.className} />
+                <GymClassDeleteCard
+                  classId={id}
+                  classNameStr={classData.className}
+                  enrolledCount={classData.inscribedClients?.length ?? 0}
+                />
               </div>
             </div>
 
             {/* Inscribed Clients */}
-            <GymClassInscribedClientsCard clients={classData.inscribedClients} />
+            <GymClassInscribedClientsCard
+              classId={classData.gymClassId}
+              classSchedule={classData.schedule}
+              clients={classData.inscribedClients}
+              onSaved={loadClass}
+            />
           </div>
         )}
 

@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { FaTrash, FaTriangleExclamation } from 'react-icons/fa6'
+import { FaEnvelope } from 'react-icons/fa'
 import { useNavigate } from 'react-router'
 import useFetch from '../../../../hooks/useFetch'
 
-const GymClassDeleteCard = ({ classId, classNameStr }) => {
+const GymClassDeleteCard = ({ classId, classNameStr, enrolledCount = 0 }) => {
   const { dele, isLoading } = useFetch()
   const navigate = useNavigate()
 
@@ -56,6 +57,16 @@ const GymClassDeleteCard = ({ classId, classNameStr }) => {
               Are you sure you want to delete <strong>{classNameStr}</strong>? This cannot be undone.
             </p>
           </div>
+
+          {enrolledCount > 0 && (
+            <div className="flex items-start gap-2 rounded-xl border border-zinc-700 bg-zinc-800/50 px-3 py-2">
+              <FaEnvelope className="mt-0.5 shrink-0 text-zinc-400" />
+              <p className="text-xs text-zinc-400">
+                {enrolledCount} enrolled {enrolledCount === 1 ? 'client' : 'clients'} will be
+                emailed that the class was cancelled.
+              </p>
+            </div>
+          )}
           <div className="flex gap-2">
             <button
               onClick={() => setConfirming(false)}

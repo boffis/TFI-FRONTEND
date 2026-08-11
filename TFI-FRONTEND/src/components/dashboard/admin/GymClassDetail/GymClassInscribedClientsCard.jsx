@@ -1,6 +1,7 @@
 import { FaUsers } from 'react-icons/fa'
+import AttendanceRoster from '../../../shared/AttendanceRoster'
 
-const GymClassInscribedClientsCard = ({ clients }) => {
+const GymClassInscribedClientsCard = ({ classId, classSchedule, clients, onSaved }) => {
   if (!clients || clients.length === 0) {
     return (
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6">
@@ -23,18 +24,13 @@ const GymClassInscribedClientsCard = ({ clients }) => {
         </span>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {clients.map((client) => (
-          <div
-            key={client.clientId}
-            className="rounded-xl border border-zinc-700/50 bg-zinc-800/40 p-4 hover:border-orange-500/40 hover:bg-zinc-800/60 transition-all duration-200"
-          >
-            <p className="text-sm font-bold text-white">{client.name}</p>
-            <p className="text-xs text-zinc-400 mt-1">{client.email}</p>
-            <p className="mt-2 text-[10px] font-mono text-zinc-600 break-all">{client.clientId}</p>
-          </div>
-        ))}
-      </div>
+      <AttendanceRoster
+        classId={classId}
+        classSchedule={classSchedule}
+        clients={clients}
+        onSaved={onSaved}
+        showEmail
+      />
     </div>
   )
 }

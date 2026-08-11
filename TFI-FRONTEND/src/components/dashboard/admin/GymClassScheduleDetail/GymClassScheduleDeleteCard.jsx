@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { FaTrash, FaTriangleExclamation } from 'react-icons/fa6'
+import { FaEnvelope } from 'react-icons/fa'
 import { useNavigate } from 'react-router'
 import useFetch from '../../../../hooks/useFetch'
 
@@ -74,7 +75,17 @@ const GymClassScheduleDeleteCard = ({ scheduleId, classNameStr }) => {
                 Also delete generated upcoming classes
              </label>
           </div>
-          
+
+          {deleteUpcoming && (
+            <div className="flex items-start gap-2 rounded-xl border border-zinc-700 bg-zinc-800/50 px-3 py-2">
+              <FaEnvelope className="mt-0.5 shrink-0 text-zinc-400" />
+              <p className="text-xs text-zinc-400">
+                Everyone enrolled in an upcoming session will be emailed that it was cancelled.
+                This may take a moment.
+              </p>
+            </div>
+          )}
+
           <div className="flex gap-2">
             <button
               onClick={() => {

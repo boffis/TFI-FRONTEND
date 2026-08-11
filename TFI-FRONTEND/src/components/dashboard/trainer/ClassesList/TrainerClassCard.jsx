@@ -3,6 +3,7 @@ import { FaCalendar, FaUsers } from 'react-icons/fa'
 import useFetch from '../../../../hooks/useFetch'
 import { formatDateTime } from '../../../../utils/formatters'
 import EditableNameAndDescription from '../EditableNameAndDescription'
+import AttendanceRoster from '../../../shared/AttendanceRoster'
 
 const TrainerClassCard = ({ classData, trainerId, onUpdated }) => {
   const { get, isLoading: loadingClients } = useFetch()
@@ -71,7 +72,7 @@ const TrainerClassCard = ({ classData, trainerId, onUpdated }) => {
         <div className="mb-2 flex items-center gap-2">
           <FaUsers className="text-orange-500/70 text-xs" />
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
-            Inscribed {clients ? `(${clients.length})` : ''}
+            Attendance {clients ? `(${clients.length})` : ''}
           </p>
         </div>
 
@@ -85,16 +86,12 @@ const TrainerClassCard = ({ classData, trainerId, onUpdated }) => {
           <p className="text-sm text-zinc-500">No clients inscribed yet.</p>
         )}
         {clients && clients.length > 0 && (
-          <ul className="flex flex-wrap gap-2">
-            {clients.map((c) => (
-              <li
-                key={c.clientId}
-                className="rounded-lg border border-zinc-700/50 bg-zinc-800/40 px-3 py-1.5 text-sm text-zinc-200"
-              >
-                {c.name}
-              </li>
-            ))}
-          </ul>
+          <AttendanceRoster
+            classId={classData.gymClassId}
+            classSchedule={classData.schedule}
+            clients={clients}
+            onSaved={setClients}
+          />
         )}
       </div>
     </div>

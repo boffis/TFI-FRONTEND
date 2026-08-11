@@ -27,7 +27,7 @@ const useFetch = () => {
                     } catch {
                         // Non-JSON error body (e.g. empty 401) — fall through to statusText.
                     }
-                    throw new Error(errData.detail || errData.title || res.statusText || "Algo ha salido mal");
+                    throw new Error(errData.detail || errData.title || "Something went wrong. Please try again.");
                 }
 
                 const contentLength = res.headers.get('content-length')
