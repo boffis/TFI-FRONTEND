@@ -92,7 +92,7 @@ const GymClassDetail = () => {
             {/* Inscribed Clients */}
             <GymClassInscribedClientsCard
               classId={classData.gymClassId}
-              classSchedule={classData.schedule}
+              hasClassStarted={classData.hasStarted}
               clients={classData.inscribedClients}
               onSaved={loadClass}
             />

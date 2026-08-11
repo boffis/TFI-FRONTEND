@@ -88,7 +88,7 @@ const TrainerClassCard = ({ classData, trainerId, onUpdated }) => {
         {clients && clients.length > 0 && (
           <AttendanceRoster
             classId={classData.gymClassId}
-            classSchedule={classData.schedule}
+            hasClassStarted={classData.hasStarted}
             clients={clients}
             onSaved={setClients}
           />

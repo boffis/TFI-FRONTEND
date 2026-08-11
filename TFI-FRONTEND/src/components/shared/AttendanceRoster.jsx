@@ -1,27 +1,24 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { FaCheck, FaTimes, FaUndo } from 'react-icons/fa'
 import useFetch from '../../hooks/useFetch'
 import { ATTENDANCE } from '../../utils/attendance'
-import { gymNow } from '../../utils/gymTime'
 
 /**
  * Editable attendance register for one class. Used by both the trainer dashboard and the
  * admin class detail page — the API allows either role to mark, so the difference is only
  * how much client detail each view shows.
+ *
+ * `hasClassStarted` comes from the API (`hasStarted` on the class payload) rather than being
+ * computed here. Class times are stored as gym-local wall-clock values, so only the server can
+ * say whether one has passed without the browser having to know the gym's time zone.
  */
-const AttendanceRoster = ({ classId, classSchedule, clients, onSaved, showEmail = false }) => {
+const AttendanceRoster = ({ classId, hasClassStarted, clients, onSaved, showEmail = false }) => {
   const { patch, isLoading: isSaving } = useFetch()
 
   // Draft marks the trainer has made but not yet saved, keyed by clientId.
   const [draft, setDraft] = useState({})
   const [error, setError] = useState(null)
   const [savedAt, setSavedAt] = useState(null)
-
-  // Both sides are naive wall-clock values: the stored schedule, and "now" at the gym.
-  const hasClassStarted = useMemo(
-    () => new Date(classSchedule) <= gymNow(),
-    [classSchedule]
-  )
 
   const statusOf = (client) => draft[client.clientId] ?? client.attendanceStatus ?? ATTENDANCE.NOT_RECORDED
 

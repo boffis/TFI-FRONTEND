@@ -1,7 +1,7 @@
 import { FaUsers } from 'react-icons/fa'
 import AttendanceRoster from '../../../shared/AttendanceRoster'
 
-const GymClassInscribedClientsCard = ({ classId, classSchedule, clients, onSaved }) => {
+const GymClassInscribedClientsCard = ({ classId, hasClassStarted, clients, onSaved }) => {
   if (!clients || clients.length === 0) {
     return (
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6">
@@ -26,7 +26,7 @@ const GymClassInscribedClientsCard = ({ classId, classSchedule, clients, onSaved
 
       <AttendanceRoster
         classId={classId}
-        classSchedule={classSchedule}
+        hasClassStarted={hasClassStarted}
         clients={clients}
         onSaved={onSaved}
         showEmail
