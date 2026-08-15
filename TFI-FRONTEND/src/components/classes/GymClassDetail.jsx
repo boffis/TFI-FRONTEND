@@ -29,7 +29,7 @@ const GymClassDetail = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const { get, post, dele, isLoading } = useFetch()
-  const { user } = useContext(AuthContext)
+  const { user, handleUpdateUser } = useContext(AuthContext)
   const [gymClass, setGymClass] = useState(null)
   const [actionError, setActionError] = useState(null)
 
@@ -74,6 +74,13 @@ const GymClassDetail = () => {
   const isFull = currentInscriptions >= maxCapacity
   const isJoined = isCurrentUserInscribed
 
+  // Join/leave only touch the Inscription table, not the user's own record, so the global
+  // AuthContext user (which Account.jsx reads memberships/inscriptions from) goes stale unless
+  // it's explicitly re-synced here.
+  const syncUser = () => {
+    get(`user/${currentUserId}`, true, (data) => handleUpdateUser(data))
+  }
+
   const handleJoinLeave = () => {
     setActionError(null)
 
@@ -87,7 +94,10 @@ const GymClassDetail = () => {
       dele(
         `GymClass/${id}/leave/${currentUserId}`,
         true,
-        () => fetchClass(),
+        () => {
+          fetchClass()
+          syncUser()
+        },
         (err) => setActionError(err?.message ?? 'No se pudo cancelar la inscripción.')
       )
     } else {
@@ -95,7 +105,10 @@ const GymClassDetail = () => {
         `GymClass/${id}/join/${currentUserId}`,
         true,
         null,
-        () => fetchClass(),
+        () => {
+          fetchClass()
+          syncUser()
+        },
         (err) => setActionError(err?.message ?? 'No se pudo completar la inscripción.')
       )
     }

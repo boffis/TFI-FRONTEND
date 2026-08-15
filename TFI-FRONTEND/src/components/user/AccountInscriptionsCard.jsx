@@ -2,6 +2,7 @@ import { FaDumbbell, FaXmark } from 'react-icons/fa6'
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../services/authContext/AuthContext'
 import useFetch from '../../hooks/useFetch'
+import { formatDateTime } from '../../utils/formatters'
 
 const AccountInscriptionsCard = () => {
   const { user, handleDisenrollClass } = useContext(AuthContext)
@@ -68,8 +69,11 @@ const AccountInscriptionsCard = () => {
                 <FaDumbbell className="text-orange-500/70 text-xs" />
                 <span className="text-xs font-bold uppercase tracking-widest text-orange-500/80">Clase</span>
               </div>
-              <p className="text-xs font-mono text-zinc-500 break-all">{ins.gymClassId}</p>
-              <p className="mt-2 text-[10px] font-mono text-zinc-700 break-all">{ins.inscriptionId}</p>
+              <p className="text-sm font-bold text-white">{ins.className || '—'}</p>
+              <p className="mt-1 text-xs text-zinc-400">{formatDateTime(ins.schedule)}</p>
+              {ins.trainerName && (
+                <p className="mt-1 text-xs text-zinc-500">Profesor: {ins.trainerName}</p>
+              )}
             </div>
             <button
               onClick={() => handleLeave(ins.gymClassId, ins.inscriptionId)}

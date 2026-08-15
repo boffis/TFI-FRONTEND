@@ -96,7 +96,7 @@ const UserDetail = () => {
             </div>
 
             {/* Lists */}
-            <UserMembershipsCard memberships={userData.memberships} />
+            <UserMembershipsCard memberships={userData.memberships} isAdmin onRevoked={loadUser} />
             <UserPaymentsCard payments={userData.payments} />
             <UserInscriptionsCard inscriptions={userData.inscriptions} />
             <UserTaughtClassesCard taughtClasses={userData.taughtClasses} />

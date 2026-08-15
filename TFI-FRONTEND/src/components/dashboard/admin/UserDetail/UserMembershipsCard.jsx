@@ -5,7 +5,7 @@ import { AuthContext } from '../../../../services/authContext/AuthContext'
 import useFetch from '../../../../hooks/useFetch'
 import { formatDate } from '../../../../utils/formatters'
 
-const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
+const UserMembershipsCard = ({ memberships, allowCancel = false, isAdmin = false, onRevoked }) => {
   const { handleCancelMembership } = useContext(AuthContext)
   const { post } = useFetch()
   const [cancellingId, setCancellingId] = useState(null)
@@ -17,7 +17,9 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
     setModalState({
       isOpen: true,
       type: 'confirm',
-      message: '¿Seguro que querés cancelar esta suscripción?',
+      message: isAdmin
+        ? '¿Seguro que querés revocar esta membresía? Si tiene un cobro recurrente en Mercado Pago, también se cancelará.'
+        : '¿Seguro que querés cancelar esta suscripción?',
       onConfirm: () => performCancel(membershipId)
     })
   }
@@ -26,18 +28,23 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
     closeDialog()
     setCancellingId(membershipId)
 
+    // Admins revoke any client's membership via the admin-only endpoint; clients cancel their
+    // own via Unsubscribe, which also updates the logged-in user's own membership state.
+    const url = isAdmin ? `Payment/AdminRevokeMembership/${membershipId}` : `Payment/Unsubscribe/${membershipId}`
+
     post(
-      `Payment/Unsubscribe/${membershipId}`,
+      url,
       true,
       null,
       (result) => {
-        setModalState({ isOpen: true, type: 'success', message: result?.message || 'Suscripción cancelada correctamente.' })
-        handleCancelMembership(membershipId)
+        setModalState({ isOpen: true, type: 'success', message: result?.message || 'Membresía revocada correctamente.' })
+        if (isAdmin) onRevoked?.()
+        else handleCancelMembership(membershipId)
         setCancellingId(null)
       },
       (err) => {
         console.error('Cancel subscription error:', err)
-        setModalState({ isOpen: true, type: 'error', message: err?.message || 'No se pudo cancelar la suscripción. Intentá de nuevo.' })
+        setModalState({ isOpen: true, type: 'error', message: err?.message || 'No se pudo revocar la membresía. Intentá de nuevo.' })
         setCancellingId(null)
       }
     )
@@ -93,13 +100,15 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
           )}
         </div>
 
-        {allowCancel && isActive && !isCancelled && (
+        {((allowCancel && isActive) || isAdmin) && !isCancelled && (
           <button
             onClick={() => handleCancelClick(m.membershipId)}
             disabled={cancellingId === m.membershipId}
             className="mt-3 w-full rounded-xl bg-red-500/10 border border-red-500/20 py-2 text-xs font-bold text-red-400 hover:bg-red-500/20 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
           >
-            {cancellingId === m.membershipId ? 'Cancelando...' : 'Cancelar suscripción'}
+            {cancellingId === m.membershipId
+              ? (isAdmin ? 'Revocando...' : 'Cancelando...')
+              : (isAdmin ? 'Revocar membresía' : 'Cancelar suscripción')}
           </button>
         )}
       </div>
