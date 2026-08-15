@@ -1,8 +1,11 @@
 import { FaDumbbell } from 'react-icons/fa'
+import { useNavigate } from 'react-router'
 import AttendanceBadge from '../../../shared/AttendanceBadge'
 import { formatDateTime } from '../../../../utils/formatters'
 
 const UserInscriptionsCard = ({ inscriptions }) => {
+  const navigate = useNavigate()
+
   if (!inscriptions || inscriptions.length === 0) {
     return (
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6">
@@ -29,7 +32,8 @@ const UserInscriptionsCard = ({ inscriptions }) => {
         {inscriptions.map((ins) => (
           <div
             key={ins.inscriptionId}
-            className="rounded-xl border border-zinc-700/50 bg-zinc-800/40 p-4 hover:border-orange-500/40 hover:bg-zinc-800/60 transition-all duration-200"
+            onClick={() => navigate(`/admin/gymclass/${ins.gymClassId}`)}
+            className="cursor-pointer rounded-xl border border-zinc-700/50 bg-zinc-800/40 p-4 hover:border-orange-500/40 hover:bg-zinc-800/60 transition-all duration-200"
           >
             <div className="mb-1 flex items-center gap-2">
               <FaDumbbell className="text-orange-500/70 text-xs" />

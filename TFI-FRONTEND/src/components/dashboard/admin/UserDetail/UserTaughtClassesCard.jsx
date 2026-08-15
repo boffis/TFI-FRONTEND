@@ -1,6 +1,9 @@
 import { FaDumbbell } from 'react-icons/fa'
+import { useNavigate } from 'react-router'
 
 const UserTaughtClassesCard = ({ taughtClasses }) => {
+  const navigate = useNavigate()
+
   if (!taughtClasses || taughtClasses.length === 0) {
     return (
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6">
@@ -27,7 +30,8 @@ const UserTaughtClassesCard = ({ taughtClasses }) => {
         {taughtClasses.map((cls) => (
           <div
             key={cls.gymClassId}
-            className="rounded-xl border border-zinc-700/50 bg-zinc-800/40 p-4 hover:border-orange-500/40 hover:bg-zinc-800/60 transition-all duration-200"
+            onClick={() => navigate(`/admin/gymclass/${cls.gymClassId}`)}
+            className="cursor-pointer rounded-xl border border-zinc-700/50 bg-zinc-800/40 p-4 hover:border-orange-500/40 hover:bg-zinc-800/60 transition-all duration-200"
           >
             <div className="mb-1 flex items-center justify-between gap-2">
                <div className="flex items-center gap-2">

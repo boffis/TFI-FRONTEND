@@ -168,11 +168,12 @@ const UserInfoCard = ({ userData, onUpdated }) => {
         </div>
       ) : (
         <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
-          <InputField label="Nombre"              id="edit-name"  value={form.name}        onChange={setField('name')} />
-          <InputField label="Correo"              id="edit-email" type="email" value={form.email}       onChange={setField('email')} />
-          <InputField label="Fecha de nacimiento" id="edit-dob"   type="date" value={form.dateOfBirth} onChange={setField('dateOfBirth')} />
-          <InputField label="DNI"                 id="edit-dni"   value={form.dni}         onChange={setField('dni')} />
-          <InputField label="Teléfono"            id="edit-phone" value={form.phoneNumber} onChange={setField('phoneNumber')} />
+          <InputField label="Nombre"   id="edit-name" value={form.name}        onChange={setField('name')} />
+          {/* Correo, fecha de nacimiento y DNI son de solo lectura: son datos de identidad del cliente, no editables desde el panel de admin. */}
+          <Field label="Correo"               value={userData.email} />
+          <Field label="Fecha de nacimiento"  value={userData.dateOfBirth?.split('T')[0]} />
+          <Field label="DNI"                  value={userData.dni} />
+          <InputField label="Teléfono" id="edit-phone" value={form.phoneNumber} onChange={setField('phoneNumber')} />
 
           {/* Gender select */}
           <div>
@@ -191,8 +192,9 @@ const UserInfoCard = ({ userData, onUpdated }) => {
             </select>
           </div>
 
-          {/* Specialization (always visible in edit mode) */}
-          <InputField label="Especialización (entrenador)" id="edit-specialization" value={form.specialization} onChange={setField('specialization')} />
+          {userData.role === 'Trainer' && (
+            <InputField label="Especialización" id="edit-specialization" value={form.specialization} onChange={setField('specialization')} />
+          )}
         </div>
       )}
     </div>
