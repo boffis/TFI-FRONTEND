@@ -1,8 +1,8 @@
 import UserTableRow from './UserTableRow'
 
 const COLUMNS = [
-  'Name', 'Email', 'DNI', 'Date of Birth',
-  'Gender', 'Phone', 'Role', 'Membership', 'Specialization',
+  'Nombre', 'Correo', 'DNI', 'Fecha de nacimiento',
+  'Género', 'Teléfono', 'Rol', 'Membresía', 'Especialización',
 ]
 
 // ─── Skeleton ─────────────────────────────────────────────────────────────────
@@ -49,7 +49,7 @@ const UserTable = ({ users, isLoading }) => {
                 colSpan={COLUMNS.length}
                 className="px-4 py-16 text-center text-zinc-500"
               >
-                No users match the current filters.
+                Ningún usuario coincide con los filtros actuales.
               </td>
             </tr>
           )}

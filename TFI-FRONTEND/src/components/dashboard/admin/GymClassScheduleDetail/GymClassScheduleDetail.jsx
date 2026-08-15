@@ -20,7 +20,7 @@ const GymClassScheduleDetail = () => {
       `GymClassSchedule/admin/${id}`,
       true,
       (data) => setScheduleData(data),
-      (err) => setError(err?.message ?? 'Failed to load gym class schedule.')
+      (err) => setError(err?.message ?? 'No se pudo cargar el horario de la clase.')
     )
   }
 
@@ -39,7 +39,7 @@ const GymClassScheduleDetail = () => {
           className="mb-8 flex items-center gap-2 text-sm font-semibold text-zinc-400 hover:text-orange-400 transition-colors duration-200 cursor-pointer"
         >
           <FaArrowLeft />
-          Back to Dashboard
+          Volver al panel
         </button>
 
         {/* Loading skeleton */}
@@ -55,7 +55,7 @@ const GymClassScheduleDetail = () => {
         {error && !isLoading && (
           <div className="rounded-2xl border border-red-500/30 bg-red-500/10 py-16 text-center">
             <p className="text-lg font-semibold text-red-400">{error}</p>
-            <p className="mt-2 text-sm text-zinc-500">Could not load schedule data. Please try again later.</p>
+            <p className="mt-2 text-sm text-zinc-500">No se pudieron cargar los datos del horario. Intentá de nuevo más tarde.</p>
           </div>
         )}
 
@@ -65,7 +65,7 @@ const GymClassScheduleDetail = () => {
             {/* Page header */}
             <div className="mb-2">
               <p className="mb-1 text-xs font-bold uppercase tracking-widest text-orange-500">
-                Gym Class Schedule
+                Horario de clase
               </p>
               <h1 className="text-4xl font-extrabold tracking-tight text-white">
                 {scheduleData.className}

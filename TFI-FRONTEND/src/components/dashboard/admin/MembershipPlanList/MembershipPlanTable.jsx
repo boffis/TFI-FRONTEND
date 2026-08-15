@@ -1,7 +1,7 @@
 import MembershipPlanTableRow from './MembershipPlanTableRow'
 
 const COLUMNS = [
-  'Type', 'Price', 'Duration (Days)'
+  'Tipo', 'Precio', 'Duración (días)'
 ]
 
 const SkeletonRow = () => (
@@ -39,7 +39,7 @@ const MembershipPlanTable = ({ plans, isLoading }) => (
         {!isLoading && plans.length === 0 && (
           <tr>
             <td colSpan={COLUMNS.length} className="px-4 py-16 text-center text-zinc-500">
-              No membership plans found.
+              No se encontraron planes de membresía.
             </td>
           </tr>
         )}

@@ -18,17 +18,17 @@ const ProtectedStatus = ({ roleNeeded }) => {
                 <div className="flex flex-col items-center justify-center min-h-[60vh] p-5 text-center">
                     <img 
                         src="https://t3.ftcdn.net/jpg/07/30/13/62/360_F_730136273_MIQk4I8Wnpvw4M3GvmUuyYTVL1RJviHK.jpg" 
-                        alt="Forbidden" 
+                        alt="Acceso denegado"
                         className="max-w-md w-full mb-8 rounded-lg"
                     />
-                    <h1 className="text-2xl font-bold mb-6 text-white"> 
-                        You don't have the permissions to see this screen 
+                    <h1 className="text-2xl font-bold mb-6 text-white">
+                        No tenés permisos para ver esta pantalla
                     </h1>
                     <button 
                         onClick={handleClickButton}
                         className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
                     >
-                        Go to Home
+                        Ir al inicio
                     </button>
                 </div>
             </Layout>

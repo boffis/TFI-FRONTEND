@@ -29,9 +29,9 @@ const NewMembershipPlanForm = () => {
 
   const validate = () => {
     const e = {}
-    if (!form.type.trim()) e.type = 'Type is required'
-    if (!form.price || isNaN(form.price) || Number(form.price) < 0) e.price = 'Valid price is required'
-    if (!form.durationInDays || isNaN(form.durationInDays) || Number(form.durationInDays) <= 0) e.durationInDays = 'Valid duration in days is required'
+    if (!form.type.trim()) e.type = 'El tipo es obligatorio'
+    if (!form.price || isNaN(form.price) || Number(form.price) < 0) e.price = 'Ingresá un precio válido'
+    if (!form.durationInDays || isNaN(form.durationInDays) || Number(form.durationInDays) <= 0) e.durationInDays = 'Ingresá una duración válida en días'
     return e
   }
 
@@ -57,7 +57,7 @@ const NewMembershipPlanForm = () => {
         setCreatedName(form.type.trim())
         setSubmitted(true)
       },
-      err => setApiError(err?.message ?? 'Something went wrong. Please try again.')
+      err => setApiError(err?.message ?? 'Algo salió mal. Intentá de nuevo.')
     )
   }
 
@@ -83,19 +83,19 @@ const NewMembershipPlanForm = () => {
           "
         >
           <FaArrowLeft className="text-xs" />
-          Back to Dashboard
+          Volver al panel
         </button>
 
         {/* Header */}
         <div className="mb-8">
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-orange-500">
-            Admin · Memberships
+            Administración · Membresías
           </p>
           <h1 className="text-3xl font-extrabold tracking-tight text-white">
-            New Membership Plan
+            Nuevo plan de membresía
           </h1>
           <p className="mt-2 text-sm text-zinc-500">
-            Create a new membership plan for users to purchase.
+            Creá un nuevo plan de membresía para que los usuarios puedan comprarlo.
           </p>
         </div>
 
@@ -104,9 +104,9 @@ const NewMembershipPlanForm = () => {
           <div className="mb-6 flex items-start gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-5 py-4">
             <FaCheckCircle className="mt-0.5 flex-shrink-0 text-emerald-400 text-lg" />
             <div>
-              <p className="font-semibold text-emerald-400">Plan created!</p>
+              <p className="font-semibold text-emerald-400">¡Plan creado!</p>
               <p className="mt-0.5 text-sm text-zinc-400">
-                <span className="font-medium text-white">"{createdName}"</span> was created successfully.
+                <span className="font-medium text-white">"{createdName}"</span> se creó correctamente.
               </p>
             </div>
           </div>
@@ -122,21 +122,21 @@ const NewMembershipPlanForm = () => {
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
 
           {/* Type */}
-          <FormField label="Plan Type" id="type" error={errors.type}>
+          <FormField label="Tipo de plan" id="type" error={errors.type}>
             <input
               id="type"
               name="type"
               type="text"
               value={form.type}
               onChange={handleChange}
-              placeholder="e.g. Monthly Standard"
+              placeholder="ej. Mensual Estándar"
               disabled={submitted}
               className={inputCls(!!errors.type)}
             />
           </FormField>
 
           {/* Price */}
-          <FormField label="Price" id="price" error={errors.price}>
+          <FormField label="Precio" id="price" error={errors.price}>
             <input
               id="price"
               name="price"
@@ -145,14 +145,14 @@ const NewMembershipPlanForm = () => {
               min={0}
               value={form.price}
               onChange={handleChange}
-              placeholder="e.g. 49.99"
+              placeholder="ej. 49.99"
               disabled={submitted}
               className={inputCls(!!errors.price)}
             />
           </FormField>
 
           {/* Duration in Days */}
-          <FormField label="Duration (Days)" id="durationInDays" error={errors.durationInDays}>
+          <FormField label="Duración (días)" id="durationInDays" error={errors.durationInDays}>
             <input
               id="durationInDays"
               name="durationInDays"
@@ -160,7 +160,7 @@ const NewMembershipPlanForm = () => {
               min={1}
               value={form.durationInDays}
               onChange={handleChange}
-              placeholder="e.g. 30"
+              placeholder="ej. 30"
               disabled={submitted}
               className={inputCls(!!errors.durationInDays)}
             />
@@ -179,7 +179,7 @@ const NewMembershipPlanForm = () => {
                 transition-all duration-150
               "
             >
-              {isLoading ? 'Creating…' : 'Create Plan'}
+              {isLoading ? 'Creando…' : 'Crear plan'}
             </button>
 
             {submitted && (
@@ -195,7 +195,7 @@ const NewMembershipPlanForm = () => {
                 "
               >
                 <FaPlus className="text-xs" />
-                Create Another
+                Crear otro
               </button>
             )}
           </div>

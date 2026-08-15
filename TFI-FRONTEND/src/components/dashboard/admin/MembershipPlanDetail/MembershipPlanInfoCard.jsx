@@ -64,18 +64,18 @@ const MembershipPlanInfoCard = ({ planData, onUpdated }) => {
         durationInDays: Number(form.durationInDays),
       },
       () => {
-        setFeedback({ type: 'success', msg: 'Membership plan updated successfully.' })
+        setFeedback({ type: 'success', msg: 'Plan de membresía actualizado correctamente.' })
         setEditing(false)
         onUpdated()
       },
-      (err) => setFeedback({ type: 'error', msg: err?.message ?? 'Update failed.' })
+      (err) => setFeedback({ type: 'error', msg: err?.message ?? 'No se pudo actualizar el plan.' })
     )
   }
 
   return (
     <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 backdrop-blur-sm">
       <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-lg font-bold text-white">Plan Information</h2>
+        <h2 className="text-lg font-bold text-white">Información del plan</h2>
 
         {!editing ? (
           <button
@@ -83,7 +83,7 @@ const MembershipPlanInfoCard = ({ planData, onUpdated }) => {
             className="flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-300 hover:border-orange-500 hover:text-orange-400 transition-all duration-200 cursor-pointer"
           >
             <FaPencil className="text-xs" />
-            Edit
+            Editar
           </button>
         ) : (
           <div className="flex items-center gap-2">
@@ -93,7 +93,7 @@ const MembershipPlanInfoCard = ({ planData, onUpdated }) => {
               className="flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer disabled:opacity-50"
             >
               <FaXmark />
-              Cancel
+              Cancelar
             </button>
             <button
               onClick={handleSave}
@@ -101,7 +101,7 @@ const MembershipPlanInfoCard = ({ planData, onUpdated }) => {
               className="flex items-center gap-2 rounded-xl border border-orange-500 bg-orange-500 px-4 py-2 text-sm font-bold text-white hover:bg-orange-400 transition-all duration-200 cursor-pointer disabled:opacity-50"
             >
               <FaCheck />
-              {isLoading ? 'Saving…' : 'Save'}
+              {isLoading ? 'Guardando…' : 'Guardar'}
             </button>
           </div>
         )}
@@ -119,15 +119,15 @@ const MembershipPlanInfoCard = ({ planData, onUpdated }) => {
 
       {!editing ? (
         <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-          <Field label="Plan Type"           value={planData.type} />
-          <Field label="Price"               value={planData.price !== undefined ? `$${planData.price.toFixed(2)}` : '—'} />
-          <Field label="Duration (Days)"     value={planData.durationInDays?.toString()} />
+          <Field label="Tipo de plan"        value={planData.type} />
+          <Field label="Precio"              value={planData.price !== undefined ? `$${planData.price.toFixed(2)}` : '—'} />
+          <Field label="Duración (días)"     value={planData.durationInDays?.toString()} />
         </div>
       ) : (
         <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
-          <InputField label="Plan Type"      id="edit-type"       value={form.type}          onChange={setField('type')} />
-          <InputField label="Price"          id="edit-price"      type="number" min="0"      value={form.price}         onChange={setField('price')} />
-          <InputField label="Duration (Days)" id="edit-duration"  type="number" min="1"      value={form.durationInDays} onChange={setField('durationInDays')} />
+          <InputField label="Tipo de plan"    id="edit-type"      value={form.type}          onChange={setField('type')} />
+          <InputField label="Precio"          id="edit-price"     type="number" min="0"      value={form.price}         onChange={setField('price')} />
+          <InputField label="Duración (días)" id="edit-duration"  type="number" min="1"      value={form.durationInDays} onChange={setField('durationInDays')} />
         </div>
       )}
     </div>

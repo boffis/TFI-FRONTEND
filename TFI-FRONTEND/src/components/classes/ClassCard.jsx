@@ -2,21 +2,21 @@ import { useNavigate } from 'react-router'
 
 /**
  * Formats a date/time string into a human-readable schedule string.
- * e.g. "Monday, Jul 21  ·  09:00 – 10:00"
+ * e.g. "lunes, 21 de jul  ·  09:00 – 10:00"
  * Classes last exactly 1 hour.
  */
 const formatSchedule = (schedule) => {
   const start = new Date(schedule)
   const end = new Date(start.getTime() + 60 * 60 * 1000)
 
-  const day = start.toLocaleDateString('en-US', {
+  const day = start.toLocaleDateString('es-AR', {
     weekday: 'long',
     month: 'short',
     day: 'numeric',
   })
 
   const fmt = (d) =>
-    d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
+    d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false })
 
   return `${day}  ·  ${fmt(start)} – ${fmt(end)}`
 }
@@ -88,12 +88,12 @@ const ClassCard = ({
             d="M17 20h5v-2a4 4 0 00-5.916-3.51M9 20H4v-2a4 4 0 015.916-3.51M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
           />
         </svg>
-        <span>Max {maxCapacity} spots</span>
+        <span>Máx. {maxCapacity} lugares</span>
       </div>
 
       {/* CTA hint */}
       <p className="mt-auto text-xs font-medium text-zinc-600 transition-colors group-hover:text-orange-500">
-        View details →
+        Ver detalles →
       </p>
     </article>
   )

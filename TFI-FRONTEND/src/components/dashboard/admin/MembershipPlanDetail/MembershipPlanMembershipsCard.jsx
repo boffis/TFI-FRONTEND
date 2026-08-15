@@ -7,9 +7,9 @@ const MembershipPlanMembershipsCard = ({ memberships }) => {
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6">
         <div className="mb-4 flex items-center gap-2">
           <FaUsers className="text-orange-500" />
-          <h2 className="text-lg font-bold text-white">Client Memberships</h2>
+          <h2 className="text-lg font-bold text-white">Membresías de clientes</h2>
         </div>
-        <p className="text-sm text-zinc-500">No clients are currently on this plan.</p>
+        <p className="text-sm text-zinc-500">Actualmente no hay clientes en este plan.</p>
       </div>
     )
   }
@@ -18,7 +18,7 @@ const MembershipPlanMembershipsCard = ({ memberships }) => {
     <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 backdrop-blur-sm">
       <div className="mb-5 flex items-center gap-2">
         <FaUsers className="text-orange-500" />
-        <h2 className="text-lg font-bold text-white">Client Memberships</h2>
+        <h2 className="text-lg font-bold text-white">Membresías de clientes</h2>
         <span className="ml-auto rounded-full bg-zinc-800 px-3 py-0.5 text-xs font-bold text-zinc-400">
           {memberships.length}
         </span>
@@ -28,7 +28,7 @@ const MembershipPlanMembershipsCard = ({ memberships }) => {
         <table className="min-w-full text-sm">
           <thead>
             <tr className="border-b border-zinc-800 bg-zinc-900">
-              {['Client Name', 'Email', 'Expiration', 'Status', 'Membership ID'].map((h) => (
+              {['Nombre del cliente', 'Correo', 'Vencimiento', 'Estado', 'ID de membresía'].map((h) => (
                 <th key={h} className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-widest text-zinc-500 whitespace-nowrap">
                   {h}
                 </th>
@@ -40,17 +40,17 @@ const MembershipPlanMembershipsCard = ({ memberships }) => {
               const expDate = m.expirationDate ? new Date(m.expirationDate) : null
               const isExpired = expDate && expDate < new Date()
               const dateStr = expDate
-                ? expDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+                ? expDate.toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' })
                 : '—'
-              
-              let statusText = 'Active'
+
+              let statusText = 'Activa'
               let statusClass = 'text-emerald-400 bg-emerald-500/15 border-emerald-500/30'
-              
+
               if (m.isCancelled) {
-                  statusText = 'Cancelled'
+                  statusText = 'Cancelada'
                   statusClass = 'text-red-400 bg-red-500/15 border-red-500/30'
               } else if (isExpired) {
-                  statusText = 'Expired'
+                  statusText = 'Vencida'
                   statusClass = 'text-amber-400 bg-amber-500/15 border-amber-500/30'
               }
 

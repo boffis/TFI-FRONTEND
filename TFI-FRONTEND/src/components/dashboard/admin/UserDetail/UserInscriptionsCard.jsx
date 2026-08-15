@@ -8,9 +8,9 @@ const UserInscriptionsCard = ({ inscriptions }) => {
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6">
         <div className="mb-4 flex items-center gap-2">
           <FaDumbbell className="text-orange-500" />
-          <h2 className="text-lg font-bold text-white">Class Inscriptions</h2>
+          <h2 className="text-lg font-bold text-white">Inscripciones a clases</h2>
         </div>
-        <p className="text-sm text-zinc-500">No class inscriptions found.</p>
+        <p className="text-sm text-zinc-500">No se encontraron inscripciones a clases.</p>
       </div>
     )
   }
@@ -19,7 +19,7 @@ const UserInscriptionsCard = ({ inscriptions }) => {
     <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 backdrop-blur-sm">
       <div className="mb-5 flex items-center gap-2">
         <FaDumbbell className="text-orange-500" />
-        <h2 className="text-lg font-bold text-white">Class Inscriptions</h2>
+        <h2 className="text-lg font-bold text-white">Inscripciones a clases</h2>
         <span className="ml-auto rounded-full bg-zinc-800 px-3 py-0.5 text-xs font-bold text-zinc-400">
           {inscriptions.length}
         </span>
@@ -33,7 +33,7 @@ const UserInscriptionsCard = ({ inscriptions }) => {
           >
             <div className="mb-1 flex items-center gap-2">
               <FaDumbbell className="text-orange-500/70 text-xs" />
-              <span className="text-xs font-bold uppercase tracking-widest text-orange-500/80">Class</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-orange-500/80">Clase</span>
             </div>
             <p className="text-sm font-bold text-white">{ins.className || '—'}</p>
             <p className="mt-1 text-xs text-zinc-400">{formatDateTime(ins.schedule)}</p>

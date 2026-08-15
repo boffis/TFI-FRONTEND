@@ -43,7 +43,7 @@ const AttendanceRoster = ({ classId, hasClassStarted, clients, onSaved, showEmai
         setSavedAt(new Date())
         if (Array.isArray(roster)) onSaved(roster)
       },
-      (err) => setError(err?.message ?? 'Could not save attendance.')
+      (err) => setError(err?.message ?? 'No se pudo guardar la asistencia.')
     )
   }
 
@@ -63,13 +63,13 @@ const AttendanceRoster = ({ classId, hasClassStarted, clients, onSaved, showEmai
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 font-bold text-emerald-400">
-            {counts.present} present
+            {counts.present} presentes
           </span>
           <span className="rounded-full border border-red-500/30 bg-red-500/10 px-2.5 py-1 font-bold text-red-400">
-            {counts.absent} absent
+            {counts.absent} ausentes
           </span>
           <span className="rounded-full border border-zinc-700 px-2.5 py-1 font-bold text-zinc-500">
-            {counts.unmarked} unmarked
+            {counts.unmarked} sin registrar
           </span>
         </div>
 
@@ -80,20 +80,20 @@ const AttendanceRoster = ({ classId, hasClassStarted, clients, onSaved, showEmai
             disabled={isSaving}
             className="rounded-lg bg-orange-500 px-4 py-1.5 text-sm font-bold text-white transition hover:bg-orange-400 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {isSaving ? 'Saving…' : `Save ${dirtyEntries.length} change${dirtyEntries.length > 1 ? 's' : ''}`}
+            {isSaving ? 'Guardando…' : `Guardar ${dirtyEntries.length} cambio${dirtyEntries.length > 1 ? 's' : ''}`}
           </button>
         )}
       </div>
 
       {!hasClassStarted && (
         <p className="mb-3 rounded-lg border border-zinc-800 bg-zinc-900/60 px-3 py-2 text-xs text-zinc-500">
-          Attendance opens once the class has started.
+          La asistencia se habilita una vez que comienza la clase.
         </p>
       )}
 
       {error && <p className="mb-3 text-sm text-red-400">{error}</p>}
       {savedAt && dirtyEntries.length === 0 && (
-        <p className="mb-3 text-sm text-emerald-400">Attendance saved.</p>
+        <p className="mb-3 text-sm text-emerald-400">Asistencia guardada.</p>
       )}
 
       <ul className="flex flex-col gap-1.5">
@@ -120,7 +120,7 @@ const AttendanceRoster = ({ classId, hasClassStarted, clients, onSaved, showEmai
                   type="button"
                   disabled={!hasClassStarted || isSaving}
                   onClick={() => setStatus(client.clientId, ATTENDANCE.PRESENT)}
-                  aria-label={`Mark ${client.name} present`}
+                  aria-label={`Marcar a ${client.name} como presente`}
                   aria-pressed={status === ATTENDANCE.PRESENT}
                   className={`rounded-md border p-2 text-xs transition disabled:cursor-not-allowed disabled:opacity-40 ${
                     status === ATTENDANCE.PRESENT
@@ -135,7 +135,7 @@ const AttendanceRoster = ({ classId, hasClassStarted, clients, onSaved, showEmai
                   type="button"
                   disabled={!hasClassStarted || isSaving}
                   onClick={() => setStatus(client.clientId, ATTENDANCE.ABSENT)}
-                  aria-label={`Mark ${client.name} absent`}
+                  aria-label={`Marcar a ${client.name} como ausente`}
                   aria-pressed={status === ATTENDANCE.ABSENT}
                   className={`rounded-md border p-2 text-xs transition disabled:cursor-not-allowed disabled:opacity-40 ${
                     status === ATTENDANCE.ABSENT
@@ -151,7 +151,7 @@ const AttendanceRoster = ({ classId, hasClassStarted, clients, onSaved, showEmai
                     type="button"
                     disabled={!hasClassStarted || isSaving}
                     onClick={() => setStatus(client.clientId, ATTENDANCE.NOT_RECORDED)}
-                    aria-label={`Clear attendance for ${client.name}`}
+                    aria-label={`Borrar la asistencia de ${client.name}`}
                     className="rounded-md border border-zinc-700 p-2 text-xs text-zinc-600 transition hover:text-zinc-300 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     <FaUndo />

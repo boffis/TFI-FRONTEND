@@ -8,7 +8,7 @@ export const ATTENDANCE = {
 }
 
 export const ATTENDANCE_LABELS = {
-  [ATTENDANCE.NOT_RECORDED]: 'Not recorded',
-  [ATTENDANCE.PRESENT]: 'Present',
-  [ATTENDANCE.ABSENT]: 'Absent',
+  [ATTENDANCE.NOT_RECORDED]: 'Sin registrar',
+  [ATTENDANCE.PRESENT]: 'Presente',
+  [ATTENDANCE.ABSENT]: 'Ausente',
 }

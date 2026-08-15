@@ -16,7 +16,7 @@ const Account = () => {
     return (
       <Layout>
         <div className="flex h-full min-h-[60vh] items-center justify-center">
-          <p className="text-zinc-400">Loading profile...</p>
+          <p className="text-zinc-400">Cargando perfil...</p>
         </div>
       </Layout>
     )
@@ -29,13 +29,13 @@ const Account = () => {
         {/* Page header */}
         <div className="mb-8">
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-orange-500">
-            My Account
+            Mi cuenta
           </p>
           <h1 className="text-4xl font-extrabold tracking-tight text-white">
             {capitalizeWords(user.name)}
           </h1>
           <p className="mt-1 text-sm text-zinc-500">
-            Manage your personal information and preferences.
+            Gestioná tu información personal y tus preferencias.
           </p>
         </div>
 

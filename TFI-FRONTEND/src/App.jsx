@@ -26,7 +26,7 @@ import ProtectedLogin from './components/protected/ProtectedLogin'
 import ProtectedStatus from './components/protected/ProtectedStatus'
 
 function App() {
-  initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY);
+  initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY, { locale: 'es-AR' });
 
   return (
     <BrowserRouter>

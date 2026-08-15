@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import { FaPencil, FaCheck, FaXmark } from 'react-icons/fa6'
 import useFetch from '../../../../hooks/useFetch'
-import { capitalizeWords, capitalizeFirst } from '../../../../utils/formatters'
-
-const GENDER_OPTIONS = ['Male', 'Female', 'Other', 'Prefer not to say']
+import { capitalizeWords, genderLabel, roleLabel, GENDER_OPTIONS } from '../../../../utils/formatters'
 
 const ROLE_BADGE = {
   Client:  'bg-blue-500/15 text-blue-400 border-blue-500/30',
@@ -87,13 +85,13 @@ const UserInfoCard = ({ userData, onUpdated }) => {
       body,
       (res) => {
         console.log('[UserInfoCard] PUT response:', res)
-        setFeedback({ type: 'success', msg: 'User updated successfully.' })
+        setFeedback({ type: 'success', msg: 'Usuario actualizado correctamente.' })
         setEditing(false)
         onUpdated()
       },
       (err) => {
         console.log('[UserInfoCard] PUT error:', err)
-        setFeedback({ type: 'error', msg: err?.message ?? 'Update failed.' })
+        setFeedback({ type: 'error', msg: err?.message ?? 'No se pudo actualizar el usuario.' })
       }
     )
   }
@@ -105,9 +103,9 @@ const UserInfoCard = ({ userData, onUpdated }) => {
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h2 className="text-lg font-bold text-white">Personal Information</h2>
+          <h2 className="text-lg font-bold text-white">Información personal</h2>
           <span className={`inline-block rounded-full border px-3 py-0.5 text-xs font-bold tracking-wide ${badgeClass}`}>
-            {userData.role}
+            {roleLabel(userData.role)}
           </span>
         </div>
 
@@ -118,7 +116,7 @@ const UserInfoCard = ({ userData, onUpdated }) => {
             className="flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-300 hover:border-orange-500 hover:text-orange-400 transition-all duration-200 cursor-pointer"
           >
             <FaPencil className="text-xs" />
-            Edit
+            Editar
           </button>
         ) : (
           <div className="flex items-center gap-2">
@@ -129,7 +127,7 @@ const UserInfoCard = ({ userData, onUpdated }) => {
               className="flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer disabled:opacity-50"
             >
               <FaXmark />
-              Cancel
+              Cancelar
             </button>
             <button
               id="btn-save-user"
@@ -138,7 +136,7 @@ const UserInfoCard = ({ userData, onUpdated }) => {
               className="flex items-center gap-2 rounded-xl border border-orange-500 bg-orange-500 px-4 py-2 text-sm font-bold text-white hover:bg-orange-400 transition-all duration-200 cursor-pointer disabled:opacity-50"
             >
               <FaCheck />
-              {isLoading ? 'Saving…' : 'Save'}
+              {isLoading ? 'Guardando…' : 'Guardar'}
             </button>
           </div>
         )}
@@ -158,28 +156,28 @@ const UserInfoCard = ({ userData, onUpdated }) => {
       {/* Fields */}
       {!editing ? (
         <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-          <Field label="Name"          value={capitalizeWords(userData.name)} />
-          <Field label="Email"         value={userData.email} />
-          <Field label="Date of Birth" value={userData.dateOfBirth?.split('T')[0]} />
-          <Field label="DNI"           value={userData.dni} />
-          <Field label="Gender"        value={capitalizeFirst(userData.gender)} />
-          <Field label="Phone"         value={userData.phoneNumber} />
+          <Field label="Nombre"               value={capitalizeWords(userData.name)} />
+          <Field label="Correo"               value={userData.email} />
+          <Field label="Fecha de nacimiento"  value={userData.dateOfBirth?.split('T')[0]} />
+          <Field label="DNI"                  value={userData.dni} />
+          <Field label="Género"               value={genderLabel(userData.gender)} />
+          <Field label="Teléfono"             value={userData.phoneNumber} />
           {userData.role === 'Trainer' && (
-            <Field label="Specialization" value={userData.specialization} />
+            <Field label="Especialización" value={userData.specialization} />
           )}
         </div>
       ) : (
         <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
-          <InputField label="Name"          id="edit-name"         value={form.name}          onChange={setField('name')} />
-          <InputField label="Email"         id="edit-email"        type="email" value={form.email}         onChange={setField('email')} />
-          <InputField label="Date of Birth" id="edit-dob"          type="date" value={form.dateOfBirth}   onChange={setField('dateOfBirth')} />
-          <InputField label="DNI"           id="edit-dni"          value={form.dni}           onChange={setField('dni')} />
-          <InputField label="Phone"         id="edit-phone"        value={form.phoneNumber}   onChange={setField('phoneNumber')} />
+          <InputField label="Nombre"              id="edit-name"  value={form.name}        onChange={setField('name')} />
+          <InputField label="Correo"              id="edit-email" type="email" value={form.email}       onChange={setField('email')} />
+          <InputField label="Fecha de nacimiento" id="edit-dob"   type="date" value={form.dateOfBirth} onChange={setField('dateOfBirth')} />
+          <InputField label="DNI"                 id="edit-dni"   value={form.dni}         onChange={setField('dni')} />
+          <InputField label="Teléfono"            id="edit-phone" value={form.phoneNumber} onChange={setField('phoneNumber')} />
 
           {/* Gender select */}
           <div>
             <label htmlFor="edit-gender" className="mb-1 block text-xs font-semibold uppercase tracking-widest text-zinc-500">
-              Gender
+              Género
             </label>
             <select
               id="edit-gender"
@@ -187,14 +185,14 @@ const UserInfoCard = ({ userData, onUpdated }) => {
               onChange={(e) => setField('gender')(e.target.value)}
               className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500/40 transition-all duration-200 cursor-pointer"
             >
-              {GENDER_OPTIONS.map((g) => (
-                <option key={g} value={g}>{g}</option>
+              {GENDER_OPTIONS.map(({ value, label }) => (
+                <option key={value} value={value}>{label}</option>
               ))}
             </select>
           </div>
 
           {/* Specialization (always visible in edit mode) */}
-          <InputField label="Specialization (Trainer)" id="edit-specialization" value={form.specialization} onChange={setField('specialization')} />
+          <InputField label="Especialización (entrenador)" id="edit-specialization" value={form.specialization} onChange={setField('specialization')} />
         </div>
       )}
     </div>

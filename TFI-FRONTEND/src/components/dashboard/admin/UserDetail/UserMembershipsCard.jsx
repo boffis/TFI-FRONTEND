@@ -17,7 +17,7 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
     setModalState({
       isOpen: true,
       type: 'confirm',
-      message: 'Are you sure you want to cancel this subscription?',
+      message: '¿Seguro que querés cancelar esta suscripción?',
       onConfirm: () => performCancel(membershipId)
     })
   }
@@ -31,13 +31,13 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
       true,
       null,
       (result) => {
-        setModalState({ isOpen: true, type: 'success', message: result?.message || 'Subscription cancelled successfully.' })
+        setModalState({ isOpen: true, type: 'success', message: result?.message || 'Suscripción cancelada correctamente.' })
         handleCancelMembership(membershipId)
         setCancellingId(null)
       },
       (err) => {
         console.error('Cancel subscription error:', err)
-        setModalState({ isOpen: true, type: 'error', message: err?.message || 'Failed to cancel subscription. Please try again.' })
+        setModalState({ isOpen: true, type: 'error', message: err?.message || 'No se pudo cancelar la suscripción. Intentá de nuevo.' })
         setCancellingId(null)
       }
     )
@@ -47,9 +47,9 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6">
         <div className="mb-4 flex items-center gap-2">
           <FaIdCard className="text-orange-500" />
-          <h2 className="text-lg font-bold text-white">Memberships</h2>
+          <h2 className="text-lg font-bold text-white">Membresías</h2>
         </div>
-        <p className="text-sm text-zinc-500">No memberships found.</p>
+        <p className="text-sm text-zinc-500">No se encontraron membresías.</p>
       </div>
     )
   }
@@ -73,23 +73,23 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
       >
         <div className="mb-3 flex items-center justify-between">
           <span className="text-sm font-bold text-white">
-            {m.membershipPlan?.name ?? 'Membership Plan'}
+            {m.membershipPlan?.name ?? 'Plan de membresía'}
           </span>
           {isCancelled
-            ? <span className="flex items-center gap-1 text-xs font-semibold text-orange-400"><FaCircleXmark /> Cancelled</span>
+            ? <span className="flex items-center gap-1 text-xs font-semibold text-orange-400"><FaCircleXmark /> Cancelada</span>
             : isActive
-            ? <span className="flex items-center gap-1 text-xs font-semibold text-emerald-400"><FaCircleCheck /> Active</span>
-            : <span className="flex items-center gap-1 text-xs font-semibold text-red-400"><FaCircleXmark /> Expired</span>
+            ? <span className="flex items-center gap-1 text-xs font-semibold text-emerald-400"><FaCircleCheck /> Activa</span>
+            : <span className="flex items-center gap-1 text-xs font-semibold text-red-400"><FaCircleXmark /> Vencida</span>
           }
         </div>
 
         <div className="space-y-1 text-xs text-zinc-500">
-          <p><span className="text-zinc-400">Expires:</span> {formattedExp}</p>
+          <p><span className="text-zinc-400">Vence:</span> {formattedExp}</p>
           {m.membershipPlan?.price !== undefined && (
-            <p><span className="text-zinc-400">Price:</span> ${m.membershipPlan.price?.toFixed(2)}</p>
+            <p><span className="text-zinc-400">Precio:</span> ${m.membershipPlan.price?.toFixed(2)}</p>
           )}
           {m.membershipPlan?.durationInDays !== undefined && (
-            <p><span className="text-zinc-400">Duration:</span> {m.membershipPlan.durationInDays} days</p>
+            <p><span className="text-zinc-400">Duración:</span> {m.membershipPlan.durationInDays} días</p>
           )}
         </div>
 
@@ -99,7 +99,7 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
             disabled={cancellingId === m.membershipId}
             className="mt-3 w-full rounded-xl bg-red-500/10 border border-red-500/20 py-2 text-xs font-bold text-red-400 hover:bg-red-500/20 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
           >
-            {cancellingId === m.membershipId ? 'Cancelling...' : 'Cancel Subscription'}
+            {cancellingId === m.membershipId ? 'Cancelando...' : 'Cancelar suscripción'}
           </button>
         )}
       </div>
@@ -118,7 +118,7 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
     <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 backdrop-blur-sm">
       <div className="mb-5 flex items-center gap-2">
         <FaIdCard className="text-orange-500" />
-        <h2 className="text-lg font-bold text-white">Memberships</h2>
+        <h2 className="text-lg font-bold text-white">Membresías</h2>
         <span className="ml-auto rounded-full bg-zinc-800 px-3 py-0.5 text-xs font-bold text-zinc-400">
           {memberships.length}
         </span>
@@ -126,7 +126,7 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
 
       {current.length > 0 && (
         <div className="mb-5">
-          <h3 className="mb-3 text-xs font-bold uppercase tracking-widest text-zinc-500">Current</h3>
+          <h3 className="mb-3 text-xs font-bold uppercase tracking-widest text-zinc-500">Actuales</h3>
           <div className="grid gap-4 sm:grid-cols-2">
             {current.map(renderMembership)}
           </div>
@@ -136,7 +136,7 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
       {history.length > 0 && (
         <div>
           <h3 className="mb-3 text-xs font-bold uppercase tracking-widest text-zinc-500">
-            {current.length > 0 ? 'History' : 'Memberships'}
+            {current.length > 0 ? 'Historial' : 'Membresías'}
           </h3>
           <div className="grid gap-4 sm:grid-cols-2">
             {history.map(renderMembership)}
@@ -153,8 +153,8 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
               modalState.type === 'success' ? 'text-emerald-500' :
               'text-white'
             }`}>
-              {modalState.type === 'confirm' ? 'Confirm Cancellation' : 
-               modalState.type === 'error' ? 'Error' : 'Success'}
+              {modalState.type === 'confirm' ? 'Confirmar cancelación' :
+               modalState.type === 'error' ? 'Error' : 'Listo'}
             </h3>
             <p className="text-zinc-400 text-sm mb-6">
               {modalState.message}
@@ -163,15 +163,15 @@ const UserMembershipsCard = ({ memberships, allowCancel = false }) => {
               {modalState.type === 'confirm' ? (
                 <>
                   <button onClick={closeDialog} className="px-4 py-2 rounded-lg text-sm font-semibold text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors">
-                    Keep Subscription
+                    Mantener suscripción
                   </button>
                   <button onClick={modalState.onConfirm} className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors shadow-lg shadow-red-500/20">
-                    Yes, Cancel
+                    Sí, cancelar
                   </button>
                 </>
               ) : (
                 <button onClick={closeDialog} className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-zinc-800 hover:bg-zinc-700 transition-colors">
-                  Close
+                  Cerrar
                 </button>
               )}
             </div>

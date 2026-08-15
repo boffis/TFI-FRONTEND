@@ -16,7 +16,7 @@ const TrainerClassesList = () => {
       `GymClass/ClassesByTrainer/${user.userId}`,
       true,
       (data) => setClasses(Array.isArray(data) ? data : []),
-      (err) => setError(err?.message ?? 'Failed to load your classes.')
+      (err) => setError(err?.message ?? 'No se pudieron cargar tus clases.')
     )
   }, [user?.userId])
 
@@ -45,7 +45,7 @@ const TrainerClassesList = () => {
     return (
       <div className="rounded-xl border border-red-500/30 bg-red-500/10 py-10 text-center">
         <p className="font-semibold text-red-400">{error}</p>
-        <p className="mt-1 text-sm text-zinc-500">Please try again later.</p>
+        <p className="mt-1 text-sm text-zinc-500">Intentá de nuevo más tarde.</p>
       </div>
     )
   }
@@ -53,8 +53,8 @@ const TrainerClassesList = () => {
   if (upcomingClasses.length === 0) {
     return (
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 py-16 text-center">
-        <p className="text-lg font-semibold text-zinc-300">No upcoming classes</p>
-        <p className="mt-1 text-sm text-zinc-500">You have no classes scheduled in the future.</p>
+        <p className="text-lg font-semibold text-zinc-300">No hay clases próximas</p>
+        <p className="mt-1 text-sm text-zinc-500">No tenés clases programadas a futuro.</p>
       </div>
     )
   }

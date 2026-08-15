@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../services/authContext/AuthContext";
 import { getApiUrl } from "../utils/apiUrl";
+import { translateApiError, GENERIC_ERROR, NETWORK_ERROR } from "../utils/errorMessages";
 
 const useFetch = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -21,13 +22,21 @@ const useFetch = () => {
                 if (!res.ok) {
                     // Backend errors are ASP.NET ProblemDetails ({ title, detail, status }),
                     // not { message } — read detail/title so real error reasons reach the user.
+                    // A few AuthController actions answer with a bare string or { message } instead.
                     let errData = {};
                     try {
                         errData = await res.json();
                     } catch {
-                        // Non-JSON error body (e.g. empty 401) — fall through to statusText.
+                        // Non-JSON error body (e.g. empty 401) — fall through to the generic message.
                     }
-                    throw new Error(errData.detail || errData.title || "Something went wrong. Please try again.");
+
+                    const backendMessage = typeof errData === 'string'
+                        ? errData
+                        : errData.detail || errData.message || errData.title;
+
+                    // The API speaks English; the UI speaks Spanish. This is the one place the
+                    // hand-off happens, so every caller receives an already-translated message.
+                    throw new Error(translateApiError(backendMessage));
                 }
 
                 const contentLength = res.headers.get('content-length')
@@ -35,8 +44,10 @@ const useFetch = () => {
                 const hasBody = contentType.includes('application/json') &&
                     contentLength !== '0' && res.status !== 204
 
-                return hasBody ? res.json() : null
-            })
+                return hasBody ? res.json().catch(() => { throw new Error(GENERIC_ERROR) }) : null
+            },
+                // fetch() itself rejected, so there is no response to read a message from.
+                () => { throw new Error(NETWORK_ERROR) })
             .then(onSucces)
             .catch(onError)
             .finally(() => {

@@ -18,7 +18,7 @@ const GymClassDeleteCard = ({ classId, classNameStr, enrolledCount = 0 }) => {
       true,
       () => navigate('/admin/dashboard'), // Go back to dashboard on success
       (err) => {
-        setError(err?.message ?? 'Delete failed.')
+        setError(err?.message ?? 'No se pudo eliminar la clase.')
         setConfirming(false)
       }
     )
@@ -28,7 +28,7 @@ const GymClassDeleteCard = ({ classId, classNameStr, enrolledCount = 0 }) => {
     <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-6">
       <div className="mb-3 flex items-center gap-2">
         <FaTrash className="text-red-400" />
-        <h2 className="text-base font-bold text-red-400">Danger Zone</h2>
+        <h2 className="text-base font-bold text-red-400">Zona de riesgo</h2>
       </div>
 
       {error && (
@@ -40,13 +40,13 @@ const GymClassDeleteCard = ({ classId, classNameStr, enrolledCount = 0 }) => {
       {!confirming ? (
         <>
           <p className="mb-4 text-xs text-zinc-500">
-            Permanently delete this gym class. This action cannot be undone.
+            Eliminá esta clase de forma permanente. Esta acción no se puede deshacer.
           </p>
           <button
             onClick={() => setConfirming(true)}
             className="w-full rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-2.5 text-sm font-bold text-red-400 hover:bg-red-500/20 hover:border-red-400 transition-all duration-200 cursor-pointer"
           >
-            Delete Class
+            Eliminar clase
           </button>
         </>
       ) : (
@@ -54,7 +54,7 @@ const GymClassDeleteCard = ({ classId, classNameStr, enrolledCount = 0 }) => {
           <div className="flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-2">
             <FaTriangleExclamation className="mt-0.5 shrink-0 text-amber-400" />
             <p className="text-xs text-amber-300">
-              Are you sure you want to delete <strong>{classNameStr}</strong>? This cannot be undone.
+              ¿Seguro que querés eliminar <strong>{classNameStr}</strong>? Esta acción no se puede deshacer.
             </p>
           </div>
 
@@ -62,8 +62,8 @@ const GymClassDeleteCard = ({ classId, classNameStr, enrolledCount = 0 }) => {
             <div className="flex items-start gap-2 rounded-xl border border-zinc-700 bg-zinc-800/50 px-3 py-2">
               <FaEnvelope className="mt-0.5 shrink-0 text-zinc-400" />
               <p className="text-xs text-zinc-400">
-                {enrolledCount} enrolled {enrolledCount === 1 ? 'client' : 'clients'} will be
-                emailed that the class was cancelled.
+                Se les avisará por correo a {enrolledCount} {enrolledCount === 1 ? 'cliente inscripto' : 'clientes inscriptos'} que
+                la clase fue cancelada.
               </p>
             </div>
           )}
@@ -73,14 +73,14 @@ const GymClassDeleteCard = ({ classId, classNameStr, enrolledCount = 0 }) => {
               disabled={isLoading}
               className="flex-1 rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm font-semibold text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer disabled:opacity-50"
             >
-              Cancel
+              Cancelar
             </button>
             <button
               onClick={handleDelete}
               disabled={isLoading}
               className="flex-1 rounded-xl bg-red-600 px-3 py-2 text-sm font-bold text-white hover:bg-red-500 transition-all duration-200 cursor-pointer disabled:opacity-50"
             >
-              {isLoading ? 'Deleting…' : 'Yes, Delete'}
+              {isLoading ? 'Eliminando…' : 'Sí, eliminar'}
             </button>
           </div>
         </div>

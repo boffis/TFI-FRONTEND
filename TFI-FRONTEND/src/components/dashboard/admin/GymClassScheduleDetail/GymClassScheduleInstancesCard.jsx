@@ -7,9 +7,9 @@ const GymClassScheduleInstancesCard = ({ gymClasses }) => {
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6">
         <div className="mb-4 flex items-center gap-2">
           <FaDumbbell className="text-orange-500" />
-          <h2 className="text-lg font-bold text-white">Generated Classes</h2>
+          <h2 className="text-lg font-bold text-white">Clases generadas</h2>
         </div>
-        <p className="text-sm text-zinc-500">No classes have been generated for this schedule yet.</p>
+        <p className="text-sm text-zinc-500">Todavía no se generaron clases para este horario.</p>
       </div>
     )
   }
@@ -18,7 +18,7 @@ const GymClassScheduleInstancesCard = ({ gymClasses }) => {
     <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 backdrop-blur-sm">
       <div className="mb-5 flex items-center gap-2">
         <FaDumbbell className="text-orange-500" />
-        <h2 className="text-lg font-bold text-white">Generated Classes</h2>
+        <h2 className="text-lg font-bold text-white">Clases generadas</h2>
         <span className="ml-auto rounded-full bg-zinc-800 px-3 py-0.5 text-xs font-bold text-zinc-400">
           {gymClasses.length}
         </span>
@@ -27,7 +27,7 @@ const GymClassScheduleInstancesCard = ({ gymClasses }) => {
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {gymClasses.map((cls) => {
           const date = cls.schedule 
-            ? new Date(cls.schedule).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+            ? new Date(cls.schedule).toLocaleString('es-AR', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
             : '—'
             
           return (
@@ -43,7 +43,7 @@ const GymClassScheduleInstancesCard = ({ gymClasses }) => {
                 <p className="text-sm font-bold text-white">{cls.className}</p>
                 {cls.isClassDeleted && (
                     <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-red-400">
-                        <FaCircleXmark /> Deleted
+                        <FaCircleXmark /> Eliminada
                     </span>
                 )}
               </div>

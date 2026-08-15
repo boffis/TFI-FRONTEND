@@ -29,7 +29,7 @@ const Pagination = ({
   pageSize,
   onPageChange,
   onPageSizeChange,
-  itemLabel = 'items',
+  itemLabel = 'elementos',
   idPrefix = 'pagination',
 }) => {
   const totalPages = Math.max(1, Math.ceil(totalItems / pageSize))
@@ -42,7 +42,7 @@ const Pagination = ({
 
       {/* Info */}
       <p className="text-sm text-zinc-500">
-        Showing <span className="text-zinc-300 font-medium">{from}–{to}</span> of{' '}
+        Mostrando <span className="text-zinc-300 font-medium">{from}–{to}</span> de{' '}
         <span className="text-zinc-300 font-medium">{totalItems}</span> {itemLabel}
       </p>
 
@@ -106,7 +106,7 @@ const Pagination = ({
 
       {/* Page size */}
       <div className="flex items-center gap-2 text-sm text-zinc-400">
-        <span>Rows:</span>
+        <span>Filas:</span>
         <select
           id={`${idPrefix}-page-size`}
           value={pageSize}

@@ -14,7 +14,7 @@ const ClassSortControls = ({
       {/* Sort field */}
       <div className="min-w-[190px]">
         <label htmlFor={`${idPrefix}-sort-field`} className="block mb-1.5 text-xs font-semibold uppercase tracking-widest text-zinc-400">
-          Sort by
+          Ordenar por
         </label>
         <select
           id={`${idPrefix}-sort-field`}
@@ -37,7 +37,7 @@ const ClassSortControls = ({
       <button
         id={`${idPrefix}-sort-direction`}
         onClick={onSortDirectionToggle}
-        title={sortDirection === 'asc' ? 'Ascending — click to switch' : 'Descending — click to switch'}
+        title={sortDirection === 'asc' ? 'Ascendente — hacé clic para cambiar' : 'Descendente — hacé clic para cambiar'}
         className="
           flex items-center gap-2 px-4 py-2.5 rounded-xl
           bg-zinc-900 border border-zinc-700 text-sm font-medium text-zinc-200
@@ -49,7 +49,7 @@ const ClassSortControls = ({
           ? <FaSortAmountUp className="text-orange-400" />
           : <FaSortAmountDown className="text-orange-400" />
         }
-        {sortDirection === 'asc' ? 'Ascending' : 'Descending'}
+        {sortDirection === 'asc' ? 'Ascendente' : 'Descendente'}
       </button>
 
     </div>

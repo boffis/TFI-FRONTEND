@@ -6,9 +6,9 @@ const UserTaughtClassesCard = ({ taughtClasses }) => {
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6">
         <div className="mb-4 flex items-center gap-2">
           <FaDumbbell className="text-orange-500" />
-          <h2 className="text-lg font-bold text-white">Taught Classes</h2>
+          <h2 className="text-lg font-bold text-white">Clases dictadas</h2>
         </div>
-        <p className="text-sm text-zinc-500">No taught classes found.</p>
+        <p className="text-sm text-zinc-500">No se encontraron clases dictadas.</p>
       </div>
     )
   }
@@ -17,7 +17,7 @@ const UserTaughtClassesCard = ({ taughtClasses }) => {
     <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 backdrop-blur-sm">
       <div className="mb-5 flex items-center gap-2">
         <FaDumbbell className="text-orange-500" />
-        <h2 className="text-lg font-bold text-white">Taught Classes</h2>
+        <h2 className="text-lg font-bold text-white">Clases dictadas</h2>
         <span className="ml-auto rounded-full bg-zinc-800 px-3 py-0.5 text-xs font-bold text-zinc-400">
           {taughtClasses.length}
         </span>
@@ -35,7 +35,7 @@ const UserTaughtClassesCard = ({ taughtClasses }) => {
                    <span className="text-sm font-bold text-white">{cls.className}</span>
                </div>
                <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                 Max: {cls.maxCapacity}
+                 Máx.: {cls.maxCapacity}
                </span>
             </div>
             {cls.classDescription && (

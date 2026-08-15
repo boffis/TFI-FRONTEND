@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
             {children}
         </main>
         <footer className="border-t border-zinc-800 py-6 text-center text-sm text-zinc-500">
-            © {new Date().getFullYear()} IronFit Gym. All rights reserved.
+            © {new Date().getFullYear()} IronFit Gym. Todos los derechos reservados.
         </footer>
         </div>
     )

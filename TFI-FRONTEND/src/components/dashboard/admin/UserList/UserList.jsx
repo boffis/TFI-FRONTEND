@@ -60,7 +60,7 @@ const UserList = () => {
         ]
         setAllUsers(merged)
       },
-      (err) => setError(err?.message ?? 'Failed to load users.')
+      (err) => setError(err?.message ?? 'No se pudieron cargar los usuarios.')
     )
   }, [])
 
@@ -118,9 +118,9 @@ const UserList = () => {
     <div>
       {/* Section header */}
       <div className="mb-6">
-        <h2 className="text-2xl font-extrabold tracking-tight text-white">Users</h2>
+        <h2 className="text-2xl font-extrabold tracking-tight text-white">Usuarios</h2>
         <p className="mt-1 text-sm text-zinc-500">
-          Manage all clients, trainers and administrators.
+          Gestioná todos los clientes, entrenadores y administradores.
         </p>
       </div>
 
@@ -128,7 +128,7 @@ const UserList = () => {
       {error && !isLoading && (
         <div className="rounded-xl border border-red-500/30 bg-red-500/10 py-10 text-center">
           <p className="font-semibold text-red-400">{error}</p>
-          <p className="mt-1 text-sm text-zinc-500">Please try again later.</p>
+          <p className="mt-1 text-sm text-zinc-500">Intentá de nuevo más tarde.</p>
         </div>
       )}
 

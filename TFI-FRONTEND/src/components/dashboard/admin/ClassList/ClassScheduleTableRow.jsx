@@ -1,9 +1,8 @@
 import { useNavigate } from 'react-router'
 import { FaCircleCheck, FaCircleXmark } from 'react-icons/fa6'
+import { DAY_NAMES } from '../../../../utils/formatters'
 
-const DAY_LABELS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-
-const BoolBadge = ({ value, trueLabel = 'Yes', falseLabel = 'No' }) =>
+const BoolBadge = ({ value, trueLabel = 'Sí', falseLabel = 'No' }) =>
   value
     ? <span className="flex items-center gap-1.5 text-emerald-400"><FaCircleCheck /> {trueLabel}</span>
     : <span className="flex items-center gap-1.5 text-red-400"><FaCircleXmark /> {falseLabel}</span>
@@ -15,7 +14,7 @@ const ClassScheduleTableRow = ({ schedule }) => {
     ? schedule.timeOfDay.toString().slice(0, 5)   // "HH:MM:SS" → "HH:MM"
     : '—'
 
-  const dayLabel = DAY_LABELS[schedule.dayOfWeek] ?? String(schedule.dayOfWeek)
+  const dayLabel = DAY_NAMES[schedule.dayOfWeek] ?? String(schedule.dayOfWeek)
 
   const trainerName =
     schedule.trainer?.name ??
@@ -46,10 +45,10 @@ const ClassScheduleTableRow = ({ schedule }) => {
       <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{timeLabel}</td>
       <td className="px-4 py-3 text-zinc-400 whitespace-nowrap text-center">{schedule.maxCapacity}</td>
       <td className="px-4 py-3 text-sm whitespace-nowrap">
-        <BoolBadge value={schedule.isWeekly} trueLabel="Weekly" falseLabel="One-off" />
+        <BoolBadge value={schedule.isWeekly} trueLabel="Semanal" falseLabel="Puntual" />
       </td>
       <td className="px-4 py-3 text-sm whitespace-nowrap">
-        <BoolBadge value={schedule.isActive} trueLabel="Active" falseLabel="Inactive" />
+        <BoolBadge value={schedule.isActive} trueLabel="Activo" falseLabel="Inactivo" />
       </td>
     </tr>
   )

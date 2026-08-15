@@ -20,7 +20,7 @@ const MembershipPlanDetail = () => {
       `MembershipPlan/admin/${id}`,
       true,
       (data) => setPlanData(data),
-      (err) => setError(err?.message ?? 'Failed to load membership plan.')
+      (err) => setError(err?.message ?? 'No se pudo cargar el plan de membresía.')
     )
   }
 
@@ -39,7 +39,7 @@ const MembershipPlanDetail = () => {
           className="mb-8 flex items-center gap-2 text-sm font-semibold text-zinc-400 hover:text-orange-400 transition-colors duration-200 cursor-pointer"
         >
           <FaArrowLeft />
-          Back to Dashboard
+          Volver al panel
         </button>
 
         {/* Loading skeleton */}
@@ -55,7 +55,7 @@ const MembershipPlanDetail = () => {
         {error && !isLoading && (
           <div className="rounded-2xl border border-red-500/30 bg-red-500/10 py-16 text-center">
             <p className="text-lg font-semibold text-red-400">{error}</p>
-            <p className="mt-2 text-sm text-zinc-500">Could not load plan data. Please try again later.</p>
+            <p className="mt-2 text-sm text-zinc-500">No se pudieron cargar los datos del plan. Intentá de nuevo más tarde.</p>
           </div>
         )}
 
@@ -65,10 +65,10 @@ const MembershipPlanDetail = () => {
             {/* Page header */}
             <div className="mb-2">
               <p className="mb-1 text-xs font-bold uppercase tracking-widest text-orange-500">
-                Membership Plan
+                Plan de membresía
               </p>
               <h1 className="text-4xl font-extrabold tracking-tight text-white">
-                {planData.type || 'Unnamed Plan'}
+                {planData.type || 'Plan sin nombre'}
               </h1>
               <p className="mt-1 text-sm text-zinc-500">
                 ID: <span className="font-mono text-zinc-400">{planData.membershipPlanId}</span>

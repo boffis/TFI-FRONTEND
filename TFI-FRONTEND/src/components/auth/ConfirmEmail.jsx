@@ -10,7 +10,7 @@ const Spinner = () => (
       className="h-10 w-10 animate-spin text-orange-400"
       viewBox="0 0 24 24"
       fill="none"
-      aria-label="Loading"
+      aria-label="Cargando"
     >
       <circle
         className="opacity-25"
@@ -78,7 +78,7 @@ const ConfirmEmail = () => {
       null,
       () => setStatus('success'),
       (err) => {
-        setErrorMessage(err.message || 'An unexpected error occurred.')
+        setErrorMessage(err.message || 'Ocurrió un error inesperado.')
         setStatus('error')
       }
     )
@@ -92,9 +92,9 @@ const ConfirmEmail = () => {
         {status === 'loading' && (
           <>
             <Spinner />
-            <h1 className="text-2xl font-bold text-white">Confirming your email…</h1>
+            <h1 className="text-2xl font-bold text-white">Confirmando tu correo…</h1>
             <p className="mt-3 text-zinc-400">
-              Please wait while we verify your account.
+              Esperá un momento mientras verificamos tu cuenta.
             </p>
           </>
         )}
@@ -103,15 +103,15 @@ const ConfirmEmail = () => {
         {status === 'success' && (
           <>
             <CheckIcon />
-            <h1 className="text-3xl font-bold text-white">Email confirmed!</h1>
+            <h1 className="text-3xl font-bold text-white">¡Correo confirmado!</h1>
             <p className="mt-4 text-zinc-400 leading-relaxed">
-              Your email address has been verified. You can now log in to your account.
+              Tu dirección de correo fue verificada. Ya podés iniciar sesión en tu cuenta.
             </p>
             <Link
               to="/login"
               className="mt-10 inline-block rounded-lg bg-orange-500 px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-600"
             >
-              Go to log in
+              Ir a iniciar sesión
             </Link>
           </>
         )}
@@ -120,9 +120,9 @@ const ConfirmEmail = () => {
         {status === 'error' && (
           <>
             <ErrorIcon />
-            <h1 className="text-3xl font-bold text-white">Something went wrong</h1>
+            <h1 className="text-3xl font-bold text-white">Algo salió mal</h1>
             <p className="mt-4 text-zinc-400 leading-relaxed">
-              We&apos;re sorry, we couldn&apos;t confirm your email address.
+              Lo sentimos, no pudimos confirmar tu dirección de correo.
             </p>
             {errorMessage && (
               <p className="mt-3 rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-400">
@@ -133,7 +133,7 @@ const ConfirmEmail = () => {
               to="/home"
               className="mt-10 inline-block rounded-lg bg-zinc-700 px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-zinc-600"
             >
-              Back to home
+              Volver al inicio
             </Link>
           </>
         )}

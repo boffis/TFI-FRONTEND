@@ -13,17 +13,17 @@ const DEFAULT_PAGE_SIZE = 10
 // ─── Sort fields ──────────────────────────────────────────────────────────────
 
 const SCHEDULE_SORT_FIELDS = [
-  { value: 'className',   label: 'Class Name' },
-  { value: 'dayOfWeek',   label: 'Day of Week' },
-  { value: 'timeOfDay',   label: 'Time' },
-  { value: 'maxCapacity', label: 'Capacity' },
+  { value: 'className',   label: 'Nombre de la clase' },
+  { value: 'dayOfWeek',   label: 'Día de la semana' },
+  { value: 'timeOfDay',   label: 'Hora' },
+  { value: 'maxCapacity', label: 'Capacidad' },
 ]
 
 const INSTANCE_SORT_FIELDS = [
-  { value: 'className',         label: 'Class Name' },
-  { value: 'schedule',          label: 'Schedule Date' },
-  { value: 'maxCapacity',       label: 'Capacity' },
-  { value: 'inscriptionAmount', label: 'Inscriptions' },
+  { value: 'className',         label: 'Nombre de la clase' },
+  { value: 'schedule',          label: 'Fecha programada' },
+  { value: 'maxCapacity',       label: 'Capacidad' },
+  { value: 'inscriptionAmount', label: 'Inscripciones' },
 ]
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -60,7 +60,7 @@ const SectionHeader = ({ title, subtitle, count, onAction, actionLabel }) => (
     <div className="flex items-center gap-3">
       {count != null && (
         <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs font-bold text-zinc-400">
-          {count} total
+          {count} en total
         </span>
       )}
       {onAction && (
@@ -72,7 +72,7 @@ const SectionHeader = ({ title, subtitle, count, onAction, actionLabel }) => (
           "
         >
           <FaPlus className="text-xs" />
-          {actionLabel ?? 'Create New'}
+          {actionLabel ?? 'Crear nuevo'}
         </button>
       )}
     </div>
@@ -126,17 +126,17 @@ const ClassList = () => {
       true,
       null,
       () => {
-        setGenerateSuccess(`Successfully generated classes for the next ${daysAhead} days.`)
+        setGenerateSuccess(`Se generaron las clases de los próximos ${daysAhead} días.`)
         // Refresh instances
         getInstances(
           'gymclass',
           true,
           data => setAllInstances(Array.isArray(data) ? data : []),
-          err  => setInstanceError(err?.message ?? 'Failed to load gym classes.')
+          err  => setInstanceError(err?.message ?? 'No se pudieron cargar las clases.')
         )
       },
       err => {
-        setGenerateError(err?.message ?? 'Failed to generate classes.')
+        setGenerateError(err?.message ?? 'No se pudieron generar las clases.')
       }
     )
   }
@@ -147,7 +147,7 @@ const ClassList = () => {
       'gymclassschedule',
       true,
       data => setAllSchedules(Array.isArray(data) ? data : []),
-      err  => setScheduleError(err?.message ?? 'Failed to load class schedules.')
+      err  => setScheduleError(err?.message ?? 'No se pudieron cargar los horarios de clases.')
     )
   }, [])
 
@@ -156,7 +156,7 @@ const ClassList = () => {
       'gymclass',
       true,
       data => setAllInstances(Array.isArray(data) ? data : []),
-      err  => setInstanceError(err?.message ?? 'Failed to load gym classes.')
+      err  => setInstanceError(err?.message ?? 'No se pudieron cargar las clases.')
     )
   }, [])
 
@@ -226,11 +226,11 @@ const ClassList = () => {
 
       {/* ── GENERATE CLASSES ── */}
       <div className="mb-10 rounded-xl border border-zinc-800 bg-zinc-900/40 p-6">
-        <h3 className="mb-4 text-lg font-extrabold tracking-tight text-white">Generate Upcoming Classes</h3>
+        <h3 className="mb-4 text-lg font-extrabold tracking-tight text-white">Generar próximas clases</h3>
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex items-center gap-3">
             <label htmlFor="daysAhead" className="text-sm font-semibold uppercase tracking-widest text-zinc-400">
-              Days ahead
+              Días a futuro
             </label>
             <input
               id="daysAhead"
@@ -247,7 +247,7 @@ const ClassList = () => {
             disabled={loadingGenerate || !daysAhead}
             className="flex items-center gap-2 rounded-lg bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-150 hover:bg-orange-600 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {loadingGenerate ? 'Generating...' : 'Generate Classes'}
+            {loadingGenerate ? 'Generando...' : 'Generar clases'}
           </button>
         </div>
         
@@ -265,17 +265,17 @@ const ClassList = () => {
 
       {/* ── CLASS SCHEDULES ── */}
       <SectionHeader
-        title="Class Schedules"
-        subtitle="Recurring and one-off schedule templates."
+        title="Horarios de clases"
+        subtitle="Plantillas de horarios recurrentes y puntuales."
         count={!loadingSchedules && !scheduleError ? allSchedules.length : null}
         onAction={() => navigate('/admin/new/gymclassschedule')}
-        actionLabel="New Schedule"
+        actionLabel="Nuevo horario"
       />
 
       {scheduleError && !loadingSchedules && (
         <div className="rounded-xl border border-red-500/30 bg-red-500/10 py-10 text-center mb-10">
           <p className="font-semibold text-red-400">{scheduleError}</p>
-          <p className="mt-1 text-sm text-zinc-500">Please try again later.</p>
+          <p className="mt-1 text-sm text-zinc-500">Intentá de nuevo más tarde.</p>
         </div>
       )}
 
@@ -307,7 +307,7 @@ const ClassList = () => {
               pageSize={schedPageSize}
               onPageChange={setSchedPage}
               onPageSizeChange={setSchedPageSize}
-              itemLabel="schedules"
+              itemLabel="horarios"
               idPrefix="sched-pagination"
             />
           )}
@@ -319,17 +319,17 @@ const ClassList = () => {
 
       {/* ── GYM CLASS INSTANCES ── */}
       <SectionHeader
-        title="Gym Classes"
-        subtitle="Individual class sessions open for inscription."
+        title="Clases"
+        subtitle="Sesiones individuales abiertas a inscripción."
         count={!loadingInstances && !instanceError ? allInstances.length : null}
         onAction={() => navigate('/admin/new/gymclass')}
-        actionLabel="New Class"
+        actionLabel="Nueva clase"
       />
 
       {instanceError && !loadingInstances && (
         <div className="rounded-xl border border-red-500/30 bg-red-500/10 py-10 text-center">
           <p className="font-semibold text-red-400">{instanceError}</p>
-          <p className="mt-1 text-sm text-zinc-500">Please try again later.</p>
+          <p className="mt-1 text-sm text-zinc-500">Intentá de nuevo más tarde.</p>
         </div>
       )}
 
@@ -363,7 +363,7 @@ const ClassList = () => {
               pageSize={instPageSize}
               onPageChange={setInstPage}
               onPageSizeChange={setInstPageSize}
-              itemLabel="classes"
+              itemLabel="clases"
               idPrefix="inst-pagination"
             />
           )}

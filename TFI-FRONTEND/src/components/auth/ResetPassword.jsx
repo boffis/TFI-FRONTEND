@@ -61,30 +61,30 @@ const ResetPassword = () => {
       { Email:email, Token:token, NewPassword: form.password },
       () => setResult({ ok: true }),
       (err) => { console.log(err);
-        setResult({ ok: false, message: err.message || 'Something went wrong. Please try again.' })}
+        setResult({ ok: false, message: err.message || 'Algo salió mal. Intentá de nuevo.' })}
     )
   }
 
   return (
     <Layout>
       <section className="mx-auto max-w-lg px-4 py-12 sm:px-6 sm:py-16">
-        <h1 className="text-3xl font-bold text-white">Reset password</h1>
+        <h1 className="text-3xl font-bold text-white">Restablecer contraseña</h1>
         <p className="mt-2 text-sm text-zinc-400">
-          Choose a new password for your account.
+          Elegí una nueva contraseña para tu cuenta.
         </p>
 
         {/* ── Success ── */}
         {result?.ok && (
           <div className="mt-8 rounded-lg border border-orange-500/40 bg-orange-500/10 px-5 py-4">
-            <p className="text-sm font-medium text-orange-300">Password updated!</p>
+            <p className="text-sm font-medium text-orange-300">¡Contraseña actualizada!</p>
             <p className="mt-1 text-sm text-zinc-400">
-              Your password has been reset successfully. You can now log in with your new password.
+              Tu contraseña se restableció correctamente. Ya podés iniciar sesión con la nueva.
             </p>
             <Link
               to="/login"
               className="mt-4 inline-block rounded-lg bg-orange-500 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-orange-600"
             >
-              Go to log in
+              Ir a iniciar sesión
             </Link>
           </div>
         )}
@@ -92,13 +92,13 @@ const ResetPassword = () => {
         {/* ── Error ── */}
         {result && !result.ok && (
           <div className="mt-8 rounded-lg border border-red-500/40 bg-red-500/10 px-5 py-4">
-            <p className="text-sm font-medium text-red-400">Reset failed</p>
+            <p className="text-sm font-medium text-red-400">No se pudo restablecer</p>
             <p className="mt-1 text-sm text-zinc-400">{result.message}</p>
             <Link
               to="/home"
               className="mt-4 inline-block rounded-lg bg-zinc-700 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-zinc-600"
             >
-              Back to home
+              Volver al inicio
             </Link>
           </div>
         )}
@@ -106,7 +106,7 @@ const ResetPassword = () => {
         {/* ── Form — hidden once a result arrives ── */}
         {!result && (
           <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-5">
-            <Field label="New password" id="password" error={errors.password}>
+            <Field label="Nueva contraseña" id="password" error={errors.password}>
               <input
                 id="password"
                 name="password"
@@ -118,7 +118,7 @@ const ResetPassword = () => {
               />
             </Field>
 
-            <Field label="Repeat new password" id="repeatPassword" error={errors.repeatPassword}>
+            <Field label="Repetir nueva contraseña" id="repeatPassword" error={errors.repeatPassword}>
               <input
                 id="repeatPassword"
                 name="repeatPassword"
@@ -135,7 +135,7 @@ const ResetPassword = () => {
               disabled={isLoading}
               className="w-full rounded-lg bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {isLoading ? 'Resetting…' : 'Reset password'}
+              {isLoading ? 'Restableciendo…' : 'Restablecer contraseña'}
             </button>
           </form>
         )}

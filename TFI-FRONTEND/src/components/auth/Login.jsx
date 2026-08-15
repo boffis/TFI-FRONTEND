@@ -66,35 +66,35 @@ const Login = () => {
         handleLogin(res)
         navigate('/home')
       },
-      (err) => setApiError(err.message || 'Something went wrong. Please try again.')
+      (err) => setApiError(err.message || 'Algo salió mal. Intentá de nuevo.')
     )
   }
 
   return (
     <Layout>
       <section className="mx-auto max-w-lg px-4 py-12 sm:px-6 sm:py-16">
-        <h1 className="text-3xl font-bold text-white">Log in</h1>
+        <h1 className="text-3xl font-bold text-white">Iniciar sesión</h1>
         <p className="mt-2 text-sm text-zinc-400">
-          Don&apos;t have an account?{' '}
+          ¿No tenés cuenta?{' '}
           <Link to="/register" className="font-medium text-orange-500 hover:text-orange-400">
-            Register
+            Registrate
           </Link>
         </p>
 
         <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-5">
-          <Field label="Email" id="email" error={errors.email}>
+          <Field label="Correo electrónico" id="email" error={errors.email}>
             <input
               id="email"
               name="email"
               type="email"
               value={form.email}
               onChange={handleChange}
-              placeholder="you@example.com"
+              placeholder="tucorreo@ejemplo.com"
               className={inputClass(errors.email)}
             />
           </Field>
 
-          <Field label="Password" id="password" error={errors.password}>
+          <Field label="Contraseña" id="password" error={errors.password}>
             <input
               id="password"
               name="password"
@@ -111,7 +111,7 @@ const Login = () => {
               to="/forgot-password"
               className="text-xs text-zinc-400 hover:text-orange-400 transition-colors"
             >
-              Forgot password?
+              ¿Olvidaste tu contraseña?
             </Link>
           </div>
 
@@ -124,7 +124,7 @@ const Login = () => {
             disabled={isLoading}
             className="w-full rounded-lg bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isLoading ? 'Signing in…' : 'Log in'}
+            {isLoading ? 'Iniciando sesión…' : 'Iniciar sesión'}
           </button>
         </form>
       </section>

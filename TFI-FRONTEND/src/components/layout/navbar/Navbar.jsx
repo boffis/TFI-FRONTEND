@@ -5,9 +5,9 @@ import { AuthContext, ROLE } from '../../../services/authContext/AuthContext'
 import { capitalizeWords, capitalizeFirst } from '../../../utils/formatters'
 
 const navLinks = [
-  { to: '/home', label: 'Home' },
-  { to: '/classes', label: 'Classes' },
-  { to: '/memberships', label: 'Memberships' },
+  { to: '/home', label: 'Inicio' },
+  { to: '/classes', label: 'Clases' },
+  { to: '/memberships', label: 'Membresías' },
 ]
 
 // ─── User dropdown ────────────────────────────────────────────────────────────
@@ -37,14 +37,14 @@ const UserMenu = ({ user, onLogout }) => {
   }
 
   const menuItems = [
-    { label: 'Account', path: '/account', show: true },
+    { label: 'Mi cuenta', path: '/account', show: true },
     {
-      label: 'Trainer Dashboard',
+      label: 'Panel de entrenador',
       path: '/trainer/dashboard',
       show: user.role === ROLE.TRAINER,
     },
     {
-      label: 'Admin Dashboard',
+      label: 'Panel de administración',
       path: '/admin/dashboard',
       show: user.role === ROLE.ADMIN,
     },
@@ -58,7 +58,7 @@ const UserMenu = ({ user, onLogout }) => {
         className="flex items-center gap-2 rounded-lg border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 transition-colors hover:border-zinc-500 hover:text-white focus:outline-none"
       >
         <HiUser className="h-4 w-4 text-orange-500" />
-        <span>Welcome, {capitalizeFirst(user.name?.split(" ")[0])}</span>
+        <span>Hola, {capitalizeFirst(user.name?.split(" ")[0])}</span>
         <HiChevronDown
           className={`h-4 w-4 text-zinc-500 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
         />
@@ -69,7 +69,7 @@ const UserMenu = ({ user, onLogout }) => {
         <div className="absolute right-0 z-50 mt-2 w-52 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 shadow-xl shadow-black/40">
           <div className="border-b border-zinc-800 px-4 py-3">
             <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
-              Signed in as
+              Sesión iniciada como
             </p>
             <p className="mt-0.5 truncate text-sm font-semibold text-white">
               {capitalizeWords(user.name)}
@@ -94,7 +94,7 @@ const UserMenu = ({ user, onLogout }) => {
               onClick={handleLogout}
               className="w-full px-4 py-2.5 text-left text-sm font-medium text-red-400 transition-colors hover:bg-zinc-800 hover:text-red-300"
             >
-              Log out
+              Cerrar sesión
             </button>
           </div>
         </div>
@@ -143,13 +143,13 @@ const Navbar = () => {
                 to="/login"
                 className="text-sm font-medium text-zinc-400 transition-colors hover:text-white"
               >
-                Log in
+                Iniciar sesión
               </NavLink>
               <NavLink
                 to="/register"
                 className="rounded-lg bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-orange-600"
               >
-                Join now
+                Sumate ahora
               </NavLink>
             </>
           )}

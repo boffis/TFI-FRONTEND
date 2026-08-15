@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router'
 import { FaCircleCheck, FaCircleXmark } from 'react-icons/fa6'
-import { capitalizeWords, capitalizeFirst } from '../../../../utils/formatters'
+import { capitalizeWords, genderLabel, roleLabel } from '../../../../utils/formatters'
 
 const ROLE_BADGE = {
   Client:  'bg-blue-500/15 text-blue-400 border-blue-500/30',
@@ -14,20 +14,20 @@ const UserTableRow = ({ user }) => {
   const badgeClass = ROLE_BADGE[user.role] ?? 'bg-zinc-700/30 text-zinc-400 border-zinc-600/30'
 
   const formattedDob = user.dateOfBirth
-    ? new Date(user.dateOfBirth).toLocaleDateString('en-GB', {
+    ? new Date(user.dateOfBirth).toLocaleDateString('es-AR', {
         day: '2-digit', month: 'short', year: 'numeric',
       })
     : '—'
 
   const membershipCell = user.role === 'Client'
     ? user.isMembershipActive
-      ? <span className="flex items-center justify-center gap-1.5 text-emerald-400"><FaCircleCheck /> Active</span>
-      : <span className="flex items-center justify-center gap-1.5 text-red-400"><FaCircleXmark /> Inactive</span>
-    : <span className="text-zinc-600">N/A</span>
+      ? <span className="flex items-center justify-center gap-1.5 text-emerald-400"><FaCircleCheck /> Activa</span>
+      : <span className="flex items-center justify-center gap-1.5 text-red-400"><FaCircleXmark /> Inactiva</span>
+    : <span className="text-zinc-600">N/D</span>
 
   const specializationCell = user.role === 'Trainer'
     ? <span className="text-zinc-200">{user.specialization}</span>
-    : <span className="text-zinc-600">N/A</span>
+    : <span className="text-zinc-600">N/D</span>
 
   return (
     <tr
@@ -44,11 +44,11 @@ const UserTableRow = ({ user }) => {
       <td className="px-4 py-3 text-zinc-300 whitespace-nowrap">{user.email}</td>
       <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{user.dni}</td>
       <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{formattedDob}</td>
-      <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{capitalizeFirst(user.gender)}</td>
+      <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{genderLabel(user.gender)}</td>
       <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{user.phoneNumber}</td>
       <td className="px-4 py-3 whitespace-nowrap">
         <span className={`inline-block rounded-full border px-3 py-0.5 text-xs font-bold tracking-wide ${badgeClass}`}>
-          {user.role}
+          {roleLabel(user.role)}
         </span>
       </td>
       <td className="px-4 py-3 text-sm text-center whitespace-nowrap">

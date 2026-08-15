@@ -3,8 +3,7 @@ import { useParams, useNavigate } from 'react-router'
 import Layout from '../layout/Layout'
 import useFetch from '../../hooks/useFetch'
 import SmallClassCard from './SmallClassCard'
-
-const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+import { DAY_NAMES } from '../../utils/formatters'
 
 const formatTimeOfDay = (timeOfDay) => {
   if (!timeOfDay) return ''
@@ -38,10 +37,10 @@ const GymClassScheduleDetail = () => {
     return (
       <Layout>
         <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4 text-center">
-          <h1 className="text-2xl font-bold text-white">Schedule Not Found</h1>
-          <p className="text-zinc-400">The schedule you're looking for doesn't exist or was removed.</p>
+          <h1 className="text-2xl font-bold text-white">Horario no encontrado</h1>
+          <p className="text-zinc-400">El horario que buscás no existe o fue eliminado.</p>
           <button onClick={() => navigate('/classes')} className="text-blue-500 hover:underline">
-            ← Back to Classes
+            ← Volver a clases
           </button>
         </div>
       </Layout>
@@ -59,7 +58,7 @@ const GymClassScheduleDetail = () => {
     gymClasses
   } = scheduleData
 
-  const dayName = DAY_NAMES[dayOfWeek] ?? 'Unknown'
+  const dayName = DAY_NAMES[dayOfWeek] ?? 'Desconocido'
   const timeRange = formatTimeOfDay(timeOfDay)
 
   return (
@@ -69,7 +68,7 @@ const GymClassScheduleDetail = () => {
           onClick={() => navigate('/classes')}
           className="mb-8 flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white"
         >
-          <span>←</span> Back to Classes
+          <span>←</span> Volver a clases
         </button>
 
         <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-xl">
@@ -79,7 +78,7 @@ const GymClassScheduleDetail = () => {
             
             <div className="mb-4">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-blue-400">
-                {isWeekly ? 'Weekly Schedule' : 'Scheduled Class'}
+                {isWeekly ? 'Horario semanal' : 'Clase programada'}
               </span>
             </div>
 
@@ -88,7 +87,7 @@ const GymClassScheduleDetail = () => {
                 <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
                   {className}
                 </h1>
-                <p className="mt-2 text-lg text-zinc-400">{classDescription || 'No description provided.'}</p>
+                <p className="mt-2 text-lg text-zinc-400">{classDescription || 'Sin descripción.'}</p>
               </div>
             </div>
           </div>
@@ -113,22 +112,22 @@ const GymClassScheduleDetail = () => {
               </div>
 
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">When</h3>
+                <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">Cuándo</h3>
                 <p className="mt-2 font-medium text-white">
-                  {isWeekly ? 'Every ' : ''}{dayName}
+                  {isWeekly ? 'Todos los ' : ''}{dayName}
                 </p>
                 <p className="text-sm text-zinc-400">{timeRange}</p>
               </div>
 
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">Capacity</h3>
-                <p className="mt-2 font-medium text-white">{maxCapacity} spots per class</p>
+                <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">Capacidad</h3>
+                <p className="mt-2 font-medium text-white">{maxCapacity} lugares por clase</p>
               </div>
             </div>
 
             {/* Right Col: Instances */}
             <div className="sm:col-span-2">
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-zinc-500">Upcoming Sessions</h3>
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-zinc-500">Próximas sesiones</h3>
               {gymClasses && gymClasses.length > 0 ? (
                 <div className="flex flex-col gap-3">
                   {gymClasses.map((instance) => (
@@ -145,7 +144,7 @@ const GymClassScheduleDetail = () => {
                 </div>
               ) : (
                 <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-8 text-center">
-                  <p className="text-zinc-400">No upcoming sessions available for this schedule.</p>
+                  <p className="text-zinc-400">No hay próximas sesiones disponibles para este horario.</p>
                 </div>
               )}
             </div>

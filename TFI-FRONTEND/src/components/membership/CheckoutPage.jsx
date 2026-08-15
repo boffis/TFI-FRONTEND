@@ -70,7 +70,7 @@ const CheckoutPage = () => {
             membershipId: response?.membershipId,
             expirationDate: response?.expirationDate,
             membershipPlan: {
-              name: plan.type ?? plan.name ?? 'Membership Plan',
+              name: plan.type ?? plan.name ?? 'Plan de membresía',
               price: plan.price,
               durationInDays: plan.durationInDays,
             },
@@ -80,7 +80,7 @@ const CheckoutPage = () => {
         (error) => {
           const message =
             error?.message ??
-            'There was an error processing your payment. Please try again.';
+            'Hubo un error al procesar tu pago. Intentá de nuevo.';
           console.error('Payment error:', error);
           setErrorMsg(message);
           setPaymentStatus('error');
@@ -108,10 +108,10 @@ const CheckoutPage = () => {
             onClick={() => navigate('/memberships')}
             className="mb-4 text-sm font-semibold text-zinc-400 hover:text-white transition-colors flex items-center gap-2"
           >
-            ← Back to Plans
+            ← Volver a los planes
           </button>
           <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-            Secure Checkout
+            Pago seguro
           </h1>
         </div>
 
@@ -119,12 +119,12 @@ const CheckoutPage = () => {
           
           {/* Left Column: Order Summary */}
           <div className="lg:col-span-5 rounded-2xl bg-zinc-900 border border-zinc-800 p-8">
-            <h2 className="mb-6 text-xl font-bold text-white">Order Summary</h2>
+            <h2 className="mb-6 text-xl font-bold text-white">Resumen de la compra</h2>
             
             <div className="flex justify-between items-center mb-6">
               <div>
                 <p className="font-bold text-lg text-white uppercase">{plan.type}</p>
-                <p className="text-sm text-zinc-400">{plan.durationInDays} days access</p>
+                <p className="text-sm text-zinc-400">{plan.durationInDays} días de acceso</p>
               </div>
               <p className="text-2xl font-extrabold text-orange-500">
                 ${Number(plan.price).toFixed(2)}
@@ -135,13 +135,13 @@ const CheckoutPage = () => {
 
             <ul className="flex flex-col gap-3 text-sm text-zinc-400">
               <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span> Full gym access
+                <span className="text-orange-500">✓</span> Acceso completo al gimnasio
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span> Group classes included
+                <span className="text-orange-500">✓</span> Clases grupales incluidas
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span> Cancel anytime
+                <span className="text-orange-500">✓</span> Cancelá cuando quieras
               </li>
             </ul>
           </div>
@@ -155,8 +155,8 @@ const CheckoutPage = () => {
                   <div className="absolute h-16 w-16 animate-spin rounded-full border-4 border-zinc-700 border-t-orange-500" />
                 </div>
                 <div className="text-center">
-                  <p className="text-lg font-bold text-white">Processing payment…</p>
-                  <p className="mt-1 text-sm text-zinc-400">Please don't close this window.</p>
+                  <p className="text-lg font-bold text-white">Procesando el pago…</p>
+                  <p className="mt-1 text-sm text-zinc-400">No cierres esta ventana.</p>
                 </div>
               </div>
             ) : paymentStatus === 'success' ? (
@@ -167,15 +167,15 @@ const CheckoutPage = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h3 className="mb-2 text-2xl font-bold text-white">Payment Successful!</h3>
+                <h3 className="mb-2 text-2xl font-bold text-white">¡Pago exitoso!</h3>
                 <p className="text-sm text-green-300 mb-8 max-w-sm mx-auto">
-                  Your subscription is now active. You have full access to our facilities and classes.
+                  Tu suscripción ya está activa. Tenés acceso completo a nuestras instalaciones y clases.
                 </p>
                 <button
                   onClick={() => navigate('/account')}
                   className="rounded-xl bg-green-600 px-6 py-3 font-bold text-white transition-colors hover:bg-green-500 shadow-lg shadow-green-500/20"
                 >
-                  Go to Dashboard
+                  Ir a mi cuenta
                 </button>
               </div>
             ) : (

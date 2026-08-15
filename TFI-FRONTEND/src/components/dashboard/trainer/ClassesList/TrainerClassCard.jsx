@@ -17,7 +17,7 @@ const TrainerClassCard = ({ classData, trainerId, onUpdated }) => {
       `GymClass/${classData.gymClassId}/clients`,
       true,
       (data) => setClients(Array.isArray(data) ? data : []),
-      (err) => setClientsError(err?.message ?? 'Failed to load inscribed clients.')
+      (err) => setClientsError(err?.message ?? 'No se pudieron cargar los clientes inscriptos.')
     )
   }, [classData.gymClassId])
 
@@ -64,7 +64,7 @@ const TrainerClassCard = ({ classData, trainerId, onUpdated }) => {
               ? 'border-red-500/30 bg-red-500/10 text-red-400'
               : 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
         }`}>
-          {spacesLeft === null ? '—' : `${spacesLeft} / ${classData.maxCapacity} spots left`}
+          {spacesLeft === null ? '—' : `${spacesLeft} / ${classData.maxCapacity} lugares libres`}
         </span>
       </div>
 
@@ -72,18 +72,18 @@ const TrainerClassCard = ({ classData, trainerId, onUpdated }) => {
         <div className="mb-2 flex items-center gap-2">
           <FaUsers className="text-orange-500/70 text-xs" />
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
-            Attendance {clients ? `(${clients.length})` : ''}
+            Asistencia {clients ? `(${clients.length})` : ''}
           </p>
         </div>
 
         {loadingClients && !clients && (
-          <p className="text-sm text-zinc-600">Loading…</p>
+          <p className="text-sm text-zinc-600">Cargando…</p>
         )}
         {clientsError && (
           <p className="text-sm text-red-400">{clientsError}</p>
         )}
         {clients && clients.length === 0 && (
-          <p className="text-sm text-zinc-500">No clients inscribed yet.</p>
+          <p className="text-sm text-zinc-500">Todavía no hay clientes inscriptos.</p>
         )}
         {clients && clients.length > 0 && (
           <AttendanceRoster

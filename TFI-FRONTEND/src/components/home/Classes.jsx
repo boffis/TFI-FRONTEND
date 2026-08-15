@@ -36,7 +36,7 @@ const Section = ({ title, subtitle, children, isEmpty, emptyMsg }) => (
     {isEmpty ? (
       <div className="flex flex-col items-center gap-2 rounded-xl border border-zinc-800 py-16 text-center">
         <p className="text-base font-semibold text-zinc-400">{emptyMsg}</p>
-        <p className="text-sm text-zinc-600">Try a different search term or check back later.</p>
+        <p className="text-sm text-zinc-600">Probá con otra búsqueda o volvé a consultar más tarde.</p>
       </div>
     ) : (
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{children}</div>
@@ -96,18 +96,18 @@ const Classes = () => {
         {/* Page header */}
         <div className="mb-10">
           <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-orange-500">
-            Schedule
+            Cronograma
           </p>
-          <h1 className="text-4xl font-bold tracking-tight text-white">Browse Classes</h1>
+          <h1 className="text-4xl font-bold tracking-tight text-white">Ver clases</h1>
           <p className="mt-3 text-base text-zinc-400">
-            Find the perfect session, pick your trainer, and show up ready.
+            Encontrá la sesión ideal, elegí tu entrenador y vení con todo.
           </p>
         </div>
 
         {/* Search bar */}
         <div className="mb-10">
           <Search
-            entity="classes"
+            entity="clases"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -128,10 +128,10 @@ const Classes = () => {
           <>
             {/* ── Special Classes ── */}
             <Section
-              title="Special Classes"
-              subtitle="One-time sessions — book your spot before they fill up."
+              title="Clases especiales"
+              subtitle="Sesiones únicas: reservá tu lugar antes de que se llenen."
               isEmpty={filteredSpecial.length === 0}
-              emptyMsg="No special classes found"
+              emptyMsg="No se encontraron clases especiales"
             >
               {filteredSpecial.map((c) => (
                 <ClassCard
@@ -151,10 +151,10 @@ const Classes = () => {
 
             {/* ── Scheduled Classes ── */}
             <Section
-              title="Scheduled Classes"
-              subtitle="Recurring sessions available every week — join anytime."
+              title="Clases programadas"
+              subtitle="Sesiones recurrentes disponibles todas las semanas: sumate cuando quieras."
               isEmpty={filteredScheduled.length === 0}
-              emptyMsg="No scheduled classes found"
+              emptyMsg="No se encontraron clases programadas"
             >
               {filteredScheduled.map((c) => (
                 <ScheduledClassCard

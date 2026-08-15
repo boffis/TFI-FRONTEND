@@ -15,7 +15,7 @@ const TrainerSchedulesList = () => {
       'GymClassSchedule',
       true,
       (data) => setSchedules(Array.isArray(data) ? data : []),
-      (err) => setError(err?.message ?? 'Failed to load your schedules.')
+      (err) => setError(err?.message ?? 'No se pudieron cargar tus horarios.')
     )
   }, [])
 
@@ -39,7 +39,7 @@ const TrainerSchedulesList = () => {
     return (
       <div className="rounded-xl border border-red-500/30 bg-red-500/10 py-10 text-center">
         <p className="font-semibold text-red-400">{error}</p>
-        <p className="mt-1 text-sm text-zinc-500">Please try again later.</p>
+        <p className="mt-1 text-sm text-zinc-500">Intentá de nuevo más tarde.</p>
       </div>
     )
   }
@@ -47,8 +47,8 @@ const TrainerSchedulesList = () => {
   if (schedules.length === 0) {
     return (
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 py-16 text-center">
-        <p className="text-lg font-semibold text-zinc-300">No schedules assigned</p>
-        <p className="mt-1 text-sm text-zinc-500">You are not in charge of any recurring class schedules yet.</p>
+        <p className="text-lg font-semibold text-zinc-300">No tenés horarios asignados</p>
+        <p className="mt-1 text-sm text-zinc-500">Todavía no estás a cargo de ningún horario de clases recurrentes.</p>
       </div>
     )
   }

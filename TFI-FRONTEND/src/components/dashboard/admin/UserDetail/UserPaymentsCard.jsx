@@ -1,11 +1,82 @@
 import { FaCreditCard } from 'react-icons/fa'
-import { formatDateTime } from '../../../../utils/formatters'
+import { capitalizeWords, formatDateTime } from '../../../../utils/formatters'
 
-const METHOD_BADGE = {
-  Cash:        'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
-  Card:        'bg-blue-500/15 text-blue-400 border-blue-500/30',
-  Transfer:    'bg-purple-500/15 text-purple-400 border-purple-500/30',
+const TONE = {
+  green:  'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
+  blue:   'bg-blue-500/15 text-blue-400 border-blue-500/30',
+  sky:    'bg-sky-500/15 text-sky-400 border-sky-500/30',
+  purple: 'bg-purple-500/15 text-purple-400 border-purple-500/30',
+  orange: 'bg-orange-500/15 text-orange-400 border-orange-500/30',
+  red:    'bg-red-500/15 text-red-400 border-red-500/30',
+  grey:   'bg-zinc-700/30 text-zinc-400 border-zinc-600/30',
 }
+
+/**
+ * Payment method and state are stored verbatim, and the writers disagree on casing and
+ * vocabulary: MercadoPagoService writes "MercadoPago"/"pending" and the raw MP
+ * payment_method_id ("visa", "account_money"...), PaymentService writes "Mercado Pago"/"Pending",
+ * and the MP webhook writes its own lower-case status ("approved", "in_process", "rejected"...).
+ * So both sides of the lookup are normalised to lower case, the same way the backend does it for
+ * metrics (MetricsRepository.Normalise / MetricsService.IsRevenue). Spaces are stripped too, so
+ * "Mercado Pago" and "MercadoPago" land on the same key.
+ */
+const badgeKey = (value) => (value ?? '').toString().trim().toLowerCase().replace(/\s+/g, '')
+
+// [friendly label, tone]
+/**
+ * Only three things reach PaymentMethod today: the two literals, and a card payment_method_id.
+ * The card ids come from the CardPayment Brick (CheckoutPage → MercadoPagoService:332) and from
+ * the preapproval webhook (MercadoPagoService:632/647), both of which are card-funded — so the
+ * list below is cards only. Cash networks (rapipago, pagofacil) and wallet/transfer ids
+ * (account_money, cvu) belong to Checkout Pro, and that flow's webhook (ProcessWebhook) only
+ * ever touches PaymentState — the method stays "MercadoPago". If it ever starts writing
+ * mpPayment.PaymentMethodId the way the preapproval webhook does, add those ids here.
+ */
+const METHOD_BADGE = {
+  // Literals written by our own code paths. Only the label is Spanish — the key is the
+  // normalised wire value and must keep matching what the backend writes.
+  mercadopago:  ['Mercado Pago', TONE.sky],   // MercadoPagoService:151/647 and PaymentService:38
+  cash:         ['Efectivo', TONE.green],     // legacy — kept for hand-entered / pre-MP rows
+  card:         ['Tarjeta', TONE.blue],
+  transfer:     ['Transferencia', TONE.purple],
+  // Mercado Pago payment_method_id — credit cards
+  visa:         ['Visa', TONE.blue],
+  master:       ['Mastercard', TONE.blue],
+  amex:         ['Amex', TONE.blue],
+  naranja:      ['Naranja', TONE.blue],
+  cabal:        ['Cabal', TONE.blue],
+  diners:       ['Diners', TONE.blue],
+  argencard:    ['Argencard', TONE.blue],
+  cencosud:     ['Cencosud', TONE.blue],
+  cordobesa:    ['Cordobesa', TONE.blue],
+  tarshop:      ['Tarjeta Shopping', TONE.blue],
+  cmr:          ['CMR', TONE.blue],
+  // ...and debit cards
+  debvisa:      ['Visa Débito', TONE.blue],
+  debmaster:    ['Mastercard Débito', TONE.blue],
+  debcabal:     ['Cabal Débito', TONE.blue],
+  maestro:      ['Maestro', TONE.blue],
+}
+
+// Mercado Pago's payment status vocabulary, plus the success/failed the previous map assumed.
+const STATE_BADGE = {
+  approved:     ['Aprobado', TONE.green],
+  authorized:   ['Autorizado', TONE.green],
+  success:      ['Exitoso', TONE.green],
+  pending:      ['Pendiente', TONE.orange],
+  in_process:   ['En proceso', TONE.orange],
+  in_mediation: ['En mediación', TONE.orange],
+  rejected:     ['Rechazado', TONE.red],
+  cancelled:    ['Cancelado', TONE.red],
+  canceled:     ['Cancelado', TONE.red],
+  failed:       ['Fallido', TONE.red],
+  refunded:     ['Reembolsado', TONE.purple],
+  charged_back: ['Contracargo', TONE.purple],
+}
+
+/** Unknown values keep their raw text (tidied up) and fall back to the neutral grey badge. */
+const resolveBadge = (map, value) =>
+  map[badgeKey(value)] ?? [capitalizeWords((value ?? '').toString().replace(/_/g, ' ')), TONE.grey]
 
 const UserPaymentsCard = ({ payments }) => {
   if (!payments || payments.length === 0) {
@@ -13,9 +84,9 @@ const UserPaymentsCard = ({ payments }) => {
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6">
         <div className="mb-4 flex items-center gap-2">
           <FaCreditCard className="text-orange-500" />
-          <h2 className="text-lg font-bold text-white">Payments</h2>
+          <h2 className="text-lg font-bold text-white">Pagos</h2>
         </div>
-        <p className="text-sm text-zinc-500">No payments found.</p>
+        <p className="text-sm text-zinc-500">No se encontraron pagos.</p>
       </div>
     )
   }
@@ -28,7 +99,7 @@ const UserPaymentsCard = ({ payments }) => {
     <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 backdrop-blur-sm">
       <div className="mb-5 flex items-center gap-2">
         <FaCreditCard className="text-orange-500" />
-        <h2 className="text-lg font-bold text-white">Payments</h2>
+        <h2 className="text-lg font-bold text-white">Pagos</h2>
         <span className="ml-auto rounded-full bg-zinc-800 px-3 py-0.5 text-xs font-bold text-zinc-400">
           {payments.length}
         </span>
@@ -38,7 +109,7 @@ const UserPaymentsCard = ({ payments }) => {
         <table className="min-w-full text-sm">
           <thead>
             <tr className="border-b border-zinc-800 bg-zinc-900">
-              {['Price', 'Method', 'State', 'Date & Time'].map((h) => (
+              {['Precio', 'Método', 'Estado', 'Fecha y hora'].map((h) => (
                 <th key={h} className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-widest text-zinc-500">
                   {h}
                 </th>
@@ -47,27 +118,25 @@ const UserPaymentsCard = ({ payments }) => {
           </thead>
           <tbody>
             {sortedPayments.map((p) => {
-              const badgeClass = METHOD_BADGE[p.paymentMethod] ?? 'bg-zinc-700/30 text-zinc-400 border-zinc-600/30'
-
-              // We can style the state badge depending on what the string is
-              let stateBadgeClass = 'bg-zinc-700/30 text-zinc-400 border-zinc-600/30'
-              if (p.paymentState === 'Approved' || p.paymentState === 'Success') stateBadgeClass = 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
-              if (p.paymentState === 'Pending' || p.paymentState === 'In_Process') stateBadgeClass = 'bg-orange-500/15 text-orange-400 border-orange-500/30'
-              if (p.paymentState === 'Rejected' || p.paymentState === 'Cancelled' || p.paymentState === 'Failed') stateBadgeClass = 'bg-red-500/15 text-red-400 border-red-500/30'
-
+              const [methodLabel, methodBadgeClass] = resolveBadge(METHOD_BADGE, p.paymentMethod)
+              const [stateLabel, stateBadgeClass] = resolveBadge(STATE_BADGE, p.paymentState)
               const date = formatDateTime(p.paymentDate)
               return (
                 <tr key={p.paymentId} className="border-b border-zinc-800/60 hover:bg-zinc-800/30 transition-colors duration-150">
                   <td className="px-4 py-3 font-semibold text-emerald-400">${p.price?.toFixed(2)}</td>
                   <td className="px-4 py-3">
-                    <span className={`inline-block rounded-full border px-2.5 py-0.5 text-xs font-bold ${badgeClass}`}>
-                      {p.paymentMethod}
-                    </span>
+                    {p.paymentMethod ? (
+                      <span className={`inline-block rounded-full border px-2.5 py-0.5 text-xs font-bold ${methodBadgeClass}`}>
+                        {methodLabel}
+                      </span>
+                    ) : (
+                      <span className="text-zinc-500">—</span>
+                    )}
                   </td>
                   <td className="px-4 py-3">
                     {p.paymentState ? (
                       <span className={`inline-block rounded-full border px-2.5 py-0.5 text-xs font-bold ${stateBadgeClass}`}>
-                        {p.paymentState}
+                        {stateLabel}
                       </span>
                     ) : (
                       <span className="text-zinc-500">—</span>

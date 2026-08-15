@@ -101,18 +101,18 @@ const Register = () => {
         PhoneNumber: form.phone,
       },
       () => navigate('/register/success'),
-      (err) => setApiError(err.message || 'Something went wrong. Please try again.')
+      (err) => setApiError(err.message || 'Algo salió mal. Intentá de nuevo.')
     )
   }
 
   return (
     <Layout>
       <section className="mx-auto max-w-lg px-4 py-12 sm:px-6 sm:py-16">
-        <h1 className="text-3xl font-bold text-white">Create your account</h1>
+        <h1 className="text-3xl font-bold text-white">Creá tu cuenta</h1>
         <p className="mt-2 text-sm text-zinc-400">
-          Already have an account?{' '}
+          ¿Ya tenés cuenta?{' '}
           <Link to="/login" className="font-medium text-orange-500 hover:text-orange-400">
-            Log in
+            Iniciá sesión
           </Link>
         </p>
 
@@ -124,31 +124,31 @@ const Register = () => {
 
         <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-5">
 
-          <Field label="Email" id="email" error={errors.email}>
+          <Field label="Correo electrónico" id="email" error={errors.email}>
             <input
               id="email"
               name="email"
               type="email"
               value={form.email}
               onChange={handleChange}
-              placeholder="you@example.com"
+              placeholder="tucorreo@ejemplo.com"
               className={inputClass(errors.email)}
             />
           </Field>
-          
-          <Field label="Full name" id="fullName" error={errors.fullName}>
+
+          <Field label="Nombre completo" id="fullName" error={errors.fullName}>
             <input
               id="fullName"
               name="fullName"
               type="text"
               value={form.fullName}
               onChange={handleChange}
-              placeholder="John Doe"
+              placeholder="Juan Pérez"
               className={inputClass(errors.fullName)}
             />
           </Field>
 
-          <Field label="Date of birth" id="dateOfBirth" error={errors.dateOfBirth}>
+          <Field label="Fecha de nacimiento" id="dateOfBirth" error={errors.dateOfBirth}>
             <input
               id="dateOfBirth"
               name="dateOfBirth"
@@ -172,7 +172,7 @@ const Register = () => {
             />
           </Field>
 
-          <Field label="Gender" id="gender" error={errors.gender}>
+          <Field label="Género" id="gender" error={errors.gender}>
             <select
               id="gender"
               name="gender"
@@ -180,15 +180,15 @@ const Register = () => {
               onChange={handleChange}
               className={inputClass(errors.gender)}
             >
-              <option value="">Select gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-              <option value="Prefer not to say">Prefer not to say</option>
+              <option value="">Seleccioná tu género</option>
+              <option value="Male">Masculino</option>
+              <option value="Female">Femenino</option>
+              <option value="Other">Otro</option>
+              <option value="Prefer not to say">Prefiero no decirlo</option>
             </select>
           </Field>
 
-          <Field label="Phone number" id="phone" error={errors.phone}>
+          <Field label="Teléfono" id="phone" error={errors.phone}>
             <input
               id="phone"
               name="phone"
@@ -203,7 +203,7 @@ const Register = () => {
 
           
 
-          <Field label="Password" id="password" error={errors.password}>
+          <Field label="Contraseña" id="password" error={errors.password}>
             <input
               id="password"
               name="password"
@@ -215,7 +215,7 @@ const Register = () => {
             />
           </Field>
 
-          <Field label="Repeat password" id="repeatPassword" error={errors.repeatPassword}>
+          <Field label="Repetir contraseña" id="repeatPassword" error={errors.repeatPassword}>
             <input
               id="repeatPassword"
               name="repeatPassword"
@@ -232,7 +232,7 @@ const Register = () => {
             disabled={isLoading}
             className="w-full rounded-lg bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isLoading ? 'Creating account…' : 'Register'}
+            {isLoading ? 'Creando cuenta…' : 'Registrarme'}
           </button>
         </form>
       </section>

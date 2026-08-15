@@ -1,10 +1,10 @@
 import { FaUsers, FaDumbbell, FaClipboardList, FaChartBar } from 'react-icons/fa'
 
 const TABS = [
-  { id: 'users', label: 'Users', icon: FaUsers },
-  { id: 'classes', label: 'Classes', icon: FaDumbbell },
-  { id: 'plans', label: 'Plans', icon: FaClipboardList },
-  { id: 'metrics', label: 'Metrics', icon: FaChartBar },
+  { id: 'users', label: 'Usuarios', icon: FaUsers },
+  { id: 'classes', label: 'Clases', icon: FaDumbbell },
+  { id: 'plans', label: 'Planes', icon: FaClipboardList },
+  { id: 'metrics', label: 'Métricas', icon: FaChartBar },
 ]
 
 const DashboardNav = ({ activeTab, onTabChange }) => {
@@ -33,7 +33,7 @@ const DashboardNav = ({ activeTab, onTabChange }) => {
             {label}
             {disabled && (
               <span className="ml-1 rounded-full bg-zinc-800 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                Soon
+                Pronto
               </span>
             )}
           </button>

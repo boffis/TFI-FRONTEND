@@ -1,8 +1,8 @@
 import ClassInstanceTableRow from './ClassInstanceTableRow'
 
 const COLUMNS = [
-  'Class Name', 'Description', 'Trainer',
-  'Schedule Date', 'Capacity', 'Inscriptions', 'Is Special', 'Deleted',
+  'Nombre de la clase', 'Descripción', 'Entrenador',
+  'Fecha programada', 'Capacidad', 'Inscripciones', 'Especial', 'Eliminada',
 ]
 
 const SkeletonRow = () => (
@@ -40,7 +40,7 @@ const ClassInstanceTable = ({ instances, isLoading }) => (
         {!isLoading && instances.length === 0 && (
           <tr>
             <td colSpan={COLUMNS.length} className="px-4 py-16 text-center text-zinc-500">
-              No class instances match the current filters.
+              Ninguna clase coincide con los filtros actuales.
             </td>
           </tr>
         )}

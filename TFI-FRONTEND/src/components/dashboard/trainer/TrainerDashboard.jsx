@@ -19,13 +19,13 @@ const TrainerDashboard = () => {
         {/* Page header */}
         <div className="mb-8">
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-orange-500">
-            Trainer Panel
+            Panel de entrenador
           </p>
           <h1 className="text-4xl font-extrabold tracking-tight text-white">
-            Dashboard
+            Panel
           </h1>
           <p className="mt-2 text-sm text-zinc-500">
-            Manage your upcoming classes and the schedules you're in charge of.
+            Gestioná tus próximas clases y los horarios que tenés a cargo.
           </p>
         </div>
 

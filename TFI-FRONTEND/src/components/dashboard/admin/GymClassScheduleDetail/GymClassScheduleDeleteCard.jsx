@@ -23,7 +23,7 @@ const GymClassScheduleDeleteCard = ({ scheduleId, classNameStr }) => {
       true,
       () => navigate('/admin/dashboard'), // Go back to dashboard on success
       (err) => {
-        setError(err?.message ?? 'Delete failed.')
+        setError(err?.message ?? 'No se pudo eliminar el horario.')
         setConfirming(false)
       }
     )
@@ -33,7 +33,7 @@ const GymClassScheduleDeleteCard = ({ scheduleId, classNameStr }) => {
     <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-6">
       <div className="mb-3 flex items-center gap-2">
         <FaTrash className="text-red-400" />
-        <h2 className="text-base font-bold text-red-400">Danger Zone</h2>
+        <h2 className="text-base font-bold text-red-400">Zona de riesgo</h2>
       </div>
 
       {error && (
@@ -45,13 +45,13 @@ const GymClassScheduleDeleteCard = ({ scheduleId, classNameStr }) => {
       {!confirming ? (
         <>
           <p className="mb-4 text-xs text-zinc-500">
-            Permanently delete this schedule. You can optionally delete generated upcoming classes.
+            Eliminá este horario de forma permanente. Opcionalmente podés eliminar también las próximas clases generadas.
           </p>
           <button
             onClick={() => setConfirming(true)}
             className="w-full rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-2.5 text-sm font-bold text-red-400 hover:bg-red-500/20 hover:border-red-400 transition-all duration-200 cursor-pointer"
           >
-            Delete Schedule
+            Eliminar horario
           </button>
         </>
       ) : (
@@ -59,7 +59,7 @@ const GymClassScheduleDeleteCard = ({ scheduleId, classNameStr }) => {
           <div className="flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-2">
             <FaTriangleExclamation className="mt-0.5 shrink-0 text-amber-400" />
             <p className="text-xs text-amber-300">
-              Are you sure you want to delete the schedule <strong>{classNameStr}</strong>?
+              ¿Seguro que querés eliminar el horario <strong>{classNameStr}</strong>?
             </p>
           </div>
           
@@ -72,7 +72,7 @@ const GymClassScheduleDeleteCard = ({ scheduleId, classNameStr }) => {
                 className="h-4 w-4 rounded border-zinc-700 bg-zinc-900 text-red-500 focus:ring-red-500 focus:ring-offset-zinc-900"
              />
              <label htmlFor="deleteUpcoming" className="text-sm text-red-300 font-semibold cursor-pointer">
-                Also delete generated upcoming classes
+                Eliminar también las próximas clases generadas
              </label>
           </div>
 
@@ -80,8 +80,8 @@ const GymClassScheduleDeleteCard = ({ scheduleId, classNameStr }) => {
             <div className="flex items-start gap-2 rounded-xl border border-zinc-700 bg-zinc-800/50 px-3 py-2">
               <FaEnvelope className="mt-0.5 shrink-0 text-zinc-400" />
               <p className="text-xs text-zinc-400">
-                Everyone enrolled in an upcoming session will be emailed that it was cancelled.
-                This may take a moment.
+                A todos los inscriptos en una próxima sesión se les avisará por correo que fue
+                cancelada. Esto puede demorar un momento.
               </p>
             </div>
           )}
@@ -95,14 +95,14 @@ const GymClassScheduleDeleteCard = ({ scheduleId, classNameStr }) => {
               disabled={isLoading}
               className="flex-1 rounded-xl border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm font-semibold text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer disabled:opacity-50"
             >
-              Cancel
+              Cancelar
             </button>
             <button
               onClick={handleDelete}
               disabled={isLoading}
               className="flex-1 rounded-xl bg-red-600 px-3 py-2 text-sm font-bold text-white hover:bg-red-500 transition-all duration-200 cursor-pointer disabled:opacity-50"
             >
-              {isLoading ? 'Deleting…' : 'Yes, Delete'}
+              {isLoading ? 'Eliminando…' : 'Sí, eliminar'}
             </button>
           </div>
         </div>

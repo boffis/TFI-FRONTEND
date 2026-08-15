@@ -13,18 +13,9 @@ import {
   validateTimeOfDay,
 } from '../../../forms/classValidation'
 import { FaArrowLeft, FaCheckCircle, FaPlus } from 'react-icons/fa'
+import { DAY_OPTIONS } from '../../../../utils/formatters'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-
-const DAY_OPTIONS = [
-  { value: '0', label: 'Sunday' },
-  { value: '1', label: 'Monday' },
-  { value: '2', label: 'Tuesday' },
-  { value: '3', label: 'Wednesday' },
-  { value: '4', label: 'Thursday' },
-  { value: '5', label: 'Friday' },
-  { value: '6', label: 'Saturday' },
-]
 
 const EMPTY_FORM = {
   className: '',
@@ -93,7 +84,7 @@ const NewGymClassScheduleForm = () => {
         setCreatedName(form.className.trim())
         setSubmitted(true)
       },
-      err => setApiError(err?.message ?? 'Something went wrong. Please try again.')
+      err => setApiError(err?.message ?? 'Algo salió mal. Intentá de nuevo.')
     )
   }
 
@@ -119,19 +110,19 @@ const NewGymClassScheduleForm = () => {
           "
         >
           <FaArrowLeft className="text-xs" />
-          Back to Dashboard
+          Volver al panel
         </button>
 
         {/* Header */}
         <div className="mb-8">
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-orange-500">
-            Admin · Classes
+            Administración · Clases
           </p>
           <h1 className="text-3xl font-extrabold tracking-tight text-white">
-            New Class Schedule
+            Nuevo horario de clase
           </h1>
           <p className="mt-2 text-sm text-zinc-500">
-            Define a recurring or one-off schedule template for a gym class.
+            Definí una plantilla de horario recurrente o puntual para una clase.
           </p>
         </div>
 
@@ -140,9 +131,9 @@ const NewGymClassScheduleForm = () => {
           <div className="mb-6 flex items-start gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-5 py-4">
             <FaCheckCircle className="mt-0.5 flex-shrink-0 text-emerald-400 text-lg" />
             <div>
-              <p className="font-semibold text-emerald-400">Schedule created!</p>
+              <p className="font-semibold text-emerald-400">¡Horario creado!</p>
               <p className="mt-0.5 text-sm text-zinc-400">
-                <span className="font-medium text-white">"{createdName}"</span> was created successfully.
+                <span className="font-medium text-white">"{createdName}"</span> se creó correctamente.
               </p>
             </div>
           </div>
@@ -158,42 +149,42 @@ const NewGymClassScheduleForm = () => {
         {/* Trainer fetch error */}
         {trainerError && (
           <div className="mb-6 rounded-xl border border-amber-500/30 bg-amber-500/10 px-5 py-3 text-sm text-amber-400">
-            Could not load trainer list: {trainerError}
+            No se pudo cargar la lista de entrenadores: {trainerError}
           </div>
         )}
 
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
 
           {/* Class Name */}
-          <FormField label="Class Name" id="className" error={errors.className}>
+          <FormField label="Nombre de la clase" id="className" error={errors.className}>
             <input
               id="className"
               name="className"
               type="text"
               value={form.className}
               onChange={handleChange}
-              placeholder="e.g. Strength & Conditioning"
+              placeholder="ej. Fuerza y acondicionamiento"
               disabled={submitted}
               className={inputCls(!!errors.className)}
             />
           </FormField>
 
           {/* Description */}
-          <FormField label="Description (optional)" id="classDescription" error={errors.classDescription}>
+          <FormField label="Descripción (opcional)" id="classDescription" error={errors.classDescription}>
             <textarea
               id="classDescription"
               name="classDescription"
               rows={3}
               value={form.classDescription}
               onChange={handleChange}
-              placeholder="Brief description of the class…"
+              placeholder="Breve descripción de la clase…"
               disabled={submitted}
               className={`${inputCls(!!errors.classDescription)} resize-none`}
             />
           </FormField>
 
           {/* Max Capacity */}
-          <FormField label="Max Capacity" id="maxCapacity" error={errors.maxCapacity}>
+          <FormField label="Capacidad máxima" id="maxCapacity" error={errors.maxCapacity}>
             <input
               id="maxCapacity"
               name="maxCapacity"
@@ -201,14 +192,14 @@ const NewGymClassScheduleForm = () => {
               min={1}
               value={form.maxCapacity}
               onChange={handleChange}
-              placeholder="e.g. 20"
+              placeholder="ej. 20"
               disabled={submitted}
               className={inputCls(!!errors.maxCapacity)}
             />
           </FormField>
 
           {/* Trainer */}
-          <FormField label="Trainer" id="trainerId" error={errors.trainerId}>
+          <FormField label="Entrenador" id="trainerId" error={errors.trainerId}>
             <select
               id="trainerId"
               name="trainerId"
@@ -218,7 +209,7 @@ const NewGymClassScheduleForm = () => {
               className={inputCls(!!errors.trainerId)}
             >
               <option value="">
-                {isLoadingTrainers ? 'Loading trainers…' : 'Select a trainer'}
+                {isLoadingTrainers ? 'Cargando entrenadores…' : 'Seleccioná un entrenador'}
               </option>
               {trainers.map(t => (
                 <option key={t.userId} value={t.userId}>
@@ -230,7 +221,7 @@ const NewGymClassScheduleForm = () => {
 
           {/* Day + Time — side by side */}
           <div className="grid grid-cols-2 gap-4">
-            <FormField label="Day of Week" id="dayOfWeek" error={errors.dayOfWeek}>
+            <FormField label="Día de la semana" id="dayOfWeek" error={errors.dayOfWeek}>
               <select
                 id="dayOfWeek"
                 name="dayOfWeek"
@@ -245,7 +236,7 @@ const NewGymClassScheduleForm = () => {
               </select>
             </FormField>
 
-            <FormField label="Time of Day" id="timeOfDay" error={errors.timeOfDay}>
+            <FormField label="Hora" id="timeOfDay" error={errors.timeOfDay}>
               <input
                 id="timeOfDay"
                 name="timeOfDay"
@@ -271,10 +262,10 @@ const NewGymClassScheduleForm = () => {
             />
             <div>
               <label htmlFor="isWeekly" className="block text-sm font-medium text-zinc-200 cursor-pointer">
-                Repeats weekly
+                Se repite todas las semanas
               </label>
               <p className="text-xs text-zinc-500">
-                Uncheck for a one-off occurrence on the selected day.
+                Destildá esta opción para una única ocurrencia en el día seleccionado.
               </p>
             </div>
           </div>
@@ -292,7 +283,7 @@ const NewGymClassScheduleForm = () => {
                 transition-all duration-150
               "
             >
-              {isLoading ? 'Creating…' : 'Create Schedule'}
+              {isLoading ? 'Creando…' : 'Crear horario'}
             </button>
 
             {submitted && (
@@ -308,7 +299,7 @@ const NewGymClassScheduleForm = () => {
                 "
               >
                 <FaPlus className="text-xs" />
-                Create Another
+                Crear otro
               </button>
             )}
           </div>

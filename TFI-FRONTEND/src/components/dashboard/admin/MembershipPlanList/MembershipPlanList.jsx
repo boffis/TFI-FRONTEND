@@ -13,7 +13,7 @@ const SectionHeader = ({ title, subtitle, count, onAction, actionLabel }) => (
     <div className="flex items-center gap-3">
       {count != null && (
         <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs font-bold text-zinc-400">
-          {count} total
+          {count} en total
         </span>
       )}
       {onAction && (
@@ -25,7 +25,7 @@ const SectionHeader = ({ title, subtitle, count, onAction, actionLabel }) => (
           "
         >
           <FaPlus className="text-xs" />
-          {actionLabel ?? 'Create New'}
+          {actionLabel ?? 'Crear nuevo'}
         </button>
       )}
     </div>
@@ -43,24 +43,24 @@ const MembershipPlanList = () => {
       'membershipplan',
       true,
       data => setPlans(Array.isArray(data) ? data : []),
-      err => setError(err?.message ?? 'Failed to load membership plans.')
+      err => setError(err?.message ?? 'No se pudieron cargar los planes de membresía.')
     )
   }, [])
 
   return (
     <div>
       <SectionHeader
-        title="Membership Plans"
-        subtitle="Manage available membership plans and pricing."
+        title="Planes de membresía"
+        subtitle="Gestioná los planes de membresía disponibles y sus precios."
         count={!isLoading && !error ? plans.length : null}
         onAction={() => navigate('/admin/new/membershipplan')}
-        actionLabel="New Plan"
+        actionLabel="Nuevo plan"
       />
 
       {error && !isLoading && (
         <div className="rounded-xl border border-red-500/30 bg-red-500/10 py-10 text-center mb-10">
           <p className="font-semibold text-red-400">{error}</p>
-          <p className="mt-1 text-sm text-zinc-500">Please try again later.</p>
+          <p className="mt-1 text-sm text-zinc-500">Intentá de nuevo más tarde.</p>
         </div>
       )}
 

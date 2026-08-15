@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router'
-
-// C# DayOfWeek enum: Sunday=0, Monday=1, ..., Saturday=6
-const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+import { DAY_NAMES } from '../../utils/formatters'
 
 /**
  * Formats a C# TimeSpan string ("HH:mm:ss") into "HH:mm – HH:mm" (1-hour duration).
@@ -24,7 +22,7 @@ const ScheduledClassCard = ({
   isWeekly,
 }) => {
   const navigate = useNavigate()
-  const dayName = DAY_NAMES[dayOfWeek] ?? 'Unknown'
+  const dayName = DAY_NAMES[dayOfWeek] ?? 'Desconocido'
   const timeRange = formatTimeOfDay(timeOfDay)
 
   return (
@@ -37,7 +35,7 @@ const ScheduledClassCard = ({
 
       {/* Badge */}
       <span className="self-start rounded-full border border-blue-500/30 bg-blue-500/10 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-widest text-blue-400">
-        {isWeekly ? 'Weekly' : 'Scheduled'}
+        {isWeekly ? 'Semanal' : 'Programada'}
       </span>
 
       {/* Class name */}
@@ -71,7 +69,7 @@ const ScheduledClassCard = ({
           />
         </svg>
         <span>
-          {isWeekly ? 'Every ' : ''}{dayName}
+          {isWeekly ? 'Todos los ' : ''}{dayName}
           <span className="mx-1.5 text-zinc-600">·</span>
           {timeRange}
         </span>
@@ -93,12 +91,12 @@ const ScheduledClassCard = ({
             d="M17 20h5v-2a4 4 0 00-5.916-3.51M9 20H4v-2a4 4 0 015.916-3.51M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
           />
         </svg>
-        <span>Max {maxCapacity} spots</span>
+        <span>Máx. {maxCapacity} lugares</span>
       </div>
 
       {/* CTA hint */}
       <p className="mt-auto text-xs font-medium text-zinc-600 transition-colors group-hover:text-blue-400">
-        View details →
+        Ver detalles →
       </p>
     </article>
   )

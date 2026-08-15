@@ -1,8 +1,8 @@
 import { FaDumbbell, FaCalendarAlt } from 'react-icons/fa'
 
 const TABS = [
-  { id: 'classes', label: 'Upcoming Classes', icon: FaDumbbell },
-  { id: 'schedules', label: 'My Schedules', icon: FaCalendarAlt },
+  { id: 'classes', label: 'Próximas clases', icon: FaDumbbell },
+  { id: 'schedules', label: 'Mis horarios', icon: FaCalendarAlt },
 ]
 
 const TrainerDashboardNav = ({ activeTab, onTabChange }) => {

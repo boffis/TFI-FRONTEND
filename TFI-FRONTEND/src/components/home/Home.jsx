@@ -3,16 +3,16 @@ import Layout from '../layout/Layout'
 
 const features = [
   {
-    title: 'Modern Equipment',
-    description: 'Train with top-tier machines and free weights in a spacious facility.',
+    title: 'Equipamiento moderno',
+    description: 'Entrená con máquinas de primer nivel y peso libre en un espacio amplio.',
   },
   {
-    title: 'Expert Trainers',
-    description: 'Get guidance from certified coaches who help you reach your goals.',
+    title: 'Entrenadores expertos',
+    description: 'Contá con el acompañamiento de profesionales certificados que te ayudan a alcanzar tus objetivos.',
   },
   {
-    title: 'Group Classes',
-    description: 'Join HIIT, yoga, spinning, and more — something for every level.',
+    title: 'Clases grupales',
+    description: 'Sumate a HIIT, yoga, spinning y más: hay algo para cada nivel.',
   },
 ]
 
@@ -22,27 +22,27 @@ const Home = () => {
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
         <div className="max-w-2xl">
           <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-orange-500">
-            Welcome to high Level Performance
+            Bienvenido a High Level Performance
           </p>
           <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Push harder. Train smarter. Become stronger.
+            Exigite más. Entrená mejor. Volvete más fuerte.
           </h1>
           <p className="mt-6 text-lg text-zinc-400">
-            A gym built for people who show up. Flexible memberships, expert coaching,
-            and a community that keeps you motivated.
+            Un gimnasio pensado para los que están presentes. Membresías flexibles, entrenadores
+            expertos y una comunidad que te mantiene motivado.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
               to="/memberships"
               className="rounded-lg bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-600"
             >
-              Start your membership
+              Comenzá tu membresía
             </Link>
             <Link
               to="/classes"
               className="rounded-lg border border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-white"
             >
-              Browse classes
+              Ver clases
             </Link>
           </div>
         </div>

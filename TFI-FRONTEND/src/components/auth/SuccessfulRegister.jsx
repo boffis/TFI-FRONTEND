@@ -20,22 +20,22 @@ const SuccessfulRegister = () => {
           </svg>
         </div>
 
-        <h1 className="text-3xl font-bold text-white">Registration successful!</h1>
+        <h1 className="text-3xl font-bold text-white">¡Registro exitoso!</h1>
 
         <p className="mt-4 text-zinc-400 leading-relaxed">
-          Your account has been created. We&apos;ve sent a confirmation email to the address you
-          provided — please check your inbox and click the link to activate your account.
+          Tu cuenta fue creada. Enviamos un correo de confirmación a la dirección que indicaste:
+          revisá tu bandeja de entrada y hacé clic en el enlace para activar tu cuenta.
         </p>
 
         <p className="mt-2 text-sm text-zinc-500">
-          Can&apos;t find the email? Check your spam or junk folder.
+          ¿No encontrás el correo? Revisá la carpeta de spam o correo no deseado.
         </p>
 
         <Link
           to="/login"
           className="mt-10 inline-block rounded-lg bg-orange-500 px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-orange-600"
         >
-          Go to log in
+          Ir a iniciar sesión
         </Link>
       </section>
     </Layout>

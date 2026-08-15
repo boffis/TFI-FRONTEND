@@ -9,7 +9,7 @@ const formatSchedule = (schedule) => {
   const start = new Date(schedule)
   const end = new Date(start.getTime() + 60 * 60 * 1000)
 
-  const day = start.toLocaleDateString('en-US', {
+  const day = start.toLocaleDateString('es-AR', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
@@ -17,9 +17,9 @@ const formatSchedule = (schedule) => {
   })
 
   const fmt = (d) =>
-    d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })
+    d.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false })
 
-  return `${day} at ${fmt(start)} – ${fmt(end)}`
+  return `${day} a las ${fmt(start)} – ${fmt(end)}`
 }
 
 const hasActiveMembership = (user) =>
@@ -59,10 +59,10 @@ const GymClassDetail = () => {
     return (
       <Layout>
         <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4 text-center">
-          <h1 className="text-2xl font-bold text-white">Class Not Found</h1>
-          <p className="text-zinc-400">The class you're looking for doesn't exist or was removed.</p>
+          <h1 className="text-2xl font-bold text-white">Clase no encontrada</h1>
+          <p className="text-zinc-400">La clase que buscás no existe o fue eliminada.</p>
           <button onClick={() => navigate('/classes')} className="text-orange-500 hover:underline">
-            ← Back to Classes
+            ← Volver a clases
           </button>
         </div>
       </Layout>
@@ -88,7 +88,7 @@ const GymClassDetail = () => {
         `GymClass/${id}/leave/${currentUserId}`,
         true,
         () => fetchClass(),
-        (err) => setActionError(err?.message ?? 'Failed to leave class.')
+        (err) => setActionError(err?.message ?? 'No se pudo cancelar la inscripción.')
       )
     } else {
       post(
@@ -96,7 +96,7 @@ const GymClassDetail = () => {
         true,
         null,
         () => fetchClass(),
-        (err) => setActionError(err?.message ?? 'Failed to join class.')
+        (err) => setActionError(err?.message ?? 'No se pudo completar la inscripción.')
       )
     }
   }
@@ -108,7 +108,7 @@ const GymClassDetail = () => {
           onClick={() => navigate('/classes')}
           className="mb-8 flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white"
         >
-          <span>←</span> Back to Classes
+          <span>←</span> Volver a clases
         </button>
 
         <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-xl">
@@ -120,14 +120,14 @@ const GymClassDetail = () => {
                 <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
                   {className}
                 </h1>
-                <p className="mt-2 text-lg text-zinc-400">{classDescription || 'No description provided.'}</p>
+                <p className="mt-2 text-lg text-zinc-400">{classDescription || 'Sin descripción.'}</p>
               </div>
               <div className="flex flex-col items-start gap-3 sm:items-end">
                 <span className={`inline-flex rounded-full px-3 py-1 text-sm font-semibold uppercase tracking-widest ${isFull ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-green-500/10 text-green-400 border border-green-500/20'}`}>
-                  {isFull ? 'Waitlist Only' : 'Available'}
+                  {isFull ? 'Solo lista de espera' : 'Disponible'}
                 </span>
                 <span className="text-sm font-medium text-zinc-300">
-                  {currentInscriptions} / {maxCapacity} Spots Filled
+                  {currentInscriptions} / {maxCapacity} lugares ocupados
                 </span>
               </div>
             </div>
@@ -152,7 +152,7 @@ const GymClassDetail = () => {
               </div>
 
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">Schedule</h3>
+                <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">Horario</h3>
                 <p className="mt-2 font-medium text-white">{formatSchedule(schedule)}</p>
               </div>
             </div>
@@ -166,7 +166,7 @@ const GymClassDetail = () => {
 
               {isClient && !isJoined && !isMember && (
                 <p className="text-sm text-zinc-400">
-                  You need an active membership to book this class.
+                  Necesitás una membresía activa para reservar esta clase.
                 </p>
               )}
 
@@ -186,16 +186,16 @@ const GymClassDetail = () => {
                   }`}
               >
                 {!user
-                  ? 'Log in to Book'
+                  ? 'Iniciá sesión para reservar'
                   : !isClient
-                    ? 'Clients Only'
+                    ? 'Solo para clientes'
                     : isJoined
-                      ? 'Leave Class'
+                      ? 'Cancelar inscripción'
                       : !isMember
-                        ? 'Get a Membership'
+                        ? 'Obtener una membresía'
                         : isFull
-                          ? 'Class is Full'
-                          : 'Book Your Spot'}
+                          ? 'La clase está completa'
+                          : 'Reservar mi lugar'}
               </button>
             </div>
           </div>

@@ -33,7 +33,7 @@ export const Section = ({ title, subtitle, children }) => (
  * Generic table. `columns` entries are { key, label, align, render }.
  * Wrapped in an overflow-x container so narrow screens scroll the table, not the page.
  */
-export const DataTable = ({ columns, rows, rowKey, emptyMessage = 'No data yet.' }) => (
+export const DataTable = ({ columns, rows, rowKey, emptyMessage = 'Todavía no hay datos.' }) => (
   <div className="w-full overflow-x-auto rounded-xl border border-zinc-800">
     <table className="min-w-full text-sm">
       <thead>

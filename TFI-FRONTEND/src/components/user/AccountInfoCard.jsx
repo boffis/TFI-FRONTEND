@@ -2,9 +2,7 @@ import { useState, useContext } from 'react'
 import { FaPencil, FaCheck, FaXmark } from 'react-icons/fa6'
 import useFetch from '../../hooks/useFetch'
 import { AuthContext } from '../../services/authContext/AuthContext'
-import { capitalizeWords, capitalizeFirst } from '../../utils/formatters'
-
-const GENDER_OPTIONS = ['Male', 'Female', 'Other', 'Prefer not to say']
+import { capitalizeWords, genderLabel, roleLabel, GENDER_OPTIONS } from '../../utils/formatters'
 
 const ROLE_BADGE = {
   Client:  'bg-blue-500/15 text-blue-400 border-blue-500/30',
@@ -82,7 +80,7 @@ const AccountInfoCard = () => {
       true,
       body,
       () => {
-        setFeedback({ type: 'success', msg: 'Profile updated successfully.' })
+        setFeedback({ type: 'success', msg: 'Perfil actualizado correctamente.' })
         handleUpdateUser({
           name: form.name,
           gender: form.gender,
@@ -92,7 +90,7 @@ const AccountInfoCard = () => {
         setEditing(false)
       },
       (err) => {
-        setFeedback({ type: 'error', msg: err?.message ?? 'Update failed.' })
+        setFeedback({ type: 'error', msg: err?.message ?? 'No se pudo actualizar el perfil.' })
       }
     )
   }
@@ -106,9 +104,9 @@ const AccountInfoCard = () => {
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h2 className="text-lg font-bold text-white">Personal Information</h2>
+          <h2 className="text-lg font-bold text-white">Información personal</h2>
           <span className={`inline-block rounded-full border px-3 py-0.5 text-xs font-bold tracking-wide ${badgeClass}`}>
-            {user.role}
+            {roleLabel(user.role)}
           </span>
         </div>
 
@@ -118,7 +116,7 @@ const AccountInfoCard = () => {
             className="flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-300 hover:border-orange-500 hover:text-orange-400 transition-all duration-200 cursor-pointer"
           >
             <FaPencil className="text-xs" />
-            Edit
+            Editar
           </button>
         ) : (
           <div className="flex items-center gap-2">
@@ -128,7 +126,7 @@ const AccountInfoCard = () => {
               className="flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer disabled:opacity-50"
             >
               <FaXmark />
-              Cancel
+              Cancelar
             </button>
             <button
               onClick={handleSave}
@@ -136,7 +134,7 @@ const AccountInfoCard = () => {
               className="flex items-center gap-2 rounded-xl border border-orange-500 bg-orange-500 px-4 py-2 text-sm font-bold text-white hover:bg-orange-400 transition-all duration-200 cursor-pointer disabled:opacity-50"
             >
               <FaCheck />
-              {isLoading ? 'Saving…' : 'Save'}
+              {isLoading ? 'Guardando…' : 'Guardar'}
             </button>
           </div>
         )}
@@ -155,32 +153,32 @@ const AccountInfoCard = () => {
 
       {/* Fields */}
       <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-        <Field label="Email (Read-only)" value={user.email} />
-        <Field label="DNI (Read-only)" value={user.dni} />
-        <Field label="Date of Birth (Read-only)" value={user.dateOfBirth?.split('T')[0]} />
-        <Field label="Role" value={user.role} />
+        <Field label="Correo (solo lectura)" value={user.email} />
+        <Field label="DNI (solo lectura)" value={user.dni} />
+        <Field label="Fecha de nacimiento (solo lectura)" value={user.dateOfBirth?.split('T')[0]} />
+        <Field label="Rol" value={roleLabel(user.role)} />
       </div>
 
       <div className="my-6 border-t border-zinc-800/60" />
 
       {!editing ? (
         <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-          <Field label="Name" value={capitalizeWords(user.name)} />
-          <Field label="Gender" value={capitalizeFirst(user.gender)} />
-          <Field label="Phone" value={user.phoneNumber} />
+          <Field label="Nombre" value={capitalizeWords(user.name)} />
+          <Field label="Género" value={genderLabel(user.gender)} />
+          <Field label="Teléfono" value={user.phoneNumber} />
           {user.role === 'Trainer' && (
-            <Field label="Specialization" value={user.specialization} />
+            <Field label="Especialización" value={user.specialization} />
           )}
         </div>
       ) : (
         <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
-          <InputField label="Name" id="edit-name" value={form.name} onChange={setField('name')} />
-          <InputField label="Phone" id="edit-phone" value={form.phoneNumber} onChange={setField('phoneNumber')} />
+          <InputField label="Nombre" id="edit-name" value={form.name} onChange={setField('name')} />
+          <InputField label="Teléfono" id="edit-phone" value={form.phoneNumber} onChange={setField('phoneNumber')} />
 
           {/* Gender select */}
           <div>
             <label htmlFor="edit-gender" className="mb-1 block text-xs font-semibold uppercase tracking-widest text-zinc-500">
-              Gender
+              Género
             </label>
             <select
               id="edit-gender"
@@ -188,15 +186,15 @@ const AccountInfoCard = () => {
               onChange={(e) => setField('gender')(e.target.value)}
               className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500/40 transition-all duration-200 cursor-pointer"
             >
-              {GENDER_OPTIONS.map((g) => (
-                <option key={g} value={g}>{g}</option>
+              {GENDER_OPTIONS.map(({ value, label }) => (
+                <option key={value} value={value}>{label}</option>
               ))}
             </select>
           </div>
 
           {/* Specialization (only if Trainer) */}
           {user.role === 'Trainer' && (
-            <InputField label="Specialization (Trainer)" id="edit-specialization" value={form.specialization} onChange={setField('specialization')} />
+            <InputField label="Especialización (entrenador)" id="edit-specialization" value={form.specialization} onChange={setField('specialization')} />
           )}
         </div>
       )}

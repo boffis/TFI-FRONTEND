@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { FaUserShield } from 'react-icons/fa'
 import useFetch from '../../../../hooks/useFetch'
+import { roleLabel } from '../../../../utils/formatters'
 
+// Wire values — sent verbatim as the `newRole` query parameter, so they stay English.
 const ROLES = ['Client', 'Trainer', 'Admin']
 
 const ROLE_BADGE = {
@@ -24,10 +26,10 @@ const UserRoleCard = ({ userData, onUpdated }) => {
       true,
       null,
       () => {
-        setFeedback({ type: 'success', msg: `Role updated to ${selectedRole}.` })
+        setFeedback({ type: 'success', msg: `Rol actualizado a ${roleLabel(selectedRole)}.` })
         onUpdated()
       },
-      (err) => setFeedback({ type: 'error', msg: err?.message ?? 'Role change failed.' })
+      (err) => setFeedback({ type: 'error', msg: err?.message ?? 'No se pudo cambiar el rol.' })
     )
   }
 
@@ -37,7 +39,7 @@ const UserRoleCard = ({ userData, onUpdated }) => {
     <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 backdrop-blur-sm">
       <div className="mb-4 flex items-center gap-2">
         <FaUserShield className="text-orange-500" />
-        <h2 className="text-base font-bold text-white">Change Role</h2>
+        <h2 className="text-base font-bold text-white">Cambiar rol</h2>
       </div>
 
       {feedback && (
@@ -66,8 +68,8 @@ const UserRoleCard = ({ userData, onUpdated }) => {
                   : 'border-zinc-700 bg-zinc-800/50 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200'
                 }`}
             >
-              {role}
-              {isSelected && <span className="text-xs font-bold uppercase tracking-widest">✓ Selected</span>}
+              {roleLabel(role)}
+              {isSelected && <span className="text-xs font-bold uppercase tracking-widest">✓ Seleccionado</span>}
             </button>
           )
         })}
@@ -79,7 +81,7 @@ const UserRoleCard = ({ userData, onUpdated }) => {
         disabled={isLoading || selectedRole === userData.role}
         className="w-full rounded-xl bg-orange-500 px-4 py-2.5 text-sm font-bold text-white hover:bg-orange-400 transition-all duration-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
       >
-        {isLoading ? 'Updating…' : 'Confirm Role Change'}
+        {isLoading ? 'Actualizando…' : 'Confirmar cambio de rol'}
       </button>
     </div>
   )

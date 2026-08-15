@@ -1,17 +1,18 @@
 import { FaSearch, FaFilter } from 'react-icons/fa'
 import { FaCircleCheck, FaCircleXmark } from 'react-icons/fa6'
 
+// The `value` of each role is the wire value the API filters on — only the label is translated.
 const ROLE_OPTIONS = [
-  { value: '', label: 'All Roles' },
-  { value: 'Client', label: 'Client' },
-  { value: 'Trainer', label: 'Trainer' },
-  { value: 'Admin', label: 'Admin' },
+  { value: '', label: 'Todos los roles' },
+  { value: 'Client', label: 'Cliente' },
+  { value: 'Trainer', label: 'Entrenador' },
+  { value: 'Admin', label: 'Administrador' },
 ]
 
 const MEMBERSHIP_OPTIONS = [
-  { value: '', label: 'Any Status' },
-  { value: 'true', label: 'Active' },
-  { value: 'false', label: 'Inactive' },
+  { value: '', label: 'Cualquier estado' },
+  { value: 'true', label: 'Activa' },
+  { value: 'false', label: 'Inactiva' },
 ]
 
 const UserFilters = ({
@@ -28,7 +29,7 @@ const UserFilters = ({
       {/* Search */}
       <div className="flex-1 min-w-[200px]">
         <label htmlFor="user-search" className="block mb-1.5 text-xs font-semibold uppercase tracking-widest text-zinc-400">
-          Search
+          Buscar
         </label>
         <div className="relative">
           <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 text-sm pointer-events-none" />
@@ -37,7 +38,7 @@ const UserFilters = ({
             type="text"
             value={searchQuery}
             onChange={e => onSearchChange(e.target.value)}
-            placeholder="Name, email or DNI…"
+            placeholder="Nombre, correo o DNI…"
             className="
               w-full pl-9 pr-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700
               text-sm text-white placeholder-zinc-500
@@ -51,7 +52,7 @@ const UserFilters = ({
       {/* Role filter */}
       <div className="min-w-[150px]">
         <label htmlFor="role-filter" className="block mb-1.5 text-xs font-semibold uppercase tracking-widest text-zinc-400">
-          <span className="flex items-center gap-1.5"><FaFilter className="text-xs" /> Role</span>
+          <span className="flex items-center gap-1.5"><FaFilter className="text-xs" /> Rol</span>
         </label>
         <select
           id="role-filter"
@@ -80,7 +81,7 @@ const UserFilters = ({
                 ? <FaCircleXmark className="text-red-400 text-xs" />
                 : <FaCircleCheck className="text-zinc-500 text-xs" />
             }
-            Membership
+            Membresía
           </span>
         </label>
         <select

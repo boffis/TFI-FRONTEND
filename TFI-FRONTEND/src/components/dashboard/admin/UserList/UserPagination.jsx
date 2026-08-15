@@ -9,7 +9,7 @@ const UserPagination = ({ currentPage, totalItems, pageSize, onPageChange, onPag
     pageSize={pageSize}
     onPageChange={onPageChange}
     onPageSizeChange={onPageSizeChange}
-    itemLabel="users"
+    itemLabel="usuarios"
     idPrefix="user-pagination"
   />
 )

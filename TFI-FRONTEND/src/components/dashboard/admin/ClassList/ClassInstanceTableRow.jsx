@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router'
 import { FaCircleCheck, FaCircleXmark, FaStar } from 'react-icons/fa6'
 
-const BoolBadge = ({ value, trueLabel = 'Yes', falseLabel = 'No', trueColor = 'text-emerald-400', falseColor = 'text-red-400' }) =>
+const BoolBadge = ({ value, trueLabel = 'Sí', falseLabel = 'No', trueColor = 'text-emerald-400', falseColor = 'text-red-400' }) =>
   value
     ? <span className={`flex items-center gap-1.5 ${trueColor}`}><FaCircleCheck /> {trueLabel}</span>
     : <span className={`flex items-center gap-1.5 ${falseColor}`}><FaCircleXmark /> {falseLabel}</span>
@@ -13,7 +13,7 @@ const ClassInstanceTableRow = ({ instance }) => {
   const isSpecial = !instance.gymClassScheduleId
 
   const scheduleDate = instance.schedule
-    ? new Date(instance.schedule).toLocaleString('en-GB', {
+    ? new Date(instance.schedule).toLocaleString('es-AR', {
         day: '2-digit', month: 'short', year: 'numeric',
         hour: '2-digit', minute: '2-digit',
       })
@@ -51,13 +51,13 @@ const ClassInstanceTableRow = ({ instance }) => {
       </td>
       <td className="px-4 py-3 text-sm whitespace-nowrap">
         {isSpecial
-          ? <span className="flex items-center gap-1.5 text-amber-400"><FaStar /> Special</span>
+          ? <span className="flex items-center gap-1.5 text-amber-400"><FaStar /> Especial</span>
           : <span className="text-zinc-600">—</span>
         }
       </td>
       <td className="px-4 py-3 text-sm whitespace-nowrap">
         {instance.isClassDeleted
-          ? <span className="inline-block rounded-full border border-red-500/30 bg-red-500/10 px-3 py-0.5 text-xs font-bold text-red-400">Deleted</span>
+          ? <span className="inline-block rounded-full border border-red-500/30 bg-red-500/10 px-3 py-0.5 text-xs font-bold text-red-400">Eliminada</span>
           : <span className="text-zinc-600">—</span>
         }
       </td>

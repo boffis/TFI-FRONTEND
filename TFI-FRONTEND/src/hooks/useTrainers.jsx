@@ -15,7 +15,7 @@ const useTrainers = () => {
       'user/activeTrainers',
       true,
       (data) => setTrainers(Array.isArray(data) ? data : []),
-      (err) => setTrainerError(err?.message ?? 'Failed to load trainers.')
+      (err) => setTrainerError(err?.message ?? 'No se pudieron cargar los entrenadores.')
     )
   }, [])
 

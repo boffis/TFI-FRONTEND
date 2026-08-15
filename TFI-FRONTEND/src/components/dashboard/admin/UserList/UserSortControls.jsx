@@ -1,11 +1,11 @@
 import { FaSortAmountUp, FaSortAmountDown } from 'react-icons/fa'
 
 const SORT_FIELDS = [
-  { value: 'name',        label: 'Name' },
-  { value: 'email',       label: 'Email' },
-  { value: 'dateOfBirth', label: 'Date of Birth' },
-  { value: 'gender',      label: 'Gender' },
-  { value: 'role',        label: 'Role' },
+  { value: 'name',        label: 'Nombre' },
+  { value: 'email',       label: 'Correo' },
+  { value: 'dateOfBirth', label: 'Fecha de nacimiento' },
+  { value: 'gender',      label: 'Género' },
+  { value: 'role',        label: 'Rol' },
 ]
 
 const UserSortControls = ({ sortField, sortDirection, onSortFieldChange, onSortDirectionToggle }) => {
@@ -15,7 +15,7 @@ const UserSortControls = ({ sortField, sortDirection, onSortFieldChange, onSortD
       {/* Sort field */}
       <div className="min-w-[170px]">
         <label htmlFor="sort-field" className="block mb-1.5 text-xs font-semibold uppercase tracking-widest text-zinc-400">
-          Sort by
+          Ordenar por
         </label>
         <select
           id="sort-field"
@@ -38,7 +38,7 @@ const UserSortControls = ({ sortField, sortDirection, onSortFieldChange, onSortD
       <button
         id="sort-direction-toggle"
         onClick={onSortDirectionToggle}
-        title={sortDirection === 'asc' ? 'Ascending — click to switch' : 'Descending — click to switch'}
+        title={sortDirection === 'asc' ? 'Ascendente — hacé clic para cambiar' : 'Descendente — hacé clic para cambiar'}
         className="
           flex items-center gap-2 px-4 py-2.5 rounded-xl
           bg-zinc-900 border border-zinc-700 text-sm font-medium text-zinc-200
@@ -50,7 +50,7 @@ const UserSortControls = ({ sortField, sortDirection, onSortFieldChange, onSortD
           ? <FaSortAmountUp className="text-orange-400" />
           : <FaSortAmountDown className="text-orange-400" />
         }
-        {sortDirection === 'asc' ? 'Ascending' : 'Descending'}
+        {sortDirection === 'asc' ? 'Ascendente' : 'Descendente'}
       </button>
 
     </div>

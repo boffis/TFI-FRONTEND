@@ -16,9 +16,9 @@ const AccountInscriptionsCard = () => {
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6">
         <div className="mb-4 flex items-center gap-2">
           <FaDumbbell className="text-orange-500" />
-          <h2 className="text-lg font-bold text-white">My Classes</h2>
+          <h2 className="text-lg font-bold text-white">Mis clases</h2>
         </div>
-        <p className="text-sm text-zinc-500">You are not enrolled in any classes.</p>
+        <p className="text-sm text-zinc-500">No estás inscripto en ninguna clase.</p>
       </div>
     )
   }
@@ -35,7 +35,7 @@ const AccountInscriptionsCard = () => {
         setDeletingId(null)
       },
       (err) => {
-        setError(err?.message ?? 'Failed to leave class.')
+        setError(err?.message ?? 'No se pudo cancelar la inscripción.')
         setDeletingId(null)
       }
     )
@@ -45,7 +45,7 @@ const AccountInscriptionsCard = () => {
     <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 backdrop-blur-sm">
       <div className="mb-5 flex items-center gap-2">
         <FaDumbbell className="text-orange-500" />
-        <h2 className="text-lg font-bold text-white">My Classes</h2>
+        <h2 className="text-lg font-bold text-white">Mis clases</h2>
         <span className="ml-auto rounded-full bg-zinc-800 px-3 py-0.5 text-xs font-bold text-zinc-400">
           {inscriptions.length}
         </span>
@@ -66,7 +66,7 @@ const AccountInscriptionsCard = () => {
             <div>
               <div className="mb-1 flex items-center gap-2">
                 <FaDumbbell className="text-orange-500/70 text-xs" />
-                <span className="text-xs font-bold uppercase tracking-widest text-orange-500/80">Class</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-orange-500/80">Clase</span>
               </div>
               <p className="text-xs font-mono text-zinc-500 break-all">{ins.gymClassId}</p>
               <p className="mt-2 text-[10px] font-mono text-zinc-700 break-all">{ins.inscriptionId}</p>
@@ -77,7 +77,7 @@ const AccountInscriptionsCard = () => {
               className="mt-4 flex items-center justify-center gap-2 rounded-lg bg-zinc-800 py-1.5 text-xs font-semibold text-zinc-300 hover:bg-red-500/20 hover:text-red-400 transition-colors disabled:opacity-50 cursor-pointer"
             >
               <FaXmark />
-              {(isLoading && deletingId === ins.inscriptionId) ? 'Leaving...' : 'Leave Class'}
+              {(isLoading && deletingId === ins.inscriptionId) ? 'Cancelando...' : 'Cancelar inscripción'}
             </button>
           </div>
         ))}

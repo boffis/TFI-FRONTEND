@@ -23,13 +23,13 @@ const AdminDashboard = () => {
         {/* Page header */}
         <div className="mb-8">
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-orange-500">
-            Admin Panel
+            Panel de administración
           </p>
           <h1 className="text-4xl font-extrabold tracking-tight text-white">
-            Dashboard
+            Panel
           </h1>
           <p className="mt-2 text-sm text-zinc-500">
-            Monitor and manage all gym data from one place.
+            Controlá y gestioná todos los datos del gimnasio desde un solo lugar.
           </p>
         </div>
 

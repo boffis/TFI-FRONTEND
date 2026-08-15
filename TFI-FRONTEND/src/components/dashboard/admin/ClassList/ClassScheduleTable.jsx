@@ -1,8 +1,8 @@
 import ClassScheduleTableRow from './ClassScheduleTableRow'
 
 const COLUMNS = [
-  'Class Name', 'Description', 'Trainer',
-  'Day', 'Time', 'Capacity', 'Weekly', 'Active',
+  'Nombre de la clase', 'Descripción', 'Entrenador',
+  'Día', 'Hora', 'Capacidad', 'Semanal', 'Activo',
 ]
 
 const SkeletonRow = () => (
@@ -40,7 +40,7 @@ const ClassScheduleTable = ({ schedules, isLoading }) => (
         {!isLoading && schedules.length === 0 && (
           <tr>
             <td colSpan={COLUMNS.length} className="px-4 py-16 text-center text-zinc-500">
-              No schedules match the current filters.
+              Ningún horario coincide con los filtros actuales.
             </td>
           </tr>
         )}

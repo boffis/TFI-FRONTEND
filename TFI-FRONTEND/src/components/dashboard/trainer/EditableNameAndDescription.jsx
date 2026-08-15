@@ -23,7 +23,7 @@ const EditableNameAndDescription = ({ name, description, onSave, nameClassName =
   const save = () => {
     const trimmedName = draftName.trim()
     if (!trimmedName) {
-      setError('Name cannot be empty.')
+      setError('El nombre no puede estar vacío.')
       return
     }
     setSaving(true)
@@ -32,7 +32,7 @@ const EditableNameAndDescription = ({ name, description, onSave, nameClassName =
       if (success) {
         setEditing(false)
       } else {
-        setError(message ?? 'Failed to update.')
+        setError(message ?? 'No se pudo actualizar.')
       }
     })
   }
@@ -50,7 +50,7 @@ const EditableNameAndDescription = ({ name, description, onSave, nameClassName =
           className="flex shrink-0 items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-xs font-semibold text-zinc-300 hover:border-orange-500 hover:text-orange-400 transition-all duration-200 cursor-pointer"
         >
           <FaPencil className="text-[10px]" />
-          Edit
+          Editar
         </button>
       </div>
     )
@@ -60,7 +60,7 @@ const EditableNameAndDescription = ({ name, description, onSave, nameClassName =
     <div className="space-y-3">
       <div>
         <label htmlFor={`${idPrefix}-name`} className="mb-1 block text-xs font-semibold uppercase tracking-widest text-zinc-500">
-          Name
+          Nombre
         </label>
         <input
           id={`${idPrefix}-name`}
@@ -74,7 +74,7 @@ const EditableNameAndDescription = ({ name, description, onSave, nameClassName =
       </div>
       <div>
         <label htmlFor={`${idPrefix}-description`} className="mb-1 block text-xs font-semibold uppercase tracking-widest text-zinc-500">
-          Description
+          Descripción
         </label>
         <textarea
           id={`${idPrefix}-description`}
@@ -95,7 +95,7 @@ const EditableNameAndDescription = ({ name, description, onSave, nameClassName =
           className="flex items-center gap-2 rounded-xl border border-orange-500 bg-orange-500 px-4 py-1.5 text-xs font-bold text-white hover:bg-orange-400 transition-all duration-200 cursor-pointer disabled:opacity-50"
         >
           <FaCheck />
-          {saving ? 'Saving…' : 'Save'}
+          {saving ? 'Guardando…' : 'Guardar'}
         </button>
         <button
           onClick={cancel}
@@ -103,7 +103,7 @@ const EditableNameAndDescription = ({ name, description, onSave, nameClassName =
           className="flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-1.5 text-xs font-semibold text-zinc-400 hover:text-white transition-all duration-200 cursor-pointer disabled:opacity-50"
         >
           <FaXmark />
-          Cancel
+          Cancelar
         </button>
       </div>
     </div>
