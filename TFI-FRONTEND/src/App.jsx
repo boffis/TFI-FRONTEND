@@ -24,6 +24,7 @@ import UserGymClassDetail from './components/classes/GymClassDetail'
 import UserGymClassScheduleDetail from './components/classes/GymClassScheduleDetail'
 import ProtectedLogin from './components/protected/ProtectedLogin'
 import ProtectedStatus from './components/protected/ProtectedStatus'
+import NotFound from './components/shared/NotFound'
 
 function App() {
   initMercadoPago(import.meta.env.VITE_MERCADOPAGO_PUBLIC_KEY, { locale: 'es-AR' });
@@ -66,6 +67,8 @@ function App() {
             <Route path="/admin/membershipplan/:id" element={<MembershipPlanDetail />} />
           </Route>
         </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )
