@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { FaPencil, FaCheck, FaXmark } from 'react-icons/fa6'
+import { useNavigate } from 'react-router'
+import { FaPencil, FaCheck, FaXmark, FaCalendarDays } from 'react-icons/fa6'
 import useFetch from '../../../../hooks/useFetch'
 import useTrainers from '../../../../hooks/useTrainers'
 
@@ -26,6 +27,7 @@ const InputField = ({ label, id, type = 'text', value, onChange }) => (
 )
 
 const GymClassInfoCard = ({ classData, onUpdated }) => {
+  const navigate = useNavigate()
   const { put, isLoading } = useFetch()
   const { trainers, isLoadingTrainers, trainerError } = useTrainers()
 
@@ -141,7 +143,14 @@ const GymClassInfoCard = ({ classData, onUpdated }) => {
           </div>
           {classData.gymClassScheduleId && (
               <div className="sm:col-span-2">
-                 <Field label="Generada a partir del horario" value={classData.gymClassScheduleId} />
+                 <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-zinc-500">Generada a partir del horario</p>
+                 <button
+                   onClick={() => navigate(`/admin/gymclassschedule/${classData.gymClassScheduleId}`)}
+                   className="flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-300 hover:border-orange-500 hover:text-orange-400 transition-all duration-200 cursor-pointer"
+                 >
+                   <FaCalendarDays className="text-xs" />
+                   Ver horario de la clase
+                 </button>
               </div>
           )}
         </div>
