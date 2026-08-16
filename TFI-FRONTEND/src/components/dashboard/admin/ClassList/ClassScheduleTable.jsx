@@ -2,7 +2,7 @@ import ClassScheduleTableRow from './ClassScheduleTableRow'
 
 const COLUMNS = [
   'Nombre de la clase', 'Descripción', 'Entrenador',
-  'Día', 'Hora', 'Capacidad', 'Semanal', 'Activo',
+  'Día', 'Hora', 'Capacidad', 'Activo',
 ]
 
 const SkeletonRow = () => (

@@ -24,7 +24,6 @@ const EMPTY_FORM = {
   trainerId: '',
   dayOfWeek: '1',       // Monday default
   timeOfDay: '',
-  isWeekly: true,
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -78,7 +77,6 @@ const NewGymClassScheduleForm = () => {
         TrainerId:        form.trainerId,
         DayOfWeek:        Number(form.dayOfWeek),
         TimeOfDay:        form.timeOfDay + ':00',   // "HH:MM" → "HH:MM:SS"
-        IsWeekly:         form.isWeekly,
       },
       () => {
         setCreatedName(form.className.trim())
@@ -122,7 +120,7 @@ const NewGymClassScheduleForm = () => {
             Nuevo horario de clase
           </h1>
           <p className="mt-2 text-sm text-zinc-500">
-            Definí una plantilla de horario recurrente o puntual para una clase.
+            Definí una plantilla de horario semanal recurrente para una clase. Para una única ocurrencia, creá una clase puntual en su lugar.
           </p>
         </div>
 
@@ -247,27 +245,6 @@ const NewGymClassScheduleForm = () => {
                 className={inputCls(!!errors.timeOfDay)}
               />
             </FormField>
-          </div>
-
-          {/* Is Weekly toggle */}
-          <div className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-3">
-            <input
-              id="isWeekly"
-              name="isWeekly"
-              type="checkbox"
-              checked={form.isWeekly}
-              onChange={handleChange}
-              disabled={submitted}
-              className="h-4 w-4 rounded border-zinc-600 accent-orange-500 cursor-pointer"
-            />
-            <div>
-              <label htmlFor="isWeekly" className="block text-sm font-medium text-zinc-200 cursor-pointer">
-                Se repite todas las semanas
-              </label>
-              <p className="text-xs text-zinc-500">
-                Destildá esta opción para una única ocurrencia en el día seleccionado.
-              </p>
-            </div>
           </div>
 
           {/* Actions */}

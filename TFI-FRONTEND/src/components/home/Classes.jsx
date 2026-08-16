@@ -23,7 +23,6 @@ const normalizeScheduled = (item) => ({
   dayOfWeek: item.dayOfWeek,
   timeOfDay: item.timeOfDay,
   maxCapacity: item.maxCapacity,
-  isWeekly: item.isWeekly,
 })
 
 // ─── Section wrapper ──────────────────────────────────────────────────────────
@@ -166,7 +165,6 @@ const Classes = () => {
                   dayOfWeek={c.dayOfWeek}
                   timeOfDay={c.timeOfDay}
                   maxCapacity={c.maxCapacity}
-                  isWeekly={c.isWeekly}
                 />
               ))}
             </Section>

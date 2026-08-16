@@ -19,7 +19,6 @@ const ScheduledClassCard = ({
   dayOfWeek,
   timeOfDay,
   maxCapacity,
-  isWeekly,
 }) => {
   const navigate = useNavigate()
   const dayName = DAY_NAMES[dayOfWeek] ?? 'Desconocido'
@@ -35,7 +34,7 @@ const ScheduledClassCard = ({
 
       {/* Badge */}
       <span className="self-start rounded-full border border-blue-500/30 bg-blue-500/10 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-widest text-blue-400">
-        {isWeekly ? 'Semanal' : 'Programada'}
+        Semanal
       </span>
 
       {/* Class name */}
@@ -69,7 +68,7 @@ const ScheduledClassCard = ({
           />
         </svg>
         <span>
-          {isWeekly ? 'Todos los ' : ''}{dayName}
+          Todos los {dayName}
           <span className="mx-1.5 text-zinc-600">·</span>
           {timeRange}
         </span>

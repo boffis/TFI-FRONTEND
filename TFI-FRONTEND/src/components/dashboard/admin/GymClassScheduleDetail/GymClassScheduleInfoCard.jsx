@@ -46,7 +46,6 @@ const GymClassScheduleInfoCard = ({ scheduleData, onUpdated }) => {
     maxCapacity: scheduleData.maxCapacity ?? '',
     dayOfWeek: scheduleData.dayOfWeek ?? 0,
     timeOfDay: formatTimeForInput(scheduleData.timeOfDay),
-    isWeekly: scheduleData.isWeekly ?? true,
     trainerId: scheduleData.trainer?.trainerId ?? '',
   })
 
@@ -64,7 +63,6 @@ const GymClassScheduleInfoCard = ({ scheduleData, onUpdated }) => {
       maxCapacity: scheduleData.maxCapacity ?? '',
       dayOfWeek: scheduleData.dayOfWeek ?? 0,
       timeOfDay: formatTimeForInput(scheduleData.timeOfDay),
-      isWeekly: scheduleData.isWeekly ?? true,
       trainerId: scheduleData.trainer?.trainerId ?? '',
     })
     setFeedback(null)
@@ -82,7 +80,6 @@ const GymClassScheduleInfoCard = ({ scheduleData, onUpdated }) => {
         maxCapacity: Number(form.maxCapacity),
         dayOfWeek: Number(form.dayOfWeek),
         timeOfDay: form.timeOfDay + ':00', // pad back to "HH:mm:ss"
-        isWeekly: form.isWeekly,
         trainerId: form.trainerId,
       },
       () => {
@@ -147,7 +144,6 @@ const GymClassScheduleInfoCard = ({ scheduleData, onUpdated }) => {
           <Field label="Estado"              value={scheduleData.isActive ? 'Activo' : 'Inactivo'} />
           <Field label="Día de la semana"    value={DAY_NAMES[scheduleData.dayOfWeek]} />
           <Field label="Hora"                value={scheduleData.timeOfDay} />
-          <Field label="Es semanal"          value={scheduleData.isWeekly ? 'Sí' : 'No'} />
           <div className="sm:col-span-2">
               <Field label="Descripción"     value={scheduleData.classDescription} />
           </div>
@@ -195,20 +191,7 @@ const GymClassScheduleInfoCard = ({ scheduleData, onUpdated }) => {
           </div>
 
           <InputField label="Hora" id="edit-timeOfDay" type="time" value={form.timeOfDay} onChange={setField('timeOfDay')} />
-          
-          <div className="flex items-center gap-3 mt-5">
-             <input 
-                type="checkbox" 
-                id="edit-isWeekly"
-                checked={form.isWeekly}
-                onChange={(e) => setField('isWeekly')(e.target.checked)}
-                className="h-4 w-4 rounded border-zinc-700 bg-zinc-900 text-orange-500 focus:ring-orange-500 focus:ring-offset-zinc-900"
-             />
-             <label htmlFor="edit-isWeekly" className="text-sm text-zinc-200">
-                Es semanal (recurrente)
-             </label>
-          </div>
-          
+
           <div className="sm:col-span-2">
              <label htmlFor="edit-desc" className="mb-1 block text-xs font-semibold uppercase tracking-widest text-zinc-500">
                 Descripción

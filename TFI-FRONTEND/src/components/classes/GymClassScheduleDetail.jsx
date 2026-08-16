@@ -53,7 +53,6 @@ const GymClassScheduleDetail = () => {
     maxCapacity,
     dayOfWeek,
     timeOfDay,
-    isWeekly,
     trainer,
     gymClasses
   } = scheduleData
@@ -78,7 +77,7 @@ const GymClassScheduleDetail = () => {
             
             <div className="mb-4">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-blue-400">
-                {isWeekly ? 'Horario semanal' : 'Clase programada'}
+                Horario semanal
               </span>
             </div>
 
@@ -114,7 +113,7 @@ const GymClassScheduleDetail = () => {
               <div>
                 <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">Cuándo</h3>
                 <p className="mt-2 font-medium text-white">
-                  {isWeekly ? 'Todos los ' : ''}{dayName}
+                  Todos los {dayName}
                 </p>
                 <p className="text-sm text-zinc-400">{timeRange}</p>
               </div>

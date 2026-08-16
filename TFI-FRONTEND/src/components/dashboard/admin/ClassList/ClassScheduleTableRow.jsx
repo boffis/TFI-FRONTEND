@@ -45,9 +45,6 @@ const ClassScheduleTableRow = ({ schedule }) => {
       <td className="px-4 py-3 text-zinc-400 whitespace-nowrap">{timeLabel}</td>
       <td className="px-4 py-3 text-zinc-400 whitespace-nowrap text-center">{schedule.maxCapacity}</td>
       <td className="px-4 py-3 text-sm whitespace-nowrap">
-        <BoolBadge value={schedule.isWeekly} trueLabel="Semanal" falseLabel="Puntual" />
-      </td>
-      <td className="px-4 py-3 text-sm whitespace-nowrap">
         <BoolBadge value={schedule.isActive} trueLabel="Activo" falseLabel="Inactivo" />
       </td>
     </tr>

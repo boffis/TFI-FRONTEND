@@ -16,7 +16,6 @@ const TrainerScheduleCard = ({ scheduleData, trainerId, onUpdated }) => {
         maxCapacity: scheduleData.maxCapacity,
         dayOfWeek: scheduleData.dayOfWeek,
         timeOfDay: scheduleData.timeOfDay,
-        isWeekly: scheduleData.isWeekly,
         trainerId,
       },
       () => {
@@ -42,12 +41,10 @@ const TrainerScheduleCard = ({ scheduleData, trainerId, onUpdated }) => {
           <FaClock className="text-orange-500/70" />
           {DAY_NAMES[scheduleData.dayOfWeek]}, {scheduleData.timeOfDay?.slice(0, 5)}
         </span>
-        {scheduleData.isWeekly && (
-          <span className="flex items-center gap-2">
-            <FaRedo className="text-orange-500/70" />
-            Semanal
-          </span>
-        )}
+        <span className="flex items-center gap-2">
+          <FaRedo className="text-orange-500/70" />
+          Semanal
+        </span>
         <span className="flex items-center gap-2">
           <FaUsers className="text-orange-500/70" />
           Capacidad máxima: {scheduleData.maxCapacity}
