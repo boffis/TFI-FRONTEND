@@ -33,10 +33,20 @@ const EXACT = {
   'This client isn\'t enrolled in this class.': 'Este cliente no está inscripto en esta clase.',
   'This membership is already cancelled.': 'Esta membresía ya está cancelada.',
   'This trainer has been deactivated.': 'Este entrenador fue dado de baja.',
+  // MembershipService.EnsureNoConflictingMembershipAsync, admin wording (selfService: false)
+  'This user already has a membership awaiting activation. Activate or cancel it before creating a new one.':
+    'Este usuario ya tiene una membresía pendiente de activación. Activala o cancelala antes de crear una nueva.',
+  'This user already has an active membership. Change the plan on the existing membership, or cancel it before creating a new one.':
+    'Este usuario ya tiene una membresía activa. Cambiá el plan de la membresía existente, o cancelala antes de crear una nueva.',
   'Trainer not found, or the user doesn\'t have the Trainer role.':
     'No se encontró el entrenador, o el usuario no tiene el rol de Entrenador.',
   'User has no assigned role.': 'El usuario no tiene un rol asignado.',
   'User not authenticated.': 'Usuario no autenticado.',
+  // Same check, client wording (selfService: true) — what the checkout page shows on a 409
+  'You already have a membership awaiting activation. Cancel it from your account before subscribing to a new plan.':
+    'Ya tenés una membresía pendiente de activación. Cancelala desde tu cuenta antes de suscribirte a un nuevo plan.',
+  'You already have an active membership. Cancel it from your account before subscribing to a new plan.':
+    'Ya tenés una membresía activa. Cancelala desde tu cuenta antes de suscribirte a un nuevo plan.',
 
   // ── Attendance ──────────────────────────────────────────────────────────────
   'The attendance list contains an unrecognised status value.':

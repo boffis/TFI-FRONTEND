@@ -39,10 +39,25 @@
         })
     }
 
+    /**
+     * Subscribing again reuses the client's existing non-cancelled membership row on the backend
+     * (MercadoPagoService.CreateSubscriptionAsync) instead of inserting a new one, so the same
+     * membershipId comes back with the new plan. Replace that entry rather than appending —
+     * appending leaves a stale duplicate sharing one id, which only clears on the next login.
+     */
     const handleNewMembership = (membership) => {
         setUser((prevUser) => {
         if (!prevUser) return null
-        return { ...prevUser, memberships: [...(prevUser.memberships || []), membership] }
+        const memberships = prevUser.memberships || []
+        const isUpdate = membership.membershipId != null &&
+            memberships.some((m) => m.membershipId === membership.membershipId)
+
+        return {
+            ...prevUser,
+            memberships: isUpdate
+            ? memberships.map((m) => (m.membershipId === membership.membershipId ? membership : m))
+            : [...memberships, membership],
+        }
         })
     }
 

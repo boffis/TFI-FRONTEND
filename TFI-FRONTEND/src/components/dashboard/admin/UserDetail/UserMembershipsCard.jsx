@@ -80,7 +80,7 @@ const UserMembershipsCard = ({ memberships, allowCancel = false, isAdmin = false
       >
         <div className="mb-3 flex items-center justify-between">
           <span className="text-sm font-bold text-white">
-            {m.membershipPlan?.name ?? 'Plan de membresía'}
+            {m.membershipPlan?.type ?? 'Plan de membresía'}
           </span>
           {isCancelled
             ? <span className="flex items-center gap-1 text-xs font-semibold text-orange-400"><FaCircleXmark /> Cancelada</span>

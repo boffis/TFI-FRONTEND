@@ -8,7 +8,7 @@ import Layout from '../layout/Layout';
 const CheckoutPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { handleNewMembership } = useContext(AuthContext);
+  const { user, handleNewMembership, handleNewPayment } = useContext(AuthContext);
   const { post } = useFetch();
 
   const plan = location.state?.plan;
@@ -26,6 +26,22 @@ const CheckoutPage = () => {
   }, [plan, navigate]);
 
   if (!plan) return null;
+
+  /**
+   * A client may hold only one membership at a time. The backend is what enforces it —
+   * Payment/Subscribe answers 409 via MembershipService.EnsureNoConflictingMembershipAsync — but
+   * finding that out after typing in a card is a poor way to learn it, so the payment form is
+   * replaced by an explanation whenever the cached user already has one.
+   */
+  const existingMembership = (user?.memberships ?? []).find((m) => {
+    if (m.isCancelled) return false;
+    const expiration = new Date(m.expirationDate);
+    // A membership created but not yet activated carries DateTime.MinValue ("0001-01-01…"),
+    // which is in the past but is not an expired membership — it blocks a new one just the same.
+    const isPendingActivation =
+      Number.isNaN(expiration.getTime()) || expiration.getFullYear() <= 1;
+    return isPendingActivation || expiration > new Date();
+  });
 
   // ─── MP Brick config ─────────────────────────────────────────────────────────
 
@@ -66,15 +82,25 @@ const CheckoutPage = () => {
         (response) => {
           setPaymentStatus('success');
           setIsProcessing(false);
+          // Field-for-field what login serves for a membership (UserService:130), so the cached
+          // user matches a fresh sign-in — `type` is the plan name, there is no `name` on the wire.
           handleNewMembership({
             membershipId: response?.membershipId,
+            userId: user?.userId,
             expirationDate: response?.expirationDate,
+            isCancelled: false,
             membershipPlan: {
-              name: plan.type ?? plan.name ?? 'Plan de membresía',
+              membershipPlanId: plan.membershipPlanId,
+              type: plan.type,
               price: plan.price,
               durationInDays: plan.durationInDays,
             },
           });
+          // Subscribe also logs the (still pending) payment for this membership. Mirror it into
+          // the auth context so "Mis pagos" shows it right away instead of only after re-login.
+          if (response?.payment) {
+            handleNewPayment(response.payment);
+          }
           resolve();
         },
         (error) => {
@@ -177,6 +203,35 @@ const CheckoutPage = () => {
                 >
                   Ir a mi cuenta
                 </button>
+              </div>
+            ) : existingMembership ? (
+              /* Blocked: one membership at a time. Checked after the success branch above so the
+                 membership this page just created doesn't replace its own confirmation screen. */
+              <div className="rounded-2xl border border-orange-500/30 bg-orange-500/10 p-8 text-center flex flex-col items-center justify-center">
+                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-500/20 text-orange-400">
+                  <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                  </svg>
+                </div>
+                <h3 className="mb-2 text-2xl font-bold text-white">Ya tenés una membresía</h3>
+                <p className="text-sm text-orange-200/90 mb-8 max-w-sm mx-auto">
+                  Solo podés tener una membresía a la vez. Cancelá la actual desde tu cuenta y
+                  después volvé a elegir el plan que quieras.
+                </p>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <button
+                    onClick={() => navigate('/account')}
+                    className="rounded-xl bg-orange-500 px-6 py-3 font-bold text-white transition-colors hover:bg-orange-400 shadow-lg shadow-orange-500/20"
+                  >
+                    Ir a mi cuenta
+                  </button>
+                  <button
+                    onClick={() => navigate('/memberships')}
+                    className="rounded-xl border border-zinc-700 px-6 py-3 font-bold text-zinc-200 transition-colors hover:border-zinc-500 hover:text-white"
+                  >
+                    Volver a los planes
+                  </button>
+                </div>
               </div>
             ) : (
               /* Payment form */
