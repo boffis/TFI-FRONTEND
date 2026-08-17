@@ -1,6 +1,6 @@
 import { FaSortAmountUp, FaSortAmountDown } from 'react-icons/fa'
 
-const ClassSortControls = ({
+const SortControls = ({
   fields,
   sortField,
   sortDirection,
@@ -56,4 +56,4 @@ const ClassSortControls = ({
   )
 }
 
-export default ClassSortControls
+export default SortControls

@@ -1,7 +1,58 @@
 import { useContext, useEffect, useMemo, useState } from 'react'
 import useFetch from '../../../../hooks/useFetch'
 import { AuthContext } from '../../../../services/authContext/AuthContext'
+import SortControls from '../../../shared/SortControls'
+import Pagination from '../../../shared/Pagination'
 import TrainerClassCard from './TrainerClassCard'
+import TrainerClassFilters from './TrainerClassFilters'
+
+const DEFAULT_PAGE_SIZE = 10
+
+const SORT_FIELDS = [
+  { value: 'schedule',    label: 'Fecha programada' },
+  { value: 'className',   label: 'Nombre de la clase' },
+  { value: 'maxCapacity', label: 'Capacidad' },
+]
+
+// Reading order that makes sense for each period: upcoming classes read soonest-first, while
+// past ones are consulted newest-first — that's where attendance still needs to be recorded.
+const NATURAL_DIRECTION = { future: 'asc', past: 'desc', '': 'asc' }
+
+const EMPTY_STATES = {
+  future: {
+    title: 'No hay clases próximas',
+    hint: 'No tenés clases programadas a futuro.',
+  },
+  past: {
+    title: 'No hay clases pasadas',
+    hint: 'Todavía no diste ninguna clase.',
+  },
+  '': {
+    title: 'No tenés clases',
+    hint: 'Todavía no hay clases asignadas a tu nombre.',
+  },
+}
+
+const compareValues = (a, b, field, direction) => {
+  let valA = a[field] ?? ''
+  let valB = b[field] ?? ''
+
+  if (field === 'schedule') {
+    valA = valA ? new Date(valA).getTime() : 0
+    valB = valB ? new Date(valB).getTime() : 0
+    return direction === 'asc' ? valA - valB : valB - valA
+  }
+
+  if (typeof valA === 'number' && typeof valB === 'number') {
+    return direction === 'asc' ? valA - valB : valB - valA
+  }
+
+  valA = String(valA).toLowerCase()
+  valB = String(valB).toLowerCase()
+  if (valA < valB) return direction === 'asc' ? -1 : 1
+  if (valA > valB) return direction === 'asc' ? 1 : -1
+  return 0
+}
 
 const TrainerClassesList = () => {
   const { user } = useContext(AuthContext)
@@ -9,6 +60,13 @@ const TrainerClassesList = () => {
 
   const [classes, setClasses] = useState([])
   const [error, setError] = useState(null)
+
+  const [search, setSearch]       = useState('')
+  const [timeFrame, setTimeFrame] = useState('')
+  const [sortField, setSortField] = useState('schedule')
+  const [sortDir, setSortDir]     = useState('asc')
+  const [page, setPage]           = useState(1)
+  const [pageSize, setPageSize]   = useState(DEFAULT_PAGE_SIZE)
 
   useEffect(() => {
     if (!user?.userId) return
@@ -20,12 +78,33 @@ const TrainerClassesList = () => {
     )
   }, [user?.userId])
 
-  const upcomingClasses = useMemo(() => {
-    const now = Date.now()
-    return classes
-      .filter((c) => new Date(c.schedule).getTime() > now)
-      .sort((a, b) => new Date(a.schedule) - new Date(b.schedule))
-  }, [classes])
+  // Switching period re-orients the list; the direction toggle still overrides it afterwards.
+  const handleTimeFrameChange = (value) => {
+    setTimeFrame(value)
+    setSortDir(sortField === 'schedule' ? NATURAL_DIRECTION[value] : sortDir)
+    setPage(1)
+  }
+
+  const filteredClasses = useMemo(() => {
+    let list = [...classes]
+
+    if (search.trim()) {
+      const q = search.trim().toLowerCase()
+      list = list.filter((c) => c.className?.toLowerCase().includes(q))
+    }
+    // `hasStarted` is computed by the API against the gym's own time zone — comparing `schedule`
+    // against the browser clock here would disagree with it for anyone in another zone.
+    if (timeFrame === 'future') list = list.filter((c) => !c.hasStarted)
+    if (timeFrame === 'past')   list = list.filter((c) => c.hasStarted)
+
+    list.sort((a, b) => compareValues(a, b, sortField, sortDir))
+    return list
+  }, [classes, search, timeFrame, sortField, sortDir])
+
+  const totalPages = Math.max(1, Math.ceil(filteredClasses.length / pageSize))
+  const safePage   = Math.min(page, totalPages)
+  const start      = (safePage - 1) * pageSize
+  const currentClasses = filteredClasses.slice(start, start + pageSize)
 
   const handleUpdated = (gymClassId, patch) => {
     setClasses((prev) => prev.map((c) => (c.gymClassId === gymClassId ? { ...c, ...patch } : c)))
@@ -50,25 +129,57 @@ const TrainerClassesList = () => {
     )
   }
 
-  if (upcomingClasses.length === 0) {
-    return (
-      <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 py-16 text-center">
-        <p className="text-lg font-semibold text-zinc-300">No hay clases próximas</p>
-        <p className="mt-1 text-sm text-zinc-500">No tenés clases programadas a futuro.</p>
-      </div>
-    )
-  }
+  const emptyState = search.trim()
+    ? { title: 'Sin resultados', hint: 'Ninguna clase coincide con tu búsqueda.' }
+    : EMPTY_STATES[timeFrame]
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
-      {upcomingClasses.map((cls) => (
-        <TrainerClassCard
-          key={cls.gymClassId}
-          classData={cls}
-          trainerId={user.userId}
-          onUpdated={handleUpdated}
-        />
-      ))}
+    <div>
+      <TrainerClassFilters
+        searchQuery={search}
+        onSearchChange={(v) => { setSearch(v); setPage(1) }}
+        timeFrameFilter={timeFrame}
+        onTimeFrameChange={handleTimeFrameChange}
+      />
+
+      <SortControls
+        fields={SORT_FIELDS}
+        sortField={sortField}
+        sortDirection={sortDir}
+        onSortFieldChange={(v) => { setSortField(v); setPage(1) }}
+        onSortDirectionToggle={() => { setSortDir((d) => (d === 'asc' ? 'desc' : 'asc')); setPage(1) }}
+        idPrefix="trainer-class"
+      />
+
+      {filteredClasses.length === 0 ? (
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 py-16 text-center">
+          <p className="text-lg font-semibold text-zinc-300">{emptyState.title}</p>
+          <p className="mt-1 text-sm text-zinc-500">{emptyState.hint}</p>
+        </div>
+      ) : (
+        <>
+          <div className="grid gap-6 lg:grid-cols-2">
+            {currentClasses.map((cls) => (
+              <TrainerClassCard
+                key={cls.gymClassId}
+                classData={cls}
+                trainerId={user.userId}
+                onUpdated={handleUpdated}
+              />
+            ))}
+          </div>
+
+          <Pagination
+            currentPage={safePage}
+            totalItems={filteredClasses.length}
+            pageSize={pageSize}
+            onPageChange={setPage}
+            onPageSizeChange={setPageSize}
+            itemLabel="clases"
+            idPrefix="trainer-class-pagination"
+          />
+        </>
+      )}
     </div>
   )
 }

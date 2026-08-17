@@ -1,7 +1,7 @@
 import { FaDumbbell, FaCalendarAlt } from 'react-icons/fa'
 
 const TABS = [
-  { id: 'classes', label: 'Próximas clases', icon: FaDumbbell },
+  { id: 'classes', label: 'Mis clases', icon: FaDumbbell },
   { id: 'schedules', label: 'Mis horarios', icon: FaCalendarAlt },
 ]
 

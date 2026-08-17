@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router'
 import { FaPlus, FaCheckCircle, FaTimesCircle } from 'react-icons/fa'
 import useFetch from '../../../../hooks/useFetch'
 import ClassFilters from './ClassFilters'
-import ClassSortControls from './ClassSortControls'
+import SortControls from '../../../shared/SortControls'
 import ClassScheduleTable from './ClassScheduleTable'
 import ClassInstanceTable from './ClassInstanceTable'
 import Pagination from '../../../shared/Pagination'
@@ -147,7 +147,7 @@ const ClassList = () => {
       'gymclassschedule',
       true,
       data => setAllSchedules(Array.isArray(data) ? data : []),
-      err  => setScheduleError(err?.message ?? 'No se pudieron cargar los horarios de clases.')
+      err  => setScheduleError(err?.message ?? 'No se pudieron cargar la clases programadas.')
     )
   }, [])
 
@@ -265,7 +265,7 @@ const ClassList = () => {
 
       {/* ── CLASS SCHEDULES ── */}
       <SectionHeader
-        title="Horarios de clases"
+        title="clases programadas"
         subtitle="Plantillas de horarios recurrentes y puntuales."
         count={!loadingSchedules && !scheduleError ? allSchedules.length : null}
         onAction={() => navigate('/admin/new/gymclassschedule')}
@@ -291,7 +291,7 @@ const ClassList = () => {
             dayFilter={schedDay}
             onDayChange={v => { setSchedDay(v); setSchedPage(1) }}
           />
-          <ClassSortControls
+          <SortControls
             fields={SCHEDULE_SORT_FIELDS}
             sortField={schedSort}
             sortDirection={schedDir}
@@ -347,7 +347,7 @@ const ClassList = () => {
             timeFrameFilter={instTimeFrame}
             onTimeFrameChange={v => { setInstTimeFrame(v); setInstPage(1) }}
           />
-          <ClassSortControls
+          <SortControls
             fields={INSTANCE_SORT_FIELDS}
             sortField={instSort}
             sortDirection={instDir}

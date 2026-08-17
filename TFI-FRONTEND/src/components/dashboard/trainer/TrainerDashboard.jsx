@@ -25,7 +25,7 @@ const TrainerDashboard = () => {
             Panel
           </h1>
           <p className="mt-2 text-sm text-zinc-500">
-            Gestioná tus próximas clases y los horarios que tenés a cargo.
+            Gestioná tus clases, registrá la asistencia y revisá los horarios que tenés a cargo.
           </p>
         </div>
 
