@@ -265,7 +265,7 @@ const ClassList = () => {
 
       {/* ── CLASS SCHEDULES ── */}
       <SectionHeader
-        title="clases programadas"
+        title="Clases programadas"
         subtitle="Plantillas de horarios recurrentes y puntuales."
         count={!loadingSchedules && !scheduleError ? allSchedules.length : null}
         onAction={() => navigate('/admin/new/gymclassschedule')}

@@ -70,7 +70,10 @@ const GymClassInfoCard = ({ classData, onUpdated }) => {
         className: form.className.trim(),
         classDescription: form.classDescription.trim() || null,
         maxCapacity: Number(form.maxCapacity),
-        schedule: new Date(form.schedule).toISOString(),
+        // Wall clock, not an instant — same as NewGymClassForm. The form is seeded by slicing
+        // the API value (line 41), so converting on the way out shifted the class 3 hours later
+        // on every save, even when the admin never touched the field.
+        schedule: form.schedule,
       },
       () => {
         setFeedback({ type: 'success', msg: 'Clase actualizada correctamente.' })

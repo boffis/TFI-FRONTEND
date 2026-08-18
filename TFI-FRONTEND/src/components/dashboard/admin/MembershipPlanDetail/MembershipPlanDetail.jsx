@@ -67,9 +67,22 @@ const MembershipPlanDetail = () => {
               <p className="mb-1 text-xs font-bold uppercase tracking-widest text-orange-500">
                 Plan de membresía
               </p>
-              <h1 className="text-4xl font-extrabold tracking-tight text-white">
-                {planData.type || 'Plan sin nombre'}
-              </h1>
+              <div className="flex flex-wrap items-center gap-3">
+                <h1 className="text-4xl font-extrabold tracking-tight text-white">
+                  {planData.type || 'Plan sin nombre'}
+                </h1>
+                {planData.isDeleted && (
+                  <span className="rounded-full border border-zinc-600 bg-zinc-800 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                    Discontinuado
+                  </span>
+                )}
+              </div>
+              {planData.isDeleted && (
+                <p className="mt-2 text-sm text-zinc-400">
+                  Este plan ya no se ofrece ni se puede asignar. Las membresías que seguían activas
+                  no se renuevan y vencen en su fecha original.
+                </p>
+              )}
               <p className="mt-1 text-sm text-zinc-500">
                 ID: <span className="font-mono text-zinc-400">{planData.membershipPlanId}</span>
               </p>
@@ -81,7 +94,12 @@ const MembershipPlanDetail = () => {
                 <MembershipPlanInfoCard planData={planData} onUpdated={loadPlan} />
               </div>
               <div className="flex flex-col gap-6">
-                <MembershipPlanDeleteCard planId={id} planName={planData.type} />
+                <MembershipPlanDeleteCard
+                  planId={id}
+                  planName={planData.type}
+                  isDiscontinued={planData.isDeleted}
+                  onRestored={loadPlan}
+                />
               </div>
             </div>
 

@@ -63,6 +63,7 @@ const TrainerClassesList = () => {
 
   const [search, setSearch]       = useState('')
   const [timeFrame, setTimeFrame] = useState('')
+  const [special, setSpecial]     = useState('')
   const [sortField, setSortField] = useState('schedule')
   const [sortDir, setSortDir]     = useState('asc')
   const [page, setPage]           = useState(1)
@@ -96,10 +97,14 @@ const TrainerClassesList = () => {
     // against the browser clock here would disagree with it for anyone in another zone.
     if (timeFrame === 'future') list = list.filter((c) => !c.hasStarted)
     if (timeFrame === 'past')   list = list.filter((c) => c.hasStarted)
+    // A class with no `gymClassScheduleId` was created on its own rather than generated from a
+    // recurring schedule — that's what makes it "special".
+    if (special === 'true')  list = list.filter((c) => !c.gymClassScheduleId)
+    if (special === 'false') list = list.filter((c) => !!c.gymClassScheduleId)
 
     list.sort((a, b) => compareValues(a, b, sortField, sortDir))
     return list
-  }, [classes, search, timeFrame, sortField, sortDir])
+  }, [classes, search, timeFrame, special, sortField, sortDir])
 
   const totalPages = Math.max(1, Math.ceil(filteredClasses.length / pageSize))
   const safePage   = Math.min(page, totalPages)
@@ -129,8 +134,8 @@ const TrainerClassesList = () => {
     )
   }
 
-  const emptyState = search.trim()
-    ? { title: 'Sin resultados', hint: 'Ninguna clase coincide con tu búsqueda.' }
+  const emptyState = search.trim() || special !== ''
+    ? { title: 'Sin resultados', hint: 'Ninguna clase coincide con los filtros aplicados.' }
     : EMPTY_STATES[timeFrame]
 
   return (
@@ -140,6 +145,8 @@ const TrainerClassesList = () => {
         onSearchChange={(v) => { setSearch(v); setPage(1) }}
         timeFrameFilter={timeFrame}
         onTimeFrameChange={handleTimeFrameChange}
+        specialFilter={special}
+        onSpecialChange={(v) => { setSpecial(v); setPage(1) }}
       />
 
       <SortControls

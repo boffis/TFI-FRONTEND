@@ -1,5 +1,11 @@
 import { FaSearch, FaFilter } from 'react-icons/fa'
 
+const TYPE_OPTIONS = [
+  { value: '',      label: 'Cualquier tipo' },
+  { value: 'true',  label: 'Especial' },
+  { value: 'false', label: 'Regular' },
+]
+
 const TIME_FRAME_OPTIONS = [
   { value: '',       label: 'Todo el período' },
   { value: 'future', label: 'Futuras' },
@@ -21,6 +27,8 @@ const TrainerClassFilters = ({
   onSearchChange,
   timeFrameFilter,
   onTimeFrameChange,
+  specialFilter,
+  onSpecialChange,
 }) => {
   return (
     <div className="mb-6 flex flex-wrap items-end gap-4">
@@ -58,6 +66,23 @@ const TrainerClassFilters = ({
           className={SELECT_CLS}
         >
           {TIME_FRAME_OPTIONS.map(o => (
+            <option key={o.value} value={o.value}>{o.label}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Type: special one-off vs. generated from a recurring schedule */}
+      <div className="min-w-[150px]">
+        <label htmlFor={`${idPrefix}-special`} className={LABEL_CLS}>
+          <span className="flex items-center gap-1.5"><FaFilter className="text-xs" /> Tipo</span>
+        </label>
+        <select
+          id={`${idPrefix}-special`}
+          value={specialFilter}
+          onChange={e => onSpecialChange(e.target.value)}
+          className={SELECT_CLS}
+        >
+          {TYPE_OPTIONS.map(o => (
             <option key={o.value} value={o.value}>{o.label}</option>
           ))}
         </select>

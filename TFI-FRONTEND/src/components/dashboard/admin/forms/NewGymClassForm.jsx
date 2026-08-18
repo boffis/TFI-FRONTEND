@@ -71,7 +71,11 @@ const NewGymClassForm = () => {
         ClassDescription: form.classDescription.trim() || null,
         MaxCapacity:      Number(form.maxCapacity),
         TrainerId:        form.trainerId,
-        Schedule:         new Date(form.schedule).toISOString(),
+        // A class time is the gym's wall clock, not an instant: the API stores Schedule as
+        // typed and compares it against GymTime.Now (see Application/Common/GymTime.cs). The
+        // datetime-local value is already in that shape, so it goes out verbatim — running it
+        // through toISOString() would convert it to UTC and file every class 3 hours late.
+        Schedule:         form.schedule,
       },
       () => {
         setCreatedName(form.className.trim())

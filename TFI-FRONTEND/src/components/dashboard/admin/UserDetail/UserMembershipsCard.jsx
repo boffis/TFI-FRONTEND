@@ -100,7 +100,7 @@ const UserMembershipsCard = ({ memberships, allowCancel = false, isAdmin = false
           )}
         </div>
 
-        {((allowCancel && isActive) || isAdmin) && !isCancelled && (
+        {(allowCancel || isAdmin) && isActive && !isCancelled && (
           <button
             onClick={() => handleCancelClick(m.membershipId)}
             disabled={cancellingId === m.membershipId}

@@ -28,6 +28,11 @@ const InputField = ({ label, id, type = 'text', value, onChange, min }) => (
 const MembershipPlanInfoCard = ({ planData, onUpdated }) => {
   const { put, isLoading } = useFetch()
 
+  // A discontinued plan has no live subscriptions left to push changes to: the recurring charges
+  // were cancelled when it was discontinued, so a price edit here would update a plan nobody can
+  // buy and silently fail to reach anyone. Restore it first if it needs changing.
+  const isDiscontinued = planData.isDeleted
+
   const [editing, setEditing] = useState(false)
   const [feedback, setFeedback] = useState(null)
 
@@ -80,7 +85,9 @@ const MembershipPlanInfoCard = ({ planData, onUpdated }) => {
         {!editing ? (
           <button
             onClick={handleEdit}
-            className="flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-300 hover:border-orange-500 hover:text-orange-400 transition-all duration-200 cursor-pointer"
+            disabled={isDiscontinued}
+            title={isDiscontinued ? 'Restaurá el plan para poder editarlo.' : undefined}
+            className="flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-300 hover:border-orange-500 hover:text-orange-400 transition-all duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-zinc-700 disabled:hover:text-zinc-300"
           >
             <FaPencil className="text-xs" />
             Editar

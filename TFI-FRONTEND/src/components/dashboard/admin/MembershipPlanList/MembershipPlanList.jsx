@@ -40,7 +40,9 @@ const MembershipPlanList = () => {
 
   useEffect(() => {
     get(
-      'membershipplan',
+      // Admin endpoint, not the public one: discontinued plans have to stay listed here
+      // so they can be reviewed or restored. Clients only ever see the live ones.
+      'MembershipPlan/admin',
       true,
       data => setPlans(Array.isArray(data) ? data : []),
       err => setError(err?.message ?? 'No se pudieron cargar los planes de membresía.')

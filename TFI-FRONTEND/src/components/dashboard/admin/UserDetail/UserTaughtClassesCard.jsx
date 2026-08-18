@@ -1,5 +1,6 @@
-import { FaDumbbell } from 'react-icons/fa'
+import { FaCalendar, FaDumbbell } from 'react-icons/fa'
 import { useNavigate } from 'react-router'
+import { formatDateTime } from '../../../../utils/formatters'
 
 const UserTaughtClassesCard = ({ taughtClasses }) => {
   const navigate = useNavigate()
@@ -47,7 +48,10 @@ const UserTaughtClassesCard = ({ taughtClasses }) => {
             )}
             
             {cls.schedule && (
-                 <p className="text-xs text-zinc-500">{cls.schedule}</p>
+                 <p className="flex items-center gap-1.5 text-xs text-zinc-500">
+                   <FaCalendar className="text-orange-500/70 text-[10px]" />
+                   {formatDateTime(cls.schedule)}
+                 </p>
             )}
            
             {/* Removed gymClassId */}
