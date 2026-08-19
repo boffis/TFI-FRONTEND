@@ -99,7 +99,7 @@ const UserDetail = () => {
             <UserMembershipsCard memberships={userData.memberships} isAdmin onRevoked={loadUser} />
             <UserPaymentsCard payments={userData.payments} />
             <UserInscriptionsCard inscriptions={userData.inscriptions} />
-            <UserTaughtClassesCard taughtClasses={userData.taughtClasses} />
+            <UserTaughtClassesCard taughtClasses={userData.taughtClasses} clickable />
           </div>
         )}
 

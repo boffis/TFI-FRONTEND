@@ -2,7 +2,10 @@ import { FaCalendar, FaDumbbell } from 'react-icons/fa'
 import { useNavigate } from 'react-router'
 import { formatDateTime } from '../../../../utils/formatters'
 
-const UserTaughtClassesCard = ({ taughtClasses }) => {
+// `clickable` is opt-in because the card is shared: the admin user detail links each class
+// through to the admin class detail, while a trainer looking at their own account has no
+// business on that route, so there the cards are plain, non-interactive tiles.
+const UserTaughtClassesCard = ({ taughtClasses, clickable = false }) => {
   const navigate = useNavigate()
 
   if (!taughtClasses || taughtClasses.length === 0) {
@@ -31,8 +34,10 @@ const UserTaughtClassesCard = ({ taughtClasses }) => {
         {taughtClasses.map((cls) => (
           <div
             key={cls.gymClassId}
-            onClick={() => navigate(`/admin/gymclass/${cls.gymClassId}`)}
-            className="cursor-pointer rounded-xl border border-zinc-700/50 bg-zinc-800/40 p-4 hover:border-orange-500/40 hover:bg-zinc-800/60 transition-all duration-200"
+            onClick={clickable ? () => navigate(`/admin/gymclass/${cls.gymClassId}`) : undefined}
+            className={`rounded-xl border border-zinc-700/50 bg-zinc-800/40 p-4 transition-all duration-200 ${
+              clickable ? 'cursor-pointer hover:border-orange-500/40 hover:bg-zinc-800/60' : ''
+            }`}
           >
             <div className="mb-1 flex items-center justify-between gap-2">
                <div className="flex items-center gap-2">
@@ -46,15 +51,13 @@ const UserTaughtClassesCard = ({ taughtClasses }) => {
             {cls.classDescription && (
                 <p className="mb-2 text-xs text-zinc-400 line-clamp-2">{cls.classDescription}</p>
             )}
-            
+
             {cls.schedule && (
                  <p className="flex items-center gap-1.5 text-xs text-zinc-500">
                    <FaCalendar className="text-orange-500/70 text-[10px]" />
                    {formatDateTime(cls.schedule)}
                  </p>
             )}
-           
-            {/* Removed gymClassId */}
           </div>
         ))}
       </div>
