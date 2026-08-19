@@ -85,6 +85,8 @@ const EXACT = {
 
   // ── Payments / Mercado Pago ─────────────────────────────────────────────────
   'Mercado Pago couldn\'t cancel the subscription.': 'Mercado Pago no pudo cancelar la suscripción.',
+  'Mercado Pago couldn\'t cancel the previous subscription. Please try again.':
+    'Mercado Pago no pudo cancelar la suscripción anterior. Intentá de nuevo.',
   'The \'payment_method_id\' field is required.': 'El campo \'payment_method_id\' es obligatorio.',
   'The card \'token\' field is required.': 'El campo \'token\' de la tarjeta es obligatorio.',
   'We couldn\'t set up your subscription with the payment provider. Please check your card details and try again.':
@@ -110,6 +112,8 @@ const EXACT = {
   'This action couldn\'t be completed.': 'No se pudo completar esta acción.',
   'The requested resource was not found.': 'No se encontró el recurso solicitado.',
   'There was a validation error in the request.': 'Hubo un error de validación en la solicitud.',
+  'The payment provider is unavailable. Please try again later.':
+    'El proveedor de pagos no está disponible. Intentá de nuevo más tarde.',
   'Something went wrong. Please try again later.': 'Algo salió mal. Intentá de nuevo más tarde.',
 
   // ── GlobalExceptionHandler titles — the fallback when there is no detail ────
@@ -118,6 +122,7 @@ const EXACT = {
   'Conflict': 'Conflicto',
   'Not found': 'No encontrado',
   'Validation error': 'Error de validación',
+  'Bad gateway': 'Error del proveedor de pagos',
   'Internal server error': 'Error interno del servidor',
 
   // ASP.NET model-binding failures never reach our handler and carry no detail,
