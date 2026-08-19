@@ -1,5 +1,4 @@
-// UserPagination now delegates to the shared Pagination component.
-// The idPrefix keeps element IDs unique across the dashboard.
+// Thin wrapper over the shared Pagination; idPrefix keeps element IDs unique.
 import Pagination from '../../../shared/Pagination'
 
 const UserPagination = ({ currentPage, totalItems, pageSize, onPageChange, onPageSizeChange }) => (

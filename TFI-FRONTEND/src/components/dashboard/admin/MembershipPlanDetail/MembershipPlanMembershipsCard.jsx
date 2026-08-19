@@ -53,8 +53,7 @@ const MembershipPlanMembershipsCard = ({ memberships }) => {
                   statusText = 'Vencida'
                   statusClass = 'text-amber-400 bg-amber-500/15 border-amber-500/30'
               } else if (m.autoRenew === false) {
-                  // Still active and still paid for, but the recurring charge was stopped when the
-                  // plan was discontinued: it runs to the date shown and then simply lapses.
+                  // Paid for and still active, but no longer renewing: it lapses on the date shown.
                   statusText = 'Sin renovación'
                   statusClass = 'text-sky-400 bg-sky-500/15 border-sky-500/30'
               }

@@ -43,19 +43,16 @@ function App() {
         <Route path="/classes" element={<Classes />} />
         <Route path="/memberships" element={<Membership />} />
 
-        {/* Protected Routes - require authentication */}
         <Route element={<ProtectedLogin />}>
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/account" element={<Account />} />
           <Route path="/class/:id" element={<UserGymClassDetail />} />
           <Route path="/schedule/:id" element={<UserGymClassScheduleDetail />} />
 
-          {/* Protected Routes - require Trainer role */}
           <Route element={<ProtectedStatus roleNeeded="Trainer" />}>
             <Route path="/trainer/dashboard" element={<TrainerDashboard />} />
           </Route>
 
-          {/* Protected Routes - require Admin role */}
           <Route element={<ProtectedStatus roleNeeded="Admin" />}>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/user/:userId" element={<UserDetail />} />

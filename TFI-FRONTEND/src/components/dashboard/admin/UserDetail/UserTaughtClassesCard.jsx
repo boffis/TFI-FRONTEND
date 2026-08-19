@@ -2,9 +2,7 @@ import { FaCalendar, FaDumbbell } from 'react-icons/fa'
 import { useNavigate } from 'react-router'
 import { formatDateTime } from '../../../../utils/formatters'
 
-// `clickable` is opt-in because the card is shared: the admin user detail links each class
-// through to the admin class detail, while a trainer looking at their own account has no
-// business on that route, so there the cards are plain, non-interactive tiles.
+// `clickable` is opt-in: only the admin view links through to the admin class detail.
 const UserTaughtClassesCard = ({ taughtClasses, clickable = false }) => {
   const navigate = useNavigate()
 

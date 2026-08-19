@@ -12,34 +12,23 @@ const TONE = {
 }
 
 /**
- * Payment method and state are stored verbatim, and the writers disagree on casing and
- * vocabulary: MercadoPagoService writes "MercadoPago"/"pending" and the raw MP
- * payment_method_id ("visa", "account_money"...), PaymentService writes "Mercado Pago"/"Pending",
- * and the MP webhook writes its own lower-case status ("approved", "in_process", "rejected"...).
- * So both sides of the lookup are normalised to lower case, the same way the backend does it for
- * metrics (MetricsRepository.Normalise / MetricsService.IsRevenue). Spaces are stripped too, so
- * "Mercado Pago" and "MercadoPago" land on the same key.
+ * Method and state are stored verbatim by writers that disagree on casing and spacing, so both
+ * sides of the lookup are lower-cased and de-spaced — as the backend does for metrics.
  */
 const badgeKey = (value) => (value ?? '').toString().trim().toLowerCase().replace(/\s+/g, '')
 
-// [friendly label, tone]
 /**
- * Only three things reach PaymentMethod today: the two literals, and a card payment_method_id.
- * The card ids come from the CardPayment Brick (CheckoutPage → MercadoPagoService:332) and from
- * the preapproval webhook (MercadoPagoService:632/647), both of which are card-funded — so the
- * list below is cards only. Cash networks (rapipago, pagofacil) and wallet/transfer ids
- * (account_money, cvu) belong to Checkout Pro, and that flow's webhook (ProcessWebhook) only
- * ever touches PaymentState — the method stays "MercadoPago". If it ever starts writing
- * mpPayment.PaymentMethodId the way the preapproval webhook does, add those ids here.
+ * [label, tone]. Cards only: every path that writes PaymentMethod today is card-funded. Cash and
+ * wallet ids belong to Checkout Pro, whose webhook only ever touches PaymentState — add them here
+ * if it ever starts writing PaymentMethodId too.
  */
 const METHOD_BADGE = {
-  // Literals written by our own code paths. Only the label is Spanish — the key is the
-  // normalised wire value and must keep matching what the backend writes.
+  // Keys are normalised wire values and must keep matching what the backend writes.
   mercadopago:  ['Mercado Pago', TONE.sky],   // MercadoPagoService:151/647 and PaymentService:38
   cash:         ['Efectivo', TONE.green],     // legacy — kept for hand-entered / pre-MP rows
   card:         ['Tarjeta', TONE.blue],
   transfer:     ['Transferencia', TONE.purple],
-  // Mercado Pago payment_method_id — credit cards
+  // payment_method_id — credit cards
   visa:         ['Visa', TONE.blue],
   master:       ['Mastercard', TONE.blue],
   amex:         ['Amex', TONE.blue],
@@ -58,7 +47,7 @@ const METHOD_BADGE = {
   maestro:      ['Maestro', TONE.blue],
 }
 
-// Mercado Pago's payment status vocabulary, plus the success/failed the previous map assumed.
+// Mercado Pago's status vocabulary, plus the success/failed the previous map assumed.
 const STATE_BADGE = {
   approved:     ['Aprobado', TONE.green],
   authorized:   ['Autorizado', TONE.green],
@@ -74,7 +63,7 @@ const STATE_BADGE = {
   charged_back: ['Contracargo', TONE.purple],
 }
 
-/** Unknown values keep their raw text (tidied up) and fall back to the neutral grey badge. */
+/** Unknown values keep their raw text and fall back to the grey badge. */
 const resolveBadge = (map, value) =>
   map[badgeKey(value)] ?? [capitalizeWords((value ?? '').toString().replace(/_/g, ' ')), TONE.grey]
 

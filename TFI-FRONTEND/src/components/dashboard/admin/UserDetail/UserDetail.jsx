@@ -38,7 +38,6 @@ const UserDetail = () => {
     <Layout>
       <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
 
-        {/* Back button */}
         <button
           id="btn-back-dashboard"
           onClick={() => navigate('/admin/dashboard')}
@@ -48,7 +47,6 @@ const UserDetail = () => {
           Volver al panel
         </button>
 
-        {/* Loading skeleton */}
         {isLoading && !userData && (
           <div className="space-y-4 animate-pulse">
             {[...Array(4)].map((_, i) => (
@@ -57,7 +55,6 @@ const UserDetail = () => {
           </div>
         )}
 
-        {/* Error state */}
         {error && !isLoading && (
           <div className="rounded-2xl border border-red-500/30 bg-red-500/10 py-16 text-center">
             <p className="text-lg font-semibold text-red-400">{error}</p>
@@ -65,10 +62,8 @@ const UserDetail = () => {
           </div>
         )}
 
-        {/* Content */}
         {userData && !error && (
           <div className="space-y-6">
-            {/* Page header */}
             <div className="mb-2">
               <p className="mb-1 text-xs font-bold uppercase tracking-widest text-orange-500">
                 Perfil del usuario
@@ -81,7 +76,6 @@ const UserDetail = () => {
               </p>
             </div>
 
-            {/* Info + Role side by side on large screens */}
             <div className="grid gap-6 lg:grid-cols-3">
               <div className="lg:col-span-2">
                 <UserInfoCard userData={userData} onUpdated={loadUser} />
@@ -95,7 +89,6 @@ const UserDetail = () => {
               </div>
             </div>
 
-            {/* Lists */}
             <UserMembershipsCard memberships={userData.memberships} isAdmin onRevoked={loadUser} />
             <UserPaymentsCard payments={userData.payments} />
             <UserInscriptionsCard inscriptions={userData.inscriptions} />

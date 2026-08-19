@@ -1,10 +1,6 @@
 import { useNavigate } from 'react-router'
 
-/**
- * Formats a date/time string into a human-readable schedule string.
- * e.g. "lunes, 21 de jul  ·  09:00 – 10:00"
- * Classes last exactly 1 hour.
- */
+/** "lunes, 21 de jul · 09:00 – 10:00". Classes last exactly 1 hour. */
 const formatSchedule = (schedule) => {
   const start = new Date(schedule)
   const end = new Date(start.getTime() + 60 * 60 * 1000)
@@ -36,13 +32,10 @@ const ClassCard = ({
       onClick={() => navigate(`/class/${classId}`)}
       className="group relative flex cursor-pointer flex-col gap-4 rounded-xl border border-zinc-800 bg-zinc-900/60 p-6 transition-all duration-200 hover:border-orange-500/50 hover:bg-zinc-900 hover:shadow-lg hover:shadow-orange-500/5"
     >
-      {/* Top accent bar */}
       <span className="absolute inset-x-0 top-0 h-[2px] rounded-t-xl bg-orange-500 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
 
-      {/* Class name */}
       <h2 className="text-lg font-bold tracking-tight text-white">{className}</h2>
 
-      {/* Trainer info */}
       <div className="flex flex-col gap-0.5">
         <p className="text-sm font-semibold text-zinc-200">{trainerName}</p>
         <p className="text-xs font-medium uppercase tracking-widest text-orange-500">
@@ -50,10 +43,8 @@ const ClassCard = ({
         </p>
       </div>
 
-      {/* Divider */}
       <hr className="border-zinc-800" />
 
-      {/* Schedule */}
       <div className="flex items-start gap-2 text-sm text-zinc-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +63,6 @@ const ClassCard = ({
         <span>{formatSchedule(schedule)}</span>
       </div>
 
-      {/* Capacity */}
       <div className="flex items-center gap-2 text-sm text-zinc-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +81,6 @@ const ClassCard = ({
         <span>Máx. {maxCapacity} lugares</span>
       </div>
 
-      {/* CTA hint */}
       <p className="mt-auto text-xs font-medium text-zinc-600 transition-colors group-hover:text-orange-500">
         Ver detalles →
       </p>

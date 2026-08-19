@@ -18,7 +18,6 @@ const CheckoutPage = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
 
-  // If no plan is found in state, redirect back to memberships page
   useEffect(() => {
     if (!plan) {
       navigate('/memberships', { replace: true });
@@ -28,36 +27,27 @@ const CheckoutPage = () => {
   if (!plan) return null;
 
   /**
-   * A client may hold only one membership at a time. The backend is what enforces it —
-   * Payment/Subscribe answers 409 via MembershipService.EnsureNoConflictingMembershipAsync — but
-   * finding that out after typing in a card is a poor way to learn it, so the payment form is
-   * replaced by an explanation whenever the cached user already has one.
+   * One membership at a time, enforced by the backend with a 409. Learning that after typing in a
+   * card is a poor way to find out, so the form is replaced by an explanation up front.
    */
   const existingMembership = (user?.memberships ?? []).find((m) => {
     if (m.isCancelled) return false;
     const expiration = new Date(m.expirationDate);
-    // A membership created but not yet activated carries DateTime.MinValue ("0001-01-01…"),
-    // which is in the past but is not an expired membership — it blocks a new one just the same.
+    // Not-yet-activated memberships carry DateTime.MinValue: past, but not expired, and still blocking.
     const isPendingActivation =
       Number.isNaN(expiration.getTime()) || expiration.getFullYear() <= 1;
     return isPendingActivation || expiration > new Date();
   });
 
-  // ─── MP Brick config ─────────────────────────────────────────────────────────
-
   const initialization = {
     amount: Number(plan.price),
   };
-
-  // ─── Callbacks ───────────────────────────────────────────────────────────────
 
   const onSubmit = (formData) => {
     setErrorMsg(null);
     setPaymentStatus(null);
     setIsProcessing(true);
-    // The Brick unmounts while isProcessing is true and remounts fresh if we return
-    // to the form (e.g. on error) — reset isReady so the shimmer masks that remount
-    // instead of showing the blank, not-yet-initialized Brick.
+    // The Brick remounts fresh when we return to the form, so let the shimmer mask it.
     setIsReady(false);
 
     const payload = {
@@ -82,8 +72,7 @@ const CheckoutPage = () => {
         (response) => {
           setPaymentStatus('success');
           setIsProcessing(false);
-          // Field-for-field what login serves for a membership (UserService:130), so the cached
-          // user matches a fresh sign-in — `type` is the plan name, there is no `name` on the wire.
+          // Field-for-field what login serves, so the cached user matches a fresh sign-in.
           handleNewMembership({
             membershipId: response?.membershipId,
             userId: user?.userId,
@@ -96,8 +85,7 @@ const CheckoutPage = () => {
               durationInDays: plan.durationInDays,
             },
           });
-          // Subscribe also logs the (still pending) payment for this membership. Mirror it into
-          // the auth context so "Mis pagos" shows it right away instead of only after re-login.
+          // Mirror the pending payment into the context so "Mis pagos" shows it before re-login.
           if (response?.payment) {
             handleNewPayment(response.payment);
           }
@@ -123,12 +111,9 @@ const CheckoutPage = () => {
     console.error('CardPayment Brick error:', error);
   };
 
-  // ─── Render ──────────────────────────────────────────────────────────────────
-
   return (
     <Layout>
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        {/* Header */}
         <div className="mb-12">
           <button
             onClick={() => navigate('/memberships')}
@@ -143,7 +128,6 @@ const CheckoutPage = () => {
 
         <div className="grid gap-12 lg:grid-cols-12 items-start">
           
-          {/* Left Column: Order Summary */}
           <div className="lg:col-span-5 rounded-2xl bg-zinc-900 border border-zinc-800 p-8">
             <h2 className="mb-6 text-xl font-bold text-white">Resumen de la compra</h2>
             
@@ -172,9 +156,7 @@ const CheckoutPage = () => {
             </ul>
           </div>
 
-          {/* Right Column: Payment & Feedback */}
           <div className="lg:col-span-7">
-            {/* Processing overlay */}
             {isProcessing ? (
               <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-8 flex flex-col items-center justify-center gap-6 min-h-[280px]">
                 <div className="relative flex h-16 w-16 items-center justify-center">
@@ -186,7 +168,6 @@ const CheckoutPage = () => {
                 </div>
               </div>
             ) : paymentStatus === 'success' ? (
-              /* Success screen */
               <div className="rounded-2xl border border-green-500/30 bg-green-500/10 p-8 text-center flex flex-col items-center justify-center">
                 <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-500/20 text-green-400">
                   <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -205,8 +186,8 @@ const CheckoutPage = () => {
                 </button>
               </div>
             ) : existingMembership ? (
-              /* Blocked: one membership at a time. Checked after the success branch above so the
-                 membership this page just created doesn't replace its own confirmation screen. */
+              /* Blocked — checked after the success branch, so a membership this page just
+                 created doesn't replace its own confirmation screen. */
               <div className="rounded-2xl border border-orange-500/30 bg-orange-500/10 p-8 text-center flex flex-col items-center justify-center">
                 <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-orange-500/20 text-orange-400">
                   <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -234,9 +215,7 @@ const CheckoutPage = () => {
                 </div>
               </div>
             ) : (
-              /* Payment form */
               <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 sm:p-8">
-                {/* Loading shimmer while brick initialises */}
                 {!isReady && (
                   <div className="mb-4 animate-pulse space-y-4">
                     <div className="h-10 w-full rounded-lg bg-zinc-800" />
@@ -249,7 +228,6 @@ const CheckoutPage = () => {
                   </div>
                 )}
 
-                {/* Error feedback above the form */}
                 {paymentStatus === 'error' && errorMsg && (
                   <div className="mb-6 rounded-lg border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-400 flex items-start gap-3">
                     <span className="text-lg">⚠</span>

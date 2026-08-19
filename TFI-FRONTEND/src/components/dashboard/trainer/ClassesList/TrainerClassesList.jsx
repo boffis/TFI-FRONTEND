@@ -14,8 +14,7 @@ const SORT_FIELDS = [
   { value: 'maxCapacity', label: 'Capacidad' },
 ]
 
-// Reading order that makes sense for each period: upcoming classes read soonest-first, while
-// past ones are consulted newest-first — that's where attendance still needs to be recorded.
+// Upcoming reads soonest-first; past reads newest-first, where attendance is still due.
 const NATURAL_DIRECTION = { future: 'asc', past: 'desc', '': 'asc' }
 
 const EMPTY_STATES = {
@@ -79,7 +78,7 @@ const TrainerClassesList = () => {
     )
   }, [user?.userId])
 
-  // Switching period re-orients the list; the direction toggle still overrides it afterwards.
+  // Switching period re-orients the list; the toggle still overrides it afterwards.
   const handleTimeFrameChange = (value) => {
     setTimeFrame(value)
     setSortDir(sortField === 'schedule' ? NATURAL_DIRECTION[value] : sortDir)
@@ -93,12 +92,10 @@ const TrainerClassesList = () => {
       const q = search.trim().toLowerCase()
       list = list.filter((c) => c.className?.toLowerCase().includes(q))
     }
-    // `hasStarted` is computed by the API against the gym's own time zone — comparing `schedule`
-    // against the browser clock here would disagree with it for anyone in another zone.
+    // `hasStarted` comes from the API in the gym's zone; the browser clock would disagree.
     if (timeFrame === 'future') list = list.filter((c) => !c.hasStarted)
     if (timeFrame === 'past')   list = list.filter((c) => c.hasStarted)
-    // A class with no `gymClassScheduleId` was created on its own rather than generated from a
-    // recurring schedule — that's what makes it "special".
+    // No `gymClassScheduleId` means a one-off class, i.e. "special".
     if (special === 'true')  list = list.filter((c) => !c.gymClassScheduleId)
     if (special === 'false') list = list.filter((c) => !!c.gymClassScheduleId)
 

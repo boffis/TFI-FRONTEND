@@ -6,7 +6,6 @@ const SuccessfulRegister = () => {
     <Layout>
       <section className="mx-auto max-w-lg px-4 py-12 sm:px-6 sm:py-24 text-center">
 
-        {/* Animated checkmark circle */}
         <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center rounded-full bg-orange-500/15 ring-1 ring-orange-500/40">
           <svg
             className="h-10 w-10 text-orange-400"

@@ -11,7 +11,6 @@ const SortControls = ({
   return (
     <div className="flex items-end gap-3 mb-6">
 
-      {/* Sort field */}
       <div className="min-w-[190px]">
         <label htmlFor={`${idPrefix}-sort-field`} className="block mb-1.5 text-xs font-semibold uppercase tracking-widest text-zinc-400">
           Ordenar por
@@ -33,7 +32,6 @@ const SortControls = ({
         </select>
       </div>
 
-      {/* Asc / Desc toggle */}
       <button
         id={`${idPrefix}-sort-direction`}
         onClick={onSortDirectionToggle}

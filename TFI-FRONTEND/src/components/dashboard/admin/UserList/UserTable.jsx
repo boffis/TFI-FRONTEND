@@ -5,7 +5,6 @@ const COLUMNS = [
   'Género', 'Teléfono', 'Rol', 'Membresía', 'Especialización',
 ]
 
-// ─── Skeleton ─────────────────────────────────────────────────────────────────
 const SkeletonRow = () => (
   <tr className="border-b border-zinc-800/60 animate-pulse">
     {COLUMNS.map(col => (
@@ -16,7 +15,6 @@ const SkeletonRow = () => (
   </tr>
 )
 
-// ─── Table ────────────────────────────────────────────────────────────────────
 const UserTable = ({ users, isLoading }) => {
   return (
     <div className="w-full overflow-x-auto rounded-xl border border-zinc-800">
@@ -34,15 +32,12 @@ const UserTable = ({ users, isLoading }) => {
           </tr>
         </thead>
         <tbody>
-          {/* Loading state */}
           {isLoading && Array.from({ length: 5 }).map((_, i) => <SkeletonRow key={i} />)}
 
-          {/* Populated rows */}
           {!isLoading && users.map(user => (
             <UserTableRow key={user.userId} user={user} />
           ))}
 
-          {/* Empty state */}
           {!isLoading && users.length === 0 && (
             <tr>
               <td

@@ -15,8 +15,6 @@ import {
 import { FaArrowLeft, FaCheckCircle, FaPlus } from 'react-icons/fa'
 import { DAY_OPTIONS } from '../../../../utils/formatters'
 
-// ─── Constants ────────────────────────────────────────────────────────────────
-
 const EMPTY_FORM = {
   className: '',
   classDescription: '',
@@ -25,8 +23,6 @@ const EMPTY_FORM = {
   dayOfWeek: '1',       // Monday default
   timeOfDay: '',
 }
-
-// ─── Component ────────────────────────────────────────────────────────────────
 
 const NewGymClassScheduleForm = () => {
   const navigate = useNavigate()
@@ -98,7 +94,6 @@ const NewGymClassScheduleForm = () => {
     <Layout>
       <section className="mx-auto max-w-xl px-4 py-10 sm:px-6">
 
-        {/* Back */}
         <button
           id="back-to-dashboard"
           onClick={() => navigate('/admin/dashboard')}
@@ -111,7 +106,6 @@ const NewGymClassScheduleForm = () => {
           Volver al panel
         </button>
 
-        {/* Header */}
         <div className="mb-8">
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-orange-500">
             Administración · Clases
@@ -124,7 +118,6 @@ const NewGymClassScheduleForm = () => {
           </p>
         </div>
 
-        {/* Success banner */}
         {submitted && (
           <div className="mb-6 flex items-start gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-5 py-4">
             <FaCheckCircle className="mt-0.5 flex-shrink-0 text-emerald-400 text-lg" />
@@ -137,14 +130,12 @@ const NewGymClassScheduleForm = () => {
           </div>
         )}
 
-        {/* API error banner */}
         {apiError && !submitted && (
           <div className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 px-5 py-4 text-sm text-red-400">
             {apiError}
           </div>
         )}
 
-        {/* Trainer fetch error */}
         {trainerError && (
           <div className="mb-6 rounded-xl border border-amber-500/30 bg-amber-500/10 px-5 py-3 text-sm text-amber-400">
             No se pudo cargar la lista de entrenadores: {trainerError}
@@ -153,7 +144,6 @@ const NewGymClassScheduleForm = () => {
 
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
 
-          {/* Class Name */}
           <FormField label="Nombre de la clase" id="className" error={errors.className}>
             <input
               id="className"
@@ -167,7 +157,6 @@ const NewGymClassScheduleForm = () => {
             />
           </FormField>
 
-          {/* Description */}
           <FormField label="Descripción (opcional)" id="classDescription" error={errors.classDescription}>
             <textarea
               id="classDescription"
@@ -181,7 +170,6 @@ const NewGymClassScheduleForm = () => {
             />
           </FormField>
 
-          {/* Max Capacity */}
           <FormField label="Capacidad máxima" id="maxCapacity" error={errors.maxCapacity}>
             <input
               id="maxCapacity"
@@ -196,7 +184,6 @@ const NewGymClassScheduleForm = () => {
             />
           </FormField>
 
-          {/* Trainer */}
           <FormField label="Entrenador" id="trainerId" error={errors.trainerId}>
             <select
               id="trainerId"
@@ -217,7 +204,6 @@ const NewGymClassScheduleForm = () => {
             </select>
           </FormField>
 
-          {/* Day + Time — side by side */}
           <div className="grid grid-cols-2 gap-4">
             <FormField label="Día de la semana" id="dayOfWeek" error={errors.dayOfWeek}>
               <select
@@ -247,7 +233,6 @@ const NewGymClassScheduleForm = () => {
             </FormField>
           </div>
 
-          {/* Actions */}
           <div className="flex items-center gap-3 pt-2">
             <button
               id="submit-gymclassschedule"

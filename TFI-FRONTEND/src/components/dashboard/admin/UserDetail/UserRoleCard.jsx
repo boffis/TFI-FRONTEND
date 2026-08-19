@@ -3,7 +3,7 @@ import { FaUserShield } from 'react-icons/fa'
 import useFetch from '../../../../hooks/useFetch'
 import { roleLabel } from '../../../../utils/formatters'
 
-// Wire values — sent verbatim as the `newRole` query parameter, so they stay English.
+// Wire values: sent verbatim as `newRole`, so they stay English.
 const ROLES = ['Client', 'Trainer', 'Admin']
 
 const ROLE_BADGE = {
@@ -52,7 +52,6 @@ const UserRoleCard = ({ userData, onUpdated }) => {
         </div>
       )}
 
-      {/* Role selector */}
       <div className="mb-4 flex flex-col gap-2">
         {ROLES.map((role) => {
           const isSelected = selectedRole === role

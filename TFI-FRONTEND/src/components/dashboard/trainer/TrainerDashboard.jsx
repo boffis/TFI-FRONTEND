@@ -16,7 +16,6 @@ const TrainerDashboard = () => {
     <Layout>
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
 
-        {/* Page header */}
         <div className="mb-8">
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-orange-500">
             Panel de entrenador
@@ -29,10 +28,8 @@ const TrainerDashboard = () => {
           </p>
         </div>
 
-        {/* Tab navigation */}
         <TrainerDashboardNav activeTab={activeTab} onTabChange={setActiveTab} />
 
-        {/* Active section */}
         <div className="mt-2">
           {SECTION_COMPONENTS[activeTab] ?? null}
         </div>

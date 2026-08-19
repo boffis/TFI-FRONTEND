@@ -73,7 +73,6 @@ const ResetPassword = () => {
           Elegí una nueva contraseña para tu cuenta.
         </p>
 
-        {/* ── Success ── */}
         {result?.ok && (
           <div className="mt-8 rounded-lg border border-orange-500/40 bg-orange-500/10 px-5 py-4">
             <p className="text-sm font-medium text-orange-300">¡Contraseña actualizada!</p>
@@ -89,7 +88,6 @@ const ResetPassword = () => {
           </div>
         )}
 
-        {/* ── Error ── */}
         {result && !result.ok && (
           <div className="mt-8 rounded-lg border border-red-500/40 bg-red-500/10 px-5 py-4">
             <p className="text-sm font-medium text-red-400">No se pudo restablecer</p>
@@ -103,7 +101,6 @@ const ResetPassword = () => {
           </div>
         )}
 
-        {/* ── Form — hidden once a result arrives ── */}
         {!result && (
           <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-5">
             <Field label="Nueva contraseña" id="password" error={errors.password}>

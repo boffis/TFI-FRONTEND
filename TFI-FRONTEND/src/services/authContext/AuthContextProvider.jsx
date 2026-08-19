@@ -40,10 +40,8 @@
     }
 
     /**
-     * Subscribing again reuses the client's existing non-cancelled membership row on the backend
-     * (MercadoPagoService.CreateSubscriptionAsync) instead of inserting a new one, so the same
-     * membershipId comes back with the new plan. Replace that entry rather than appending —
-     * appending leaves a stale duplicate sharing one id, which only clears on the next login.
+     * The backend reuses the existing membership row, so the same membershipId comes back with the
+     * new plan. Replace rather than append, or a stale duplicate shares the id until next login.
      */
     const handleNewMembership = (membership) => {
         setUser((prevUser) => {
@@ -87,7 +85,6 @@
     const handleEnrollClass = (inscription) => {
         setUser((prevUser) => {
         if (!prevUser) return null
-        // inscription should be { inscriptionId, gymClassId }
         const alreadyInscribed = (prevUser.inscriptions || []).some(i => i.gymClassId === inscription.gymClassId)
         if (alreadyInscribed) return prevUser
 

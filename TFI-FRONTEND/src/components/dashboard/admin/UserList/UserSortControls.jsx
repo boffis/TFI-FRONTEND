@@ -12,7 +12,6 @@ const UserSortControls = ({ sortField, sortDirection, onSortFieldChange, onSortD
   return (
     <div className="flex items-end gap-3 mb-6">
 
-      {/* Sort field */}
       <div className="min-w-[170px]">
         <label htmlFor="sort-field" className="block mb-1.5 text-xs font-semibold uppercase tracking-widest text-zinc-400">
           Ordenar por
@@ -34,7 +33,6 @@ const UserSortControls = ({ sortField, sortDirection, onSortFieldChange, onSortD
         </select>
       </div>
 
-      {/* Asc / Desc toggle */}
       <button
         id="sort-direction-toggle"
         onClick={onSortDirectionToggle}

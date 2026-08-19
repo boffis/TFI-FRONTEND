@@ -4,10 +4,8 @@ import { useNavigate } from 'react-router'
 import useFetch from '../../../../hooks/useFetch'
 
 /**
- * Discontinuing is a soft delete, so this card is deliberately not phrased as a deletion: the plan
- * row and its history survive, and every client already on it keeps the access they paid for until
- * their own expiration date — only the recurring charge stops. That makes it reversible, hence the
- * restore branch below.
+ * Discontinuing is a soft delete, so this card isn't phrased as a deletion: subscribers keep the
+ * access they paid for and only the recurring charge stops. Hence the restore branch below.
  */
 const MembershipPlanDeleteCard = ({ planId, planName, isDiscontinued, onRestored }) => {
   const { dele, post, isLoading } = useFetch()

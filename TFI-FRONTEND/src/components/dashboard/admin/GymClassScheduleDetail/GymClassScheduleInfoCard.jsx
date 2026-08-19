@@ -36,7 +36,7 @@ const GymClassScheduleInfoCard = ({ scheduleData, onUpdated }) => {
 
   const formatTimeForInput = (timeString) => {
       if(!timeString) return '';
-      // "HH:mm:ss" to "HH:mm" for input type="time"
+      // input type="time" wants "HH:mm".
       return timeString.substring(0, 5);
   }
 
@@ -70,7 +70,6 @@ const GymClassScheduleInfoCard = ({ scheduleData, onUpdated }) => {
   }
 
   const handleSave = () => {
-    // Automatically apply updateUpcomingClasses=true
     put(
       `GymClassSchedule/${scheduleData.gymClassScheduleId}?updateUpcomingClasses=true`,
       true,

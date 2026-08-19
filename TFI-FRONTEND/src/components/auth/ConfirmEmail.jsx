@@ -3,7 +3,6 @@ import { Link, useSearchParams } from 'react-router'
 import useFetch from '../../hooks/useFetch'
 import Layout from '../layout/Layout'
 
-/* ─── tiny reusable icon components ─── */
 const Spinner = () => (
   <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center">
     <svg
@@ -52,7 +51,6 @@ const ErrorIcon = () => (
   </div>
 )
 
-/* ─── main component ─── */
 const ConfirmEmail = () => {
   const [searchParams] = useSearchParams()
   const { post } = useFetch()
@@ -60,7 +58,7 @@ const ConfirmEmail = () => {
   const [status, setStatus] = useState('loading') // 'loading' | 'success' | 'error'
   const [errorMessage, setErrorMessage] = useState('')
 
-  // Guard against double-firing in React Strict Mode
+  // Guards against React Strict Mode double-firing.
   const called = useRef(false)
 
   useEffect(() => {
@@ -88,7 +86,6 @@ const ConfirmEmail = () => {
     <Layout>
       <section className="mx-auto max-w-lg px-4 py-12 sm:px-6 sm:py-24 text-center">
 
-        {/* ── Loading ── */}
         {status === 'loading' && (
           <>
             <Spinner />
@@ -99,7 +96,6 @@ const ConfirmEmail = () => {
           </>
         )}
 
-        {/* ── Success ── */}
         {status === 'success' && (
           <>
             <CheckIcon />
@@ -116,7 +112,6 @@ const ConfirmEmail = () => {
           </>
         )}
 
-        {/* ── Error ── */}
         {status === 'error' && (
           <>
             <ErrorIcon />

@@ -26,7 +26,6 @@ const Account = () => {
     <Layout>
       <section className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
         
-        {/* Page header */}
         <div className="mb-8">
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-orange-500">
             Mi cuenta
@@ -40,11 +39,9 @@ const Account = () => {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
-          {/* Main Info */}
           <div className="lg:col-span-2 space-y-6">
             <AccountInfoCard />
             
-            {/* Conditional lists for Client */}
             {user.role === 'Client' && (
               <>
                 <UserMembershipsCard memberships={user.memberships} allowCancel={true} />
@@ -53,13 +50,11 @@ const Account = () => {
               </>
             )}
 
-            {/* Conditional lists for Trainer */}
             {user.role === 'Trainer' && (
               <UserTaughtClassesCard taughtClasses={user.taughtClasses} />
             )}
           </div>
 
-          {/* Danger zone / side column */}
           <div className="flex flex-col gap-6">
             <AccountDeleteCard />
           </div>

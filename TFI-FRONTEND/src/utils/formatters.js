@@ -13,21 +13,15 @@ export const capitalizeFirst = (str) => {
   return str.toString().charAt(0).toUpperCase() + str.toString().slice(1).toLowerCase();
 };
 
-/**
- * Mirrors the C# DayOfWeek enum (Sunday = 0 … Saturday = 6). The API sends the raw int, so the
- * order of this array is the wire format — don't sort it. Shared by every view that renders a
- * weekday so the names only have to be written once.
- */
+/** Mirrors the C# DayOfWeek enum. The API sends the raw int, so this order is the wire format. */
 export const DAY_NAMES = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
-/** Weekday list shaped for a <select>, where the value is the enum int the API expects. */
+/** Weekdays for a <select>: the value is the enum int the API expects. */
 export const DAY_OPTIONS = DAY_NAMES.map((label, index) => ({ value: String(index), label }));
 
 /**
- * Role and gender are stored and sent as the English literals below — they're wire values, not
- * display text, so they must never be translated in a request body. These maps exist only to
- * render them, and `roleLabel`/`genderLabel` fall back to the raw value so an unexpected one
- * still shows something rather than blank.
+ * Role and gender travel as the English literals below — wire values, never translated in a
+ * request body. These maps only render them, falling back to the raw value if it's unexpected.
  */
 export const ROLE_LABELS = {
   Client: 'Cliente',
@@ -46,7 +40,7 @@ export const GENDER_LABELS = {
 
 export const genderLabel = (gender) => GENDER_LABELS[gender] ?? gender ?? '—';
 
-/** Gender list shaped for a <select>: English value on the wire, Spanish label on screen. */
+/** Gender for a <select>: English on the wire, Spanish on screen. */
 export const GENDER_OPTIONS = Object.entries(GENDER_LABELS).map(([value, label]) => ({ value, label }));
 
 export const formatDate = (dateStr) => {

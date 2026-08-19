@@ -73,7 +73,6 @@ const NewMembershipPlanForm = () => {
     <Layout>
       <section className="mx-auto max-w-xl px-4 py-10 sm:px-6">
 
-        {/* Back */}
         <button
           id="back-to-dashboard"
           onClick={() => navigate('/admin/dashboard')}
@@ -86,7 +85,6 @@ const NewMembershipPlanForm = () => {
           Volver al panel
         </button>
 
-        {/* Header */}
         <div className="mb-8">
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-orange-500">
             Administración · Membresías
@@ -99,7 +97,6 @@ const NewMembershipPlanForm = () => {
           </p>
         </div>
 
-        {/* Success banner */}
         {submitted && (
           <div className="mb-6 flex items-start gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-5 py-4">
             <FaCheckCircle className="mt-0.5 flex-shrink-0 text-emerald-400 text-lg" />
@@ -112,7 +109,6 @@ const NewMembershipPlanForm = () => {
           </div>
         )}
 
-        {/* API error banner */}
         {apiError && !submitted && (
           <div className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 px-5 py-4 text-sm text-red-400">
             {apiError}
@@ -121,7 +117,6 @@ const NewMembershipPlanForm = () => {
 
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
 
-          {/* Type */}
           <FormField label="Tipo de plan" id="type" error={errors.type}>
             <input
               id="type"
@@ -135,7 +130,6 @@ const NewMembershipPlanForm = () => {
             />
           </FormField>
 
-          {/* Price */}
           <FormField label="Precio" id="price" error={errors.price}>
             <input
               id="price"
@@ -151,7 +145,6 @@ const NewMembershipPlanForm = () => {
             />
           </FormField>
 
-          {/* Duration in Days */}
           <FormField label="Duración (días)" id="durationInDays" error={errors.durationInDays}>
             <input
               id="durationInDays"
@@ -166,7 +159,6 @@ const NewMembershipPlanForm = () => {
             />
           </FormField>
 
-          {/* Actions */}
           <div className="flex items-center gap-3 pt-2">
             <button
               id="submit-membershipplan"

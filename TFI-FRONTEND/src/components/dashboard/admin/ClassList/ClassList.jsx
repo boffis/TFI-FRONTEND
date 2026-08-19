@@ -10,8 +10,6 @@ import Pagination from '../../../shared/Pagination'
 
 const DEFAULT_PAGE_SIZE = 10
 
-// ─── Sort fields ──────────────────────────────────────────────────────────────
-
 const SCHEDULE_SORT_FIELDS = [
   { value: 'className',   label: 'Nombre de la clase' },
   { value: 'dayOfWeek',   label: 'Día de la semana' },
@@ -25,8 +23,6 @@ const INSTANCE_SORT_FIELDS = [
   { value: 'maxCapacity',       label: 'Capacidad' },
   { value: 'inscriptionAmount', label: 'Inscripciones' },
 ]
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const compareValues = (a, b, field, direction) => {
   let valA = a[field] ?? ''
@@ -48,8 +44,6 @@ const compareValues = (a, b, field, direction) => {
   if (valA > valB) return direction === 'asc' ? 1 : -1
   return 0
 }
-
-// ─── Section divider ──────────────────────────────────────────────────────────
 
 const SectionHeader = ({ title, subtitle, count, onAction, actionLabel }) => (
   <div className="flex items-start justify-between mb-6 mt-2">
@@ -79,15 +73,12 @@ const SectionHeader = ({ title, subtitle, count, onAction, actionLabel }) => (
   </div>
 )
 
-// ─── Component ────────────────────────────────────────────────────────────────
-
 const ClassList = () => {
   const navigate = useNavigate()
   const { get: getSchedules, isLoading: loadingSchedules } = useFetch()
   const { get: getInstances, isLoading: loadingInstances } = useFetch()
   const { post: postGenerate, isLoading: loadingGenerate } = useFetch()
 
-  // ── Schedule state ─────────────────────────────────────────────────────────
   const [allSchedules, setAllSchedules] = useState([])
   const [scheduleError, setScheduleError] = useState(null)
 
@@ -99,7 +90,6 @@ const ClassList = () => {
   const [schedPage,      setSchedPage]      = useState(1)
   const [schedPageSize,  setSchedPageSize]  = useState(DEFAULT_PAGE_SIZE)
 
-  // ── Instance state ─────────────────────────────────────────────────────────
   const [allInstances, setAllInstances] = useState([])
   const [instanceError, setInstanceError] = useState(null)
 
@@ -112,7 +102,6 @@ const ClassList = () => {
   const [instPage,      setInstPage]      = useState(1)
   const [instPageSize,  setInstPageSize]  = useState(DEFAULT_PAGE_SIZE)
 
-  // ── Generate classes state ─────────────────────────────────────────────────
   const [daysAhead, setDaysAhead] = useState(14)
   const [generateSuccess, setGenerateSuccess] = useState(null)
   const [generateError, setGenerateError] = useState(null)
@@ -127,7 +116,6 @@ const ClassList = () => {
       null,
       () => {
         setGenerateSuccess(`Se generaron las clases de los próximos ${daysAhead} días.`)
-        // Refresh instances
         getInstances(
           'gymclass',
           true,
@@ -141,7 +129,6 @@ const ClassList = () => {
     )
   }
 
-  // ── Fetch ──────────────────────────────────────────────────────────────────
   useEffect(() => {
     getSchedules(
       'gymclassschedule',
@@ -160,7 +147,6 @@ const ClassList = () => {
     )
   }, [])
 
-  // ── Derived: filtered + sorted schedules ───────────────────────────────────
   const filteredSchedules = useMemo(() => {
     let list = [...allSchedules]
 
@@ -185,7 +171,6 @@ const ClassList = () => {
   const schedStart      = (schedSafePage - 1) * schedPageSize
   const currentSchedules = filteredSchedules.slice(schedStart, schedStart + schedPageSize)
 
-  // ── Derived: filtered + sorted instances ───────────────────────────────────
   const filteredInstances = useMemo(() => {
     let list = [...allInstances]
 
@@ -220,11 +205,9 @@ const ClassList = () => {
   const instStart       = (instSafePage - 1) * instPageSize
   const currentInstances = filteredInstances.slice(instStart, instStart + instPageSize)
 
-  // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div>
 
-      {/* ── GENERATE CLASSES ── */}
       <div className="mb-10 rounded-xl border border-zinc-800 bg-zinc-900/40 p-6">
         <h3 className="mb-4 text-lg font-extrabold tracking-tight text-white">Generar próximas clases</h3>
         <div className="flex flex-wrap items-center gap-4">
@@ -263,7 +246,6 @@ const ClassList = () => {
         )}
       </div>
 
-      {/* ── CLASS SCHEDULES ── */}
       <SectionHeader
         title="Clases programadas"
         subtitle="Plantillas de horarios recurrentes y puntuales."
@@ -314,10 +296,8 @@ const ClassList = () => {
         </>
       )}
 
-      {/* ── SECTION DIVIDER ── */}
       <div className="my-12 border-t border-zinc-800" />
 
-      {/* ── GYM CLASS INSTANCES ── */}
       <SectionHeader
         title="Clases"
         subtitle="Sesiones individuales abiertas a inscripción."

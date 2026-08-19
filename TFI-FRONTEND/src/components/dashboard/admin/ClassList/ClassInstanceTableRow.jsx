@@ -9,7 +9,7 @@ const BoolBadge = ({ value, trueLabel = 'Sí', falseLabel = 'No', trueColor = 't
 const ClassInstanceTableRow = ({ instance }) => {
   const navigate = useNavigate()
 
-  // "Is Special" = true when the class has NO linked schedule (one-off / ad-hoc)
+  // Special = no linked schedule, i.e. a one-off class.
   const isSpecial = !instance.gymClassScheduleId
 
   const scheduleDate = instance.schedule

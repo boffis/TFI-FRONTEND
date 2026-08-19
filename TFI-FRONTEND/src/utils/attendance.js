@@ -1,6 +1,4 @@
-// Mirrors GymManagement.Domain.Enums.AttendanceStatus. The API serialises enums as ints
-// (same as DayOfWeek elsewhere in this app), so these numbers are the wire format —
-// keep them in step with the C# enum.
+// Mirrors the C# AttendanceStatus enum: the API sends ints, so these numbers are the wire format.
 export const ATTENDANCE = {
   NOT_RECORDED: 0,
   PRESENT: 1,

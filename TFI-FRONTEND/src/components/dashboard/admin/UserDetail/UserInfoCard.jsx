@@ -100,7 +100,6 @@ const UserInfoCard = ({ userData, onUpdated }) => {
 
   return (
     <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 backdrop-blur-sm">
-      {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h2 className="text-lg font-bold text-white">Información personal</h2>
@@ -142,7 +141,6 @@ const UserInfoCard = ({ userData, onUpdated }) => {
         )}
       </div>
 
-      {/* Feedback banner */}
       {feedback && (
         <div className={`mb-4 rounded-xl border px-4 py-3 text-sm font-medium ${
           feedback.type === 'success'
@@ -153,7 +151,6 @@ const UserInfoCard = ({ userData, onUpdated }) => {
         </div>
       )}
 
-      {/* Fields */}
       {!editing ? (
         <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
           <Field label="Nombre"               value={capitalizeWords(userData.name)} />
@@ -169,13 +166,12 @@ const UserInfoCard = ({ userData, onUpdated }) => {
       ) : (
         <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
           <InputField label="Nombre"   id="edit-name" value={form.name}        onChange={setField('name')} />
-          {/* Correo, fecha de nacimiento y DNI son de solo lectura: son datos de identidad del cliente, no editables desde el panel de admin. */}
+          {/* Identidad del cliente: solo lectura desde el panel de admin. */}
           <Field label="Correo"               value={userData.email} />
           <Field label="Fecha de nacimiento"  value={userData.dateOfBirth?.split('T')[0]} />
           <Field label="DNI"                  value={userData.dni} />
           <InputField label="Teléfono" id="edit-phone" value={form.phoneNumber} onChange={setField('phoneNumber')} />
 
-          {/* Gender select */}
           <div>
             <label htmlFor="edit-gender" className="mb-1 block text-xs font-semibold uppercase tracking-widest text-zinc-500">
               Género

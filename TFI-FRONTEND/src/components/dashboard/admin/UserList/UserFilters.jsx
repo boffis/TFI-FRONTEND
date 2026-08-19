@@ -1,7 +1,7 @@
 import { FaSearch, FaFilter } from 'react-icons/fa'
 import { FaCircleCheck, FaCircleXmark } from 'react-icons/fa6'
 
-// The `value` of each role is the wire value the API filters on — only the label is translated.
+// Each `value` is the wire value the API filters on; only the label is translated.
 const ROLE_OPTIONS = [
   { value: '', label: 'Todos los roles' },
   { value: 'Client', label: 'Cliente' },
@@ -26,7 +26,6 @@ const UserFilters = ({
   return (
     <div className="flex flex-wrap items-end gap-4 mb-6">
 
-      {/* Search */}
       <div className="flex-1 min-w-[200px]">
         <label htmlFor="user-search" className="block mb-1.5 text-xs font-semibold uppercase tracking-widest text-zinc-400">
           Buscar
@@ -49,7 +48,6 @@ const UserFilters = ({
         </div>
       </div>
 
-      {/* Role filter */}
       <div className="min-w-[150px]">
         <label htmlFor="role-filter" className="block mb-1.5 text-xs font-semibold uppercase tracking-widest text-zinc-400">
           <span className="flex items-center gap-1.5"><FaFilter className="text-xs" /> Rol</span>
@@ -71,7 +69,6 @@ const UserFilters = ({
         </select>
       </div>
 
-      {/* Membership Active filter */}
       <div className="min-w-[160px]">
         <label htmlFor="membership-filter" className="block mb-1.5 text-xs font-semibold uppercase tracking-widest text-zinc-400">
           <span className="flex items-center gap-1.5">

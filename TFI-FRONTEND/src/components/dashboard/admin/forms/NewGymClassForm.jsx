@@ -13,8 +13,6 @@ import {
 } from '../../../forms/classValidation'
 import { FaArrowLeft, FaCheckCircle, FaPlus } from 'react-icons/fa'
 
-// ─── Defaults ─────────────────────────────────────────────────────────────────
-
 const EMPTY_FORM = {
   className: '',
   classDescription: '',
@@ -22,8 +20,6 @@ const EMPTY_FORM = {
   trainerId: '',
   schedule: '',
 }
-
-// ─── Component ────────────────────────────────────────────────────────────────
 
 const NewGymClassForm = () => {
   const navigate = useNavigate()
@@ -39,7 +35,6 @@ const NewGymClassForm = () => {
   const handleChange = e => {
     const { name, value } = e.target
     setForm(prev => ({ ...prev, [name]: value }))
-    // Clear field error on change
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }))
   }
 
@@ -71,10 +66,8 @@ const NewGymClassForm = () => {
         ClassDescription: form.classDescription.trim() || null,
         MaxCapacity:      Number(form.maxCapacity),
         TrainerId:        form.trainerId,
-        // A class time is the gym's wall clock, not an instant: the API stores Schedule as
-        // typed and compares it against GymTime.Now (see Application/Common/GymTime.cs). The
-        // datetime-local value is already in that shape, so it goes out verbatim — running it
-        // through toISOString() would convert it to UTC and file every class 3 hours late.
+        // Gym wall clock, not an instant: sent verbatim, since toISOString() would convert to
+        // UTC and file every class 3 hours late.
         Schedule:         form.schedule,
       },
       () => {
@@ -97,7 +90,6 @@ const NewGymClassForm = () => {
     <Layout>
       <section className="mx-auto max-w-xl px-4 py-10 sm:px-6">
 
-        {/* Back */}
         <button
           id="back-to-dashboard"
           onClick={() => navigate('/admin/dashboard')}
@@ -110,7 +102,6 @@ const NewGymClassForm = () => {
           Volver al panel
         </button>
 
-        {/* Header */}
         <div className="mb-8">
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-orange-500">
             Administración · Clases
@@ -123,7 +114,6 @@ const NewGymClassForm = () => {
           </p>
         </div>
 
-        {/* Success banner */}
         {submitted && (
           <div className="mb-6 flex items-start gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-5 py-4">
             <FaCheckCircle className="mt-0.5 flex-shrink-0 text-emerald-400 text-lg" />
@@ -136,14 +126,12 @@ const NewGymClassForm = () => {
           </div>
         )}
 
-        {/* API error banner */}
         {apiError && !submitted && (
           <div className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 px-5 py-4 text-sm text-red-400">
             {apiError}
           </div>
         )}
 
-        {/* Trainer fetch error */}
         {trainerError && (
           <div className="mb-6 rounded-xl border border-amber-500/30 bg-amber-500/10 px-5 py-3 text-sm text-amber-400">
             No se pudo cargar la lista de entrenadores: {trainerError}
@@ -152,7 +140,6 @@ const NewGymClassForm = () => {
 
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
 
-          {/* Class Name */}
           <FormField label="Nombre de la clase" id="className" error={errors.className}>
             <input
               id="className"
@@ -166,7 +153,6 @@ const NewGymClassForm = () => {
             />
           </FormField>
 
-          {/* Description */}
           <FormField label="Descripción (opcional)" id="classDescription" error={errors.classDescription}>
             <textarea
               id="classDescription"
@@ -180,7 +166,6 @@ const NewGymClassForm = () => {
             />
           </FormField>
 
-          {/* Max Capacity */}
           <FormField label="Capacidad máxima" id="maxCapacity" error={errors.maxCapacity}>
             <input
               id="maxCapacity"
@@ -195,7 +180,6 @@ const NewGymClassForm = () => {
             />
           </FormField>
 
-          {/* Trainer */}
           <FormField label="Entrenador" id="trainerId" error={errors.trainerId}>
             <select
               id="trainerId"
@@ -216,7 +200,6 @@ const NewGymClassForm = () => {
             </select>
           </FormField>
 
-          {/* Schedule */}
           <FormField label="Fecha y hora" id="schedule" error={errors.schedule}>
             <input
               id="schedule"
@@ -229,7 +212,6 @@ const NewGymClassForm = () => {
             />
           </FormField>
 
-          {/* Actions */}
           <div className="flex items-center gap-3 pt-2">
             <button
               id="submit-gymclass"

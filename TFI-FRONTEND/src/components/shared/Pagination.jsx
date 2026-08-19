@@ -40,15 +40,12 @@ const Pagination = ({
   return (
     <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
 
-      {/* Info */}
       <p className="text-sm text-zinc-500">
         Mostrando <span className="text-zinc-300 font-medium">{from}–{to}</span> de{' '}
         <span className="text-zinc-300 font-medium">{totalItems}</span> {itemLabel}
       </p>
 
-      {/* Page buttons */}
       <div className="flex items-center gap-1">
-        {/* Prev */}
         <button
           id={`${idPrefix}-prev`}
           onClick={() => onPageChange(currentPage - 1)}
@@ -64,7 +61,6 @@ const Pagination = ({
           <FaChevronLeft className="text-xs" />
         </button>
 
-        {/* Page numbers */}
         {pages.map((page, i) =>
           page === '...'
             ? <span key={`ellipsis-${i}`} className="px-1 text-zinc-600 text-sm select-none">…</span>
@@ -87,7 +83,6 @@ const Pagination = ({
             )
         )}
 
-        {/* Next */}
         <button
           id={`${idPrefix}-next`}
           onClick={() => onPageChange(currentPage + 1)}
@@ -104,7 +99,6 @@ const Pagination = ({
         </button>
       </div>
 
-      {/* Page size */}
       <div className="flex items-center gap-2 text-sm text-zinc-400">
         <span>Filas:</span>
         <select

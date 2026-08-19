@@ -28,9 +28,7 @@ const InputField = ({ label, id, type = 'text', value, onChange, min }) => (
 const MembershipPlanInfoCard = ({ planData, onUpdated }) => {
   const { put, isLoading } = useFetch()
 
-  // A discontinued plan has no live subscriptions left to push changes to: the recurring charges
-  // were cancelled when it was discontinued, so a price edit here would update a plan nobody can
-  // buy and silently fail to reach anyone. Restore it first if it needs changing.
+  // A discontinued plan has no live subscriptions left, so a price edit would reach nobody.
   const isDiscontinued = planData.isDeleted
 
   const [editing, setEditing] = useState(false)

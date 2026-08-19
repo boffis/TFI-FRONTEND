@@ -13,9 +13,7 @@ const AccountInscriptionsCard = () => {
 
   const inscriptions = user?.inscriptions
 
-  // A class that already happened can't be left anymore, so it's split out here: only the
-  // upcoming ones are shown by default, and the past ones are opt-in history without a
-  // cancel button. Soonest-first for upcoming, most-recent-first for the history.
+  // Past classes can't be left, so they're opt-in history without a cancel button.
   const { upcoming, past } = useMemo(() => {
     const now = Date.now()
     const list = inscriptions ?? []

@@ -4,7 +4,6 @@ import { AuthContext, ROLE } from '../../services/authContext/AuthContext'
 import Layout from '../layout/Layout'
 import useFetch from '../../hooks/useFetch'
 
-// ─── Skeleton card ────────────────────────────────────────────────────────────
 const SkeletonCard = () => (
   <div className="animate-pulse rounded-2xl border border-zinc-800 bg-zinc-900 p-8 flex flex-col gap-4">
     <div className="h-4 w-24 rounded-lg bg-zinc-800" />
@@ -13,7 +12,6 @@ const SkeletonCard = () => (
   </div>
 )
 
-// ─── Plan card ────────────────────────────────────────────────────────────────
 const PlanCard = ({ type, price, onSelect }) => {
   return (
     <div
@@ -23,12 +21,10 @@ const PlanCard = ({ type, price, onSelect }) => {
         hover:-translate-y-1 hover:border-zinc-700 hover:shadow-2xl
       "
     >
-      {/* Plan type */}
       <p className="text-xs font-bold uppercase tracking-widest text-orange-500 mb-3">
         {type}
       </p>
 
-      {/* Price */}
       <div className="flex items-end gap-1 mb-6">
         <span className="text-4xl font-extrabold tracking-tight text-white">
           ${Number(price).toFixed(2)}
@@ -36,10 +32,8 @@ const PlanCard = ({ type, price, onSelect }) => {
         <span className="mb-1 text-sm text-zinc-500">/ plan</span>
       </div>
 
-      {/* Divider */}
       <hr className="border-zinc-800 mb-6" />
 
-      {/* Perks placeholder */}
       <ul className="flex-1 flex flex-col gap-3 mb-8 text-sm text-zinc-400">
         <li className="flex items-center gap-2">
           <span className="text-orange-500">✓</span> Acceso completo al gimnasio
@@ -52,7 +46,6 @@ const PlanCard = ({ type, price, onSelect }) => {
         </li>
       </ul>
 
-      {/* CTA */}
       <button
         onClick={onSelect}
         className="
@@ -67,7 +60,6 @@ const PlanCard = ({ type, price, onSelect }) => {
   )
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
 const Membership = () => {
   const { get, isLoading } = useFetch()
   const { user } = useContext(AuthContext)
@@ -77,7 +69,6 @@ const Membership = () => {
 
   const handleSelectPlan = (plan) => {
     if (!user) {
-      // Redirect to login or show message
       navigate('/login')
       return
     }
@@ -103,7 +94,6 @@ const Membership = () => {
     <Layout>
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
 
-        {/* Page header */}
         <div className="mb-12 text-center">
           <p className="mb-3 text-sm font-bold uppercase tracking-widest text-orange-500">
             Precios
@@ -116,7 +106,6 @@ const Membership = () => {
           </p>
         </div>
 
-        {/* Error state */}
         {error && !isLoading && (
           <div className="flex flex-col items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 py-14 text-center">
             <p className="text-base font-semibold text-red-400">{error}</p>
@@ -124,7 +113,6 @@ const Membership = () => {
           </div>
         )}
 
-        {/* Loading skeletons */}
         {isLoading && (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 3 }).map((_, i) => (
@@ -133,7 +121,6 @@ const Membership = () => {
           </div>
         )}
 
-        {/* Plans grid */}
         {!isLoading && !error && plans.length > 0 && (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {plans.map((plan) => (
@@ -147,7 +134,6 @@ const Membership = () => {
           </div>
         )}
 
-        {/* Empty state */}
         {!isLoading && !error && plans.length === 0 && (
           <div className="flex flex-col items-center gap-2 rounded-xl border border-zinc-800 py-16 text-center">
             <p className="text-base font-semibold text-zinc-400">No hay planes disponibles por ahora.</p>

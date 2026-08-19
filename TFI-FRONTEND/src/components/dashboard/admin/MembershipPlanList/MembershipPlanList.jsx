@@ -40,8 +40,7 @@ const MembershipPlanList = () => {
 
   useEffect(() => {
     get(
-      // Admin endpoint, not the public one: discontinued plans have to stay listed here
-      // so they can be reviewed or restored. Clients only ever see the live ones.
+      // Admin endpoint: discontinued plans stay listed so they can be reviewed or restored.
       'MembershipPlan/admin',
       true,
       data => setPlans(Array.isArray(data) ? data : []),

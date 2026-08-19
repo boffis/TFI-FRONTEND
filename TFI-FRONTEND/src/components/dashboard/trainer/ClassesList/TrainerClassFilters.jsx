@@ -33,7 +33,6 @@ const TrainerClassFilters = ({
   return (
     <div className="mb-6 flex flex-wrap items-end gap-4">
 
-      {/* Search */}
       <div className="min-w-[200px] flex-1">
         <label htmlFor={`${idPrefix}-search`} className={LABEL_CLS}>Buscar</label>
         <div className="relative">
@@ -54,7 +53,6 @@ const TrainerClassFilters = ({
         </div>
       </div>
 
-      {/* Time frame */}
       <div className="min-w-[150px]">
         <label htmlFor={`${idPrefix}-timeframe`} className={LABEL_CLS}>
           <span className="flex items-center gap-1.5"><FaFilter className="text-xs" /> Período</span>
@@ -71,7 +69,6 @@ const TrainerClassFilters = ({
         </select>
       </div>
 
-      {/* Type: special one-off vs. generated from a recurring schedule */}
       <div className="min-w-[150px]">
         <label htmlFor={`${idPrefix}-special`} className={LABEL_CLS}>
           <span className="flex items-center gap-1.5"><FaFilter className="text-xs" /> Tipo</span>

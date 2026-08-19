@@ -1,7 +1,4 @@
-/**
- * Small building blocks shared by the metrics sections. Kept separate so each section reads as
- * data rather than as a wall of Tailwind classes.
- */
+/** Building blocks shared by the metrics sections, so each section reads as data. */
 
 export const StatCard = ({ label, value, hint, tone = 'default' }) => {
   const toneClass =
@@ -30,8 +27,8 @@ export const Section = ({ title, subtitle, children }) => (
 )
 
 /**
- * Generic table. `columns` entries are { key, label, align, render }.
- * Wrapped in an overflow-x container so narrow screens scroll the table, not the page.
+ * Generic table; `columns` entries are { key, label, align, render }. The overflow-x wrapper
+ * makes narrow screens scroll the table rather than the page.
  */
 export const DataTable = ({ columns, rows, rowKey, emptyMessage = 'Todavía no hay datos.' }) => (
   <div className="w-full overflow-x-auto rounded-xl border border-zinc-800">

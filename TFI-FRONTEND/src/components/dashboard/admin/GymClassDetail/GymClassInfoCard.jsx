@@ -70,9 +70,8 @@ const GymClassInfoCard = ({ classData, onUpdated }) => {
         className: form.className.trim(),
         classDescription: form.classDescription.trim() || null,
         maxCapacity: Number(form.maxCapacity),
-        // Wall clock, not an instant — same as NewGymClassForm. The form is seeded by slicing
-        // the API value (line 41), so converting on the way out shifted the class 3 hours later
-        // on every save, even when the admin never touched the field.
+        // Wall clock, not an instant — same as NewGymClassForm. Converting on the way out shifted
+        // the class 3 hours later on every save, even when the field was untouched.
         schedule: form.schedule,
       },
       () => {

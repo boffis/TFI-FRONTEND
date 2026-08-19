@@ -7,8 +7,6 @@ import UserPagination from './UserPagination'
 
 const DEFAULT_PAGE_SIZE = 10
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
 const compareValues = (a, b, field, direction) => {
   let valA = a[field] ?? ''
   let valB = b[field] ?? ''
@@ -26,28 +24,22 @@ const compareValues = (a, b, field, direction) => {
   return 0
 }
 
-// ─── Component ────────────────────────────────────────────────────────────────
-
 const UserList = () => {
   const { get, isLoading } = useFetch()
 
   const [allUsers, setAllUsers] = useState([])
   const [error, setError]       = useState(null)
 
-  // Filter state
   const [searchQuery,      setSearchQuery]      = useState('')
   const [roleFilter,       setRoleFilter]       = useState('')
   const [membershipFilter, setMembershipFilter] = useState('')
 
-  // Sort state
   const [sortField,     setSortField]     = useState('name')
   const [sortDirection, setSortDirection] = useState('asc')
 
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize,    setPageSize]    = useState(DEFAULT_PAGE_SIZE)
 
-  // ── Fetch ──────────────────────────────────────────────────────────────────
   useEffect(() => {
     get(
       'User',
@@ -64,7 +56,6 @@ const UserList = () => {
     )
   }, [])
 
-  // Reset to page 1 whenever filters/sort change
   const resetPage = () => setCurrentPage(1)
 
   const handleSearch      = v => { setSearchQuery(v);      resetPage() }
@@ -76,11 +67,9 @@ const UserList = () => {
     resetPage()
   }
 
-  // ── Derived list ───────────────────────────────────────────────────────────
   const filteredUsers = useMemo(() => {
     let list = [...allUsers]
 
-    // 1. Search
     if (searchQuery.trim()) {
       const q = searchQuery.trim().toLowerCase()
       list = list.filter(u =>
@@ -90,33 +79,28 @@ const UserList = () => {
       )
     }
 
-    // 2. Role filter
     if (roleFilter) {
       list = list.filter(u => u.role === roleFilter)
     }
 
-    // 3. Membership filter (only Clients have IsMembershipActive)
+    // Only Clients carry isMembershipActive.
     if (membershipFilter !== '') {
       const active = membershipFilter === 'true'
       list = list.filter(u => u.role === 'Client' && u.isMembershipActive === active)
     }
 
-    // 4. Sort
     list.sort((a, b) => compareValues(a, b, sortField, sortDirection))
 
     return list
   }, [allUsers, searchQuery, roleFilter, membershipFilter, sortField, sortDirection])
 
-  // ── Paginated slice ────────────────────────────────────────────────────────
   const totalPages    = Math.max(1, Math.ceil(filteredUsers.length / pageSize))
   const safePage      = Math.min(currentPage, totalPages)
   const start         = (safePage - 1) * pageSize
   const currentUsers  = filteredUsers.slice(start, start + pageSize)
 
-  // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div>
-      {/* Section header */}
       <div className="mb-6">
         <h2 className="text-2xl font-extrabold tracking-tight text-white">Usuarios</h2>
         <p className="mt-1 text-sm text-zinc-500">
@@ -124,7 +108,6 @@ const UserList = () => {
         </p>
       </div>
 
-      {/* Error state */}
       {error && !isLoading && (
         <div className="rounded-xl border border-red-500/30 bg-red-500/10 py-10 text-center">
           <p className="font-semibold text-red-400">{error}</p>
@@ -134,7 +117,6 @@ const UserList = () => {
 
       {!error && (
         <>
-          {/* Filters row */}
           <UserFilters
             searchQuery={searchQuery}
             onSearchChange={handleSearch}
@@ -144,7 +126,6 @@ const UserList = () => {
             onMembershipChange={handleMembership}
           />
 
-          {/* Sort row */}
           <UserSortControls
             sortField={sortField}
             sortDirection={sortDirection}
@@ -152,10 +133,8 @@ const UserList = () => {
             onSortDirectionToggle={handleDirectionToggle}
           />
 
-          {/* Table */}
           <UserTable users={currentUsers} isLoading={isLoading} />
 
-          {/* Pagination */}
           {!isLoading && (
             <UserPagination
               currentPage={safePage}

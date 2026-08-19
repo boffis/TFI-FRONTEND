@@ -28,8 +28,7 @@ const UserMembershipsCard = ({ memberships, allowCancel = false, isAdmin = false
     closeDialog()
     setCancellingId(membershipId)
 
-    // Admins revoke any client's membership via the admin-only endpoint; clients cancel their
-    // own via Unsubscribe, which also updates the logged-in user's own membership state.
+    // Admins revoke through the admin endpoint; clients cancel their own via Unsubscribe.
     const url = isAdmin ? `Payment/AdminRevokeMembership/${membershipId}` : `Payment/Unsubscribe/${membershipId}`
 
     post(
@@ -153,7 +152,6 @@ const UserMembershipsCard = ({ memberships, allowCancel = false, isAdmin = false
         </div>
       )}
 
-      {/* Modal Overlay */}
       {modalState.isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="w-full max-w-sm rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-2xl animate-in fade-in zoom-in duration-200">

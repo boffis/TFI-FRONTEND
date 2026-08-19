@@ -5,7 +5,7 @@ import ScheduledClassCard from '../classes/ScheduledClassCard'
 import Search from '../shared/Search'
 import useFetch from '../../hooks/useFetch'
 
-// Normalize raw API shapes into flat props that the cards expect
+// Flattens the raw API shapes into the props the cards expect.
 const normalizeSpecial = (item) => ({
   classId: item.gymClassId,
   className: item.className,
@@ -25,7 +25,6 @@ const normalizeScheduled = (item) => ({
   maxCapacity: item.maxCapacity,
 })
 
-// ─── Section wrapper ──────────────────────────────────────────────────────────
 const Section = ({ title, subtitle, children, isEmpty, emptyMsg }) => (
   <div className="mb-16">
     <div className="mb-6">
@@ -43,7 +42,6 @@ const Section = ({ title, subtitle, children, isEmpty, emptyMsg }) => (
   </div>
 )
 
-// ─── Skeleton grid ────────────────────────────────────────────────────────────
 const SkeletonGrid = () => (
   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
     {Array.from({ length: 3 }).map((_, i) => (
@@ -52,7 +50,6 @@ const SkeletonGrid = () => (
   </div>
 )
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
 const Classes = () => {
   const { get, isLoading } = useFetch()
   const [specialClasses, setSpecialClasses] = useState([])
@@ -92,7 +89,6 @@ const Classes = () => {
     <Layout>
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
 
-        {/* Page header */}
         <div className="mb-10">
           <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-orange-500">
             Cronograma
@@ -103,7 +99,6 @@ const Classes = () => {
           </p>
         </div>
 
-        {/* Search bar */}
         <div className="mb-10">
           <Search
             entity="clases"
@@ -112,7 +107,6 @@ const Classes = () => {
           />
         </div>
 
-        {/* Loading */}
         {isLoading && (
           <>
             <div className="mb-4 h-7 w-48 animate-pulse rounded-lg bg-zinc-800" />
@@ -122,10 +116,8 @@ const Classes = () => {
           </>
         )}
 
-        {/* Content */}
         {!isLoading && (
           <>
-            {/* ── Special Classes ── */}
             <Section
               title="Clases especiales"
               subtitle="Sesiones únicas: reservá tu lugar antes de que se llenen."
@@ -145,10 +137,8 @@ const Classes = () => {
               ))}
             </Section>
 
-            {/* Divider */}
             <hr className="mb-16 border-zinc-800" />
 
-            {/* ── Scheduled Classes ── */}
             <Section
               title="Clases programadas"
               subtitle="Sesiones recurrentes disponibles todas las semanas: sumate cuando quieras."

@@ -74,9 +74,7 @@ const GymClassDetail = () => {
   const isFull = currentInscriptions >= maxCapacity
   const isJoined = isCurrentUserInscribed
 
-  // Join/leave only touch the Inscription table, not the user's own record, so the global
-  // AuthContext user (which Account.jsx reads memberships/inscriptions from) goes stale unless
-  // it's explicitly re-synced here.
+  // Join/leave touch only the Inscription table, so the AuthContext user goes stale unless resynced.
   const syncUser = () => {
     get(`user/${currentUserId}`, true, (data) => handleUpdateUser(data))
   }
@@ -84,7 +82,7 @@ const GymClassDetail = () => {
   const handleJoinLeave = () => {
     setActionError(null)
 
-    // Clients without an active membership can't book — send them to get one instead.
+    // No membership, no booking — send them to get one.
     if (!isJoined && !isMember) {
       navigate('/memberships')
       return
@@ -125,7 +123,6 @@ const GymClassDetail = () => {
         </button>
 
         <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-xl">
-          {/* Header Section */}
           <div className="relative border-b border-zinc-800 p-8 sm:p-10">
             <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-orange-500 to-amber-500" />
             <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
@@ -146,7 +143,6 @@ const GymClassDetail = () => {
             </div>
           </div>
 
-          {/* Details Section */}
           <div className="grid gap-8 p-8 sm:grid-cols-2 sm:p-10">
             <div className="flex flex-col gap-6">
               <div>

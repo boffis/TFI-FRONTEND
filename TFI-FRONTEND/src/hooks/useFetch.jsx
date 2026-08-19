@@ -20,22 +20,20 @@ const useFetch = () => {
         })
             .then(async res => {
                 if (!res.ok) {
-                    // Backend errors are ASP.NET ProblemDetails ({ title, detail, status }),
-                    // not { message } — read detail/title so real error reasons reach the user.
-                    // A few AuthController actions answer with a bare string or { message } instead.
+                    // Errors are ProblemDetails ({ title, detail, status }), not { message } —
+                    // though a few AuthController actions answer with a bare string.
                     let errData = {};
                     try {
                         errData = await res.json();
                     } catch {
-                        // Non-JSON error body (e.g. empty 401) — fall through to the generic message.
+                        // Non-JSON body (e.g. empty 401): fall through to the generic message.
                     }
 
                     const backendMessage = typeof errData === 'string'
                         ? errData
                         : errData.detail || errData.message || errData.title;
 
-                    // The API speaks English; the UI speaks Spanish. This is the one place the
-                    // hand-off happens, so every caller receives an already-translated message.
+                    // The one place English becomes Spanish, so every caller gets it translated.
                     throw new Error(translateApiError(backendMessage));
                 }
 
@@ -46,7 +44,7 @@ const useFetch = () => {
 
                 return hasBody ? res.json().catch(() => { throw new Error(GENERIC_ERROR) }) : null
             },
-                // fetch() itself rejected, so there is no response to read a message from.
+                // fetch() rejected, so there is no response to read a message from.
                 () => { throw new Error(NETWORK_ERROR) })
             .then(onSucces)
             .catch(onError)

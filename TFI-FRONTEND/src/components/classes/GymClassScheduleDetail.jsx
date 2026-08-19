@@ -71,7 +71,6 @@ const GymClassScheduleDetail = () => {
         </button>
 
         <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-xl">
-          {/* Header Section */}
           <div className="relative border-b border-zinc-800 p-8 sm:p-10">
             <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-500" />
             
@@ -91,9 +90,7 @@ const GymClassScheduleDetail = () => {
             </div>
           </div>
 
-          {/* Details & Upcoming Classes Section */}
           <div className="grid gap-8 p-8 sm:grid-cols-3 sm:p-10">
-            {/* Left Col: Info */}
             <div className="flex flex-col gap-8 sm:col-span-1">
               <div>
                 <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">Instructor</h3>
@@ -124,7 +121,6 @@ const GymClassScheduleDetail = () => {
               </div>
             </div>
 
-            {/* Right Col: Instances */}
             <div className="sm:col-span-2">
               <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-zinc-500">Próximas sesiones</h3>
               {gymClasses && gymClasses.length > 0 ? (

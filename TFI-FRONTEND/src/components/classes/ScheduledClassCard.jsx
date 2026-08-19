@@ -1,9 +1,7 @@
 import { useNavigate } from 'react-router'
 import { DAY_NAMES } from '../../utils/formatters'
 
-/**
- * Formats a C# TimeSpan string ("HH:mm:ss") into "HH:mm – HH:mm" (1-hour duration).
- */
+/** C# TimeSpan ("HH:mm:ss") to "HH:mm – HH:mm", assuming a 1-hour class. */
 const formatTimeOfDay = (timeOfDay) => {
   const [h, m] = timeOfDay.split(':').map(Number)
   const pad = (n) => String(n).padStart(2, '0')
@@ -29,18 +27,15 @@ const ScheduledClassCard = ({
       onClick={() => navigate(`/schedule/${classId}`)}
       className="group relative flex cursor-pointer flex-col gap-4 rounded-xl border border-zinc-800 bg-zinc-900/60 p-6 transition-all duration-200 hover:border-blue-500/50 hover:bg-zinc-900 hover:shadow-lg hover:shadow-blue-500/5"
     >
-      {/* Top accent bar — blue to visually distinguish from special classes */}
+      {/* Blue, to distinguish from special classes. */}
       <span className="absolute inset-x-0 top-0 h-[2px] rounded-t-xl bg-blue-500 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
 
-      {/* Badge */}
       <span className="self-start rounded-full border border-blue-500/30 bg-blue-500/10 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-widest text-blue-400">
         Semanal
       </span>
 
-      {/* Class name */}
       <h2 className="text-lg font-bold tracking-tight text-white">{className}</h2>
 
-      {/* Trainer info */}
       <div className="flex flex-col gap-0.5">
         <p className="text-sm font-semibold text-zinc-200">{trainerName}</p>
         <p className="text-xs font-medium uppercase tracking-widest text-blue-400">
@@ -48,10 +43,8 @@ const ScheduledClassCard = ({
         </p>
       </div>
 
-      {/* Divider */}
       <hr className="border-zinc-800" />
 
-      {/* Day + time */}
       <div className="flex items-start gap-2 text-sm text-zinc-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +67,6 @@ const ScheduledClassCard = ({
         </span>
       </div>
 
-      {/* Capacity */}
       <div className="flex items-center gap-2 text-sm text-zinc-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +85,6 @@ const ScheduledClassCard = ({
         <span>Máx. {maxCapacity} lugares</span>
       </div>
 
-      {/* CTA hint */}
       <p className="mt-auto text-xs font-medium text-zinc-600 transition-colors group-hover:text-blue-400">
         Ver detalles →
       </p>

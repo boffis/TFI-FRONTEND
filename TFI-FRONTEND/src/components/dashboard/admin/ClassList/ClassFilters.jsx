@@ -47,7 +47,6 @@ const ClassFilters = ({
   return (
     <div className="flex flex-wrap items-end gap-4 mb-6">
 
-      {/* Search */}
       <div className="flex-1 min-w-[200px]">
         <label htmlFor={`${idPrefix}-search`} className={LABEL_CLS}>Buscar</label>
         <div className="relative">
@@ -68,7 +67,6 @@ const ClassFilters = ({
         </div>
       </div>
 
-      {/* Status filter */}
       <div className="min-w-[150px]">
         <label htmlFor={`${idPrefix}-status`} className={LABEL_CLS}>
           <span className="flex items-center gap-1.5">
@@ -93,7 +91,6 @@ const ClassFilters = ({
         </select>
       </div>
 
-      {/* Day of week (schedule only) */}
       {showDay && (
         <div className="min-w-[150px]">
           <label htmlFor={`${idPrefix}-day`} className={LABEL_CLS}>
@@ -112,7 +109,6 @@ const ClassFilters = ({
         </div>
       )}
 
-      {/* TimeFrame filter (instance only) */}
       {!showDay && timeFrameFilter !== undefined && (
         <div className="min-w-[150px]">
           <label htmlFor={`${idPrefix}-timeframe`} className={LABEL_CLS}>
@@ -131,7 +127,6 @@ const ClassFilters = ({
         </div>
       )}
 
-      {/* Special filter (instance only) */}
       {!showDay && specialFilter !== undefined && (
         <div className="min-w-[150px]">
           <label htmlFor={`${idPrefix}-special`} className={LABEL_CLS}>

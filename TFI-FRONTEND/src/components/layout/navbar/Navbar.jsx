@@ -10,13 +10,11 @@ const navLinks = [
   { to: '/memberships', label: 'Membresías' },
 ]
 
-// ─── User dropdown ────────────────────────────────────────────────────────────
 const UserMenu = ({ user, onLogout }) => {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
   const navigate = useNavigate()
 
-  // Close on outside click
   useEffect(() => {
     const handler = (e) => {
       if (ref.current && !ref.current.contains(e.target)) setOpen(false)
@@ -52,7 +50,6 @@ const UserMenu = ({ user, onLogout }) => {
 
   return (
     <div ref={ref} className="relative">
-      {/* Trigger */}
       <button
         onClick={() => setOpen((prev) => !prev)}
         className="flex items-center gap-2 rounded-lg border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 transition-colors hover:border-zinc-500 hover:text-white focus:outline-none"
@@ -64,7 +61,6 @@ const UserMenu = ({ user, onLogout }) => {
         />
       </button>
 
-      {/* Dropdown panel */}
       {open && (
         <div className="absolute right-0 z-50 mt-2 w-52 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 shadow-xl shadow-black/40">
           <div className="border-b border-zinc-800 px-4 py-3">
@@ -103,19 +99,16 @@ const UserMenu = ({ user, onLogout }) => {
   )
 }
 
-// ─── Navbar ───────────────────────────────────────────────────────────────────
 const Navbar = () => {
   const { user, handleLogout } = useContext(AuthContext)
 
   return (
     <header className="relative z-50 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
-        {/* Brand */}
         <NavLink to="/home" className="text-xl font-bold tracking-tight text-white">
           High Level <span className="text-orange-500">Performance</span>
         </NavLink>
 
-        {/* Nav links */}
         <ul className="hidden items-center gap-6 sm:flex">
           {navLinks.map(({ to, label }) => (
             <li key={to}>
@@ -133,7 +126,6 @@ const Navbar = () => {
           ))}
         </ul>
 
-        {/* Auth area */}
         <div className="flex items-center gap-3">
           {user ? (
             <UserMenu user={user} onLogout={handleLogout} />
