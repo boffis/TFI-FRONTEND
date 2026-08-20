@@ -6,6 +6,7 @@ import useFetch from '../../../../hooks/useFetch'
 import GymClassScheduleInfoCard from './GymClassScheduleInfoCard'
 import GymClassScheduleInstancesCard from './GymClassScheduleInstancesCard'
 import GymClassScheduleDeleteCard from './GymClassScheduleDeleteCard'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const GymClassScheduleDetail = () => {
   const { id } = useParams()
@@ -20,7 +21,7 @@ const GymClassScheduleDetail = () => {
       `GymClassSchedule/admin/${id}`,
       true,
       (data) => setScheduleData(data),
-      (err) => setError(err?.message ?? 'No se pudo cargar el horario de la clase.')
+      (err) => setError(explainApiError(err, 'No se pudo cargar el horario de la clase.'))
     )
   }
 

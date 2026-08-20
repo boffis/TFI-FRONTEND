@@ -12,6 +12,7 @@ import UserMembershipsCard from './UserMembershipsCard'
 import UserInscriptionsCard from './UserInscriptionsCard'
 import UserTaughtClassesCard from './UserTaughtClassesCard'
 import UserDeleteCard from './UserDeleteCard'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const UserDetail = () => {
   const { userId } = useParams()
@@ -26,7 +27,7 @@ const UserDetail = () => {
       `user/${userId}`,
       true,
       (data) => setUserData(data),
-      (err) => setError(err?.message ?? 'No se pudo cargar el usuario.')
+      (err) => setError(explainApiError(err, 'No se pudo cargar el usuario.'))
     )
   }
 

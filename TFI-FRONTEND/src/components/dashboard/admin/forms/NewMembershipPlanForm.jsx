@@ -4,6 +4,7 @@ import Layout from '../../../layout/Layout'
 import useFetch from '../../../../hooks/useFetch'
 import FormField, { inputCls } from '../../../forms/FormField'
 import { FaArrowLeft, FaCheckCircle, FaPlus } from 'react-icons/fa'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const EMPTY_FORM = {
   type: '',
@@ -57,7 +58,7 @@ const NewMembershipPlanForm = () => {
         setCreatedName(form.type.trim())
         setSubmitted(true)
       },
-      err => setApiError(err?.message ?? 'Algo salió mal. Intentá de nuevo.')
+      err => setApiError(explainApiError(err, 'No se pudo crear el plan de membresía'))
     )
   }
 

@@ -3,6 +3,7 @@ import { FaPencil, FaCheck, FaXmark } from 'react-icons/fa6'
 import useFetch from '../../../../hooks/useFetch'
 import useTrainers from '../../../../hooks/useTrainers'
 import { DAY_NAMES } from '../../../../utils/formatters'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const Field = ({ label, value }) => (
   <div>
@@ -86,7 +87,7 @@ const GymClassScheduleInfoCard = ({ scheduleData, onUpdated }) => {
         setEditing(false)
         onUpdated()
       },
-      (err) => setFeedback({ type: 'error', msg: err?.message ?? 'No se pudo actualizar el horario.' })
+      (err) => setFeedback({ type: 'error', msg: explainApiError(err, 'No se pudo actualizar el horario.') })
     )
   }
 

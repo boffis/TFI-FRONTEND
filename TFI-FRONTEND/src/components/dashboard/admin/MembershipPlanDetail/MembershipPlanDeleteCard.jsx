@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { FaTrash, FaTriangleExclamation, FaArrowRotateLeft } from 'react-icons/fa6'
 import { useNavigate } from 'react-router'
 import useFetch from '../../../../hooks/useFetch'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 /**
  * Discontinuing is a soft delete, so this card isn't phrased as a deletion: subscribers keep the
@@ -21,7 +22,7 @@ const MembershipPlanDeleteCard = ({ planId, planName, isDiscontinued, onRestored
       true,
       () => navigate('/admin/dashboard'), // Go back to dashboard on success
       (err) => {
-        setError(err?.message ?? 'No se pudo discontinuar el plan.')
+        setError(explainApiError(err, 'No se pudo discontinuar el plan.'))
         setConfirming(false)
       }
     )
@@ -34,7 +35,7 @@ const MembershipPlanDeleteCard = ({ planId, planName, isDiscontinued, onRestored
       true,
       null,
       () => onRestored?.(),
-      (err) => setError(err?.message ?? 'No se pudo restaurar el plan.')
+      (err) => setError(explainApiError(err, 'No se pudo restaurar el plan.'))
     )
   }
 

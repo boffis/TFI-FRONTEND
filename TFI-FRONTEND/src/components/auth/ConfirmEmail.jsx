@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import useFetch from '../../hooks/useFetch'
 import Layout from '../layout/Layout'
+import { explainApiError } from '../../utils/errorMessages'
 
 const Spinner = () => (
   <div className="mx-auto mb-8 flex h-20 w-20 items-center justify-center">
@@ -76,7 +77,7 @@ const ConfirmEmail = () => {
       null,
       () => setStatus('success'),
       (err) => {
-        setErrorMessage(err.message || 'Ocurrió un error inesperado.')
+        setErrorMessage(explainApiError(err, 'No se pudo confirmar tu correo'))
         setStatus('error')
       }
     )

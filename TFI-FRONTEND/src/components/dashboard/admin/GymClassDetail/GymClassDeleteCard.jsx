@@ -3,6 +3,7 @@ import { FaTrash, FaTriangleExclamation } from 'react-icons/fa6'
 import { FaEnvelope } from 'react-icons/fa'
 import { useNavigate } from 'react-router'
 import useFetch from '../../../../hooks/useFetch'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const GymClassDeleteCard = ({ classId, classNameStr, enrolledCount = 0 }) => {
   const { dele, isLoading } = useFetch()
@@ -18,7 +19,7 @@ const GymClassDeleteCard = ({ classId, classNameStr, enrolledCount = 0 }) => {
       true,
       () => navigate('/admin/dashboard'), // Go back to dashboard on success
       (err) => {
-        setError(err?.message ?? 'No se pudo eliminar la clase.')
+        setError(explainApiError(err, 'No se pudo eliminar la clase.'))
         setConfirming(false)
       }
     )

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { FaPencil, FaCheck, FaXmark } from 'react-icons/fa6'
 import useFetch from '../../../../hooks/useFetch'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const Field = ({ label, value }) => (
   <div>
@@ -71,7 +72,7 @@ const MembershipPlanInfoCard = ({ planData, onUpdated }) => {
         setEditing(false)
         onUpdated()
       },
-      (err) => setFeedback({ type: 'error', msg: err?.message ?? 'No se pudo actualizar el plan.' })
+      (err) => setFeedback({ type: 'error', msg: explainApiError(err, 'No se pudo actualizar el plan.') })
     )
   }
 

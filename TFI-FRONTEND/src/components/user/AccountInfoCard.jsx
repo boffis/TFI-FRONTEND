@@ -3,6 +3,7 @@ import { FaPencil, FaCheck, FaXmark } from 'react-icons/fa6'
 import useFetch from '../../hooks/useFetch'
 import { AuthContext } from '../../services/authContext/AuthContext'
 import { capitalizeWords, genderLabel, roleLabel, GENDER_OPTIONS } from '../../utils/formatters'
+import { explainApiError } from '../../utils/errorMessages'
 
 const ROLE_BADGE = {
   Client:  'bg-blue-500/15 text-blue-400 border-blue-500/30',
@@ -90,7 +91,7 @@ const AccountInfoCard = () => {
         setEditing(false)
       },
       (err) => {
-        setFeedback({ type: 'error', msg: err?.message ?? 'No se pudo actualizar el perfil.' })
+        setFeedback({ type: 'error', msg: explainApiError(err, 'No se pudo actualizar el perfil.') })
       }
     )
   }

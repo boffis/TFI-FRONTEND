@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import useFetch from '../../hooks/useFetch'
 import Layout from '../layout/Layout'
 import { validateEmail } from './validation'
+import { explainApiError } from '../../utils/errorMessages'
 
 const inputClass = (hasError) =>
   `w-full rounded-lg border bg-zinc-900 px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none ${
@@ -33,7 +34,7 @@ const ForgotPassword = () => {
       false,
       { Email: email },
       () => setResult({ ok: true }),
-      (err) => setResult({ ok: false, message: err.message || 'Algo salió mal. Intentá de nuevo.' })
+      (err) => setResult({ ok: false, message: explainApiError(err, 'No se pudo enviar el correo de recuperación') })
     )
   }
 

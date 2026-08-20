@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import { AuthContext, ROLE } from '../../services/authContext/AuthContext'
 import Layout from '../layout/Layout'
 import useFetch from '../../hooks/useFetch'
+import { explainApiError } from '../../utils/errorMessages'
 
 const SkeletonCard = () => (
   <div className="animate-pulse rounded-2xl border border-zinc-800 bg-zinc-900 p-8 flex flex-col gap-4">
@@ -86,7 +87,7 @@ const Membership = () => {
       'membershipplan',
       false,
       (data) => setPlans([...(data ?? [])].sort((a, b) => Number(a.price) - Number(b.price))),
-      (err) => setError(err?.message ?? 'No se pudieron cargar los planes de membresía.')
+      (err) => setError(explainApiError(err, 'No se pudieron cargar los planes de membresía.'))
     )
   }, [])
 

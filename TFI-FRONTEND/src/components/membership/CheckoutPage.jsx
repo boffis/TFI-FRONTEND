@@ -4,6 +4,7 @@ import { CardPayment } from '@mercadopago/sdk-react';
 import { AuthContext } from '../../services/authContext/AuthContext';
 import useFetch from '../../hooks/useFetch';
 import Layout from '../layout/Layout';
+import { explainApiError } from '../../utils/errorMessages'
 
 const CheckoutPage = () => {
   const location = useLocation();
@@ -93,8 +94,7 @@ const CheckoutPage = () => {
         },
         (error) => {
           const message =
-            error?.message ??
-            'Hubo un error al procesar tu pago. Intentá de nuevo.';
+            explainApiError(error, 'No se pudo procesar tu pago');
           console.error('Payment error:', error);
           setErrorMsg(message);
           setPaymentStatus('error');

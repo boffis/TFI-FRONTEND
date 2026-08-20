@@ -3,6 +3,7 @@ import { useContext, useMemo, useState } from 'react'
 import { AuthContext } from '../../services/authContext/AuthContext'
 import useFetch from '../../hooks/useFetch'
 import { formatDateTime } from '../../utils/formatters'
+import { explainApiError } from '../../utils/errorMessages'
 
 const AccountInscriptionsCard = () => {
   const { user, handleDisenrollClass } = useContext(AuthContext)
@@ -49,7 +50,7 @@ const AccountInscriptionsCard = () => {
         setDeletingId(null)
       },
       (err) => {
-        setError(err?.message ?? 'No se pudo cancelar la inscripción.')
+        setError(explainApiError(err, 'No se pudo cancelar la inscripción.'))
         setDeletingId(null)
       }
     )

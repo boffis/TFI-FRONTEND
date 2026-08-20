@@ -12,6 +12,7 @@ import {
   validateScheduleDateTime,
 } from '../../../forms/classValidation'
 import { FaArrowLeft, FaCheckCircle, FaPlus } from 'react-icons/fa'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const EMPTY_FORM = {
   className: '',
@@ -74,7 +75,7 @@ const NewGymClassForm = () => {
         setCreatedName(form.className.trim())
         setSubmitted(true)
       },
-      err => setApiError(err?.message ?? 'Algo salió mal. Intentá de nuevo.')
+      err => setApiError(explainApiError(err, 'No se pudo crear la clase'))
     )
   }
 

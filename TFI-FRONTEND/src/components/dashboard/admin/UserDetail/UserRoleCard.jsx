@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { FaUserShield } from 'react-icons/fa'
 import useFetch from '../../../../hooks/useFetch'
 import { roleLabel } from '../../../../utils/formatters'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 // Wire values: sent verbatim as `newRole`, so they stay English.
 const ROLES = ['Client', 'Trainer', 'Admin']
@@ -29,7 +30,7 @@ const UserRoleCard = ({ userData, onUpdated }) => {
         setFeedback({ type: 'success', msg: `Rol actualizado a ${roleLabel(selectedRole)}.` })
         onUpdated()
       },
-      (err) => setFeedback({ type: 'error', msg: err?.message ?? 'No se pudo cambiar el rol.' })
+      (err) => setFeedback({ type: 'error', msg: explainApiError(err, 'No se pudo cambiar el rol.') })
     )
   }
 

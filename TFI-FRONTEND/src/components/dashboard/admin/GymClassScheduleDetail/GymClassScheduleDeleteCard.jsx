@@ -3,6 +3,7 @@ import { FaTrash, FaTriangleExclamation } from 'react-icons/fa6'
 import { FaEnvelope } from 'react-icons/fa'
 import { useNavigate } from 'react-router'
 import useFetch from '../../../../hooks/useFetch'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const GymClassScheduleDeleteCard = ({ scheduleId, classNameStr }) => {
   const { dele, isLoading } = useFetch()
@@ -23,7 +24,7 @@ const GymClassScheduleDeleteCard = ({ scheduleId, classNameStr }) => {
       true,
       () => navigate('/admin/dashboard'), // Go back to dashboard on success
       (err) => {
-        setError(err?.message ?? 'No se pudo eliminar el horario.')
+        setError(explainApiError(err, 'No se pudo eliminar el horario.'))
         setConfirming(false)
       }
     )

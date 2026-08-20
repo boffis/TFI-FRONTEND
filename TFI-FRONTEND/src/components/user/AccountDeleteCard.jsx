@@ -3,6 +3,7 @@ import { FaTrash, FaTriangleExclamation } from 'react-icons/fa6'
 import { useNavigate } from 'react-router'
 import useFetch from '../../hooks/useFetch'
 import { AuthContext } from '../../services/authContext/AuthContext'
+import { explainApiError } from '../../utils/errorMessages'
 
 const AccountDeleteCard = () => {
   const { dele, isLoading } = useFetch()
@@ -22,7 +23,7 @@ const AccountDeleteCard = () => {
         navigate('/login')
       },
       (err) => {
-        setError(err?.message ?? 'No se pudo eliminar la cuenta.')
+        setError(explainApiError(err, 'No se pudo eliminar la cuenta.'))
         setConfirming(false)
       }
     )

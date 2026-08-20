@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { FaCheck, FaTimes, FaUndo } from 'react-icons/fa'
 import useFetch from '../../hooks/useFetch'
 import { ATTENDANCE } from '../../utils/attendance'
+import { explainApiError } from '../../utils/errorMessages'
 
 /**
  * Editable attendance register, shared by the trainer dashboard and the admin class detail — both
@@ -39,7 +40,7 @@ const AttendanceRoster = ({ classId, hasClassStarted, clients, onSaved, showEmai
         setSavedAt(new Date())
         if (Array.isArray(roster)) onSaved(roster)
       },
-      (err) => setError(err?.message ?? 'No se pudo guardar la asistencia.')
+      (err) => setError(explainApiError(err, 'No se pudo guardar la asistencia.'))
     )
   }
 

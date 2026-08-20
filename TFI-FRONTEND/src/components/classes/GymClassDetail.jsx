@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router'
 import Layout from '../layout/Layout'
 import useFetch from '../../hooks/useFetch'
 import { AuthContext, ROLE } from '../../services/authContext/AuthContext'
+import { explainApiError } from '../../utils/errorMessages'
 
 const formatSchedule = (schedule) => {
   if (!schedule) return ''
@@ -96,7 +97,7 @@ const GymClassDetail = () => {
           fetchClass()
           syncUser()
         },
-        (err) => setActionError(err?.message ?? 'No se pudo cancelar la inscripción.')
+        (err) => setActionError(explainApiError(err, 'No se pudo cancelar la inscripción.'))
       )
     } else {
       post(
@@ -107,7 +108,7 @@ const GymClassDetail = () => {
           fetchClass()
           syncUser()
         },
-        (err) => setActionError(err?.message ?? 'No se pudo completar la inscripción.')
+        (err) => setActionError(explainApiError(err, 'No se pudo completar la inscripción.'))
       )
     }
   }

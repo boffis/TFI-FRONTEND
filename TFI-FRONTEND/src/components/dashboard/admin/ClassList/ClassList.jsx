@@ -7,6 +7,7 @@ import SortControls from '../../../shared/SortControls'
 import ClassScheduleTable from './ClassScheduleTable'
 import ClassInstanceTable from './ClassInstanceTable'
 import Pagination from '../../../shared/Pagination'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const DEFAULT_PAGE_SIZE = 10
 
@@ -120,11 +121,11 @@ const ClassList = () => {
           'gymclass',
           true,
           data => setAllInstances(Array.isArray(data) ? data : []),
-          err  => setInstanceError(err?.message ?? 'No se pudieron cargar las clases.')
+          err  => setInstanceError(explainApiError(err, 'No se pudieron cargar las clases.'))
         )
       },
       err => {
-        setGenerateError(err?.message ?? 'No se pudieron generar las clases.')
+        setGenerateError(explainApiError(err, 'No se pudieron generar las clases.'))
       }
     )
   }
@@ -134,7 +135,7 @@ const ClassList = () => {
       'gymclassschedule',
       true,
       data => setAllSchedules(Array.isArray(data) ? data : []),
-      err  => setScheduleError(err?.message ?? 'No se pudieron cargar la clases programadas.')
+      err  => setScheduleError(explainApiError(err, 'No se pudieron cargar la clases programadas.'))
     )
   }, [])
 
@@ -143,7 +144,7 @@ const ClassList = () => {
       'gymclass',
       true,
       data => setAllInstances(Array.isArray(data) ? data : []),
-      err  => setInstanceError(err?.message ?? 'No se pudieron cargar las clases.')
+      err  => setInstanceError(explainApiError(err, 'No se pudieron cargar las clases.'))
     )
   }, [])
 

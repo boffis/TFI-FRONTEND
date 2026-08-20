@@ -6,6 +6,7 @@ import useFetch from '../../../../hooks/useFetch'
 import GymClassInfoCard from './GymClassInfoCard'
 import GymClassInscribedClientsCard from './GymClassInscribedClientsCard'
 import GymClassDeleteCard from './GymClassDeleteCard'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const GymClassDetail = () => {
   const { id } = useParams()
@@ -20,7 +21,7 @@ const GymClassDetail = () => {
       `GymClass/admin/${id}`,
       true,
       (data) => setClassData(data),
-      (err) => setError(err?.message ?? 'No se pudo cargar la clase.')
+      (err) => setError(explainApiError(err, 'No se pudo cargar la clase.'))
     )
   }
 

@@ -5,6 +5,7 @@ import SortControls from '../../../shared/SortControls'
 import Pagination from '../../../shared/Pagination'
 import TrainerClassCard from './TrainerClassCard'
 import TrainerClassFilters from './TrainerClassFilters'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const DEFAULT_PAGE_SIZE = 10
 
@@ -74,7 +75,7 @@ const TrainerClassesList = () => {
       `GymClass/ClassesByTrainer/${user.userId}`,
       true,
       (data) => setClasses(Array.isArray(data) ? data : []),
-      (err) => setError(err?.message ?? 'No se pudieron cargar tus clases.')
+      (err) => setError(explainApiError(err, 'No se pudieron cargar tus clases.'))
     )
   }, [user?.userId])
 

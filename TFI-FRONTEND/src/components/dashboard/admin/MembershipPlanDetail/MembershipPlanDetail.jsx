@@ -6,6 +6,7 @@ import useFetch from '../../../../hooks/useFetch'
 import MembershipPlanInfoCard from './MembershipPlanInfoCard'
 import MembershipPlanMembershipsCard from './MembershipPlanMembershipsCard'
 import MembershipPlanDeleteCard from './MembershipPlanDeleteCard'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const MembershipPlanDetail = () => {
   const { id } = useParams()
@@ -20,7 +21,7 @@ const MembershipPlanDetail = () => {
       `MembershipPlan/admin/${id}`,
       true,
       (data) => setPlanData(data),
-      (err) => setError(err?.message ?? 'No se pudo cargar el plan de membresía.')
+      (err) => setError(explainApiError(err, 'No se pudo cargar el plan de membresía.'))
     )
   }
 

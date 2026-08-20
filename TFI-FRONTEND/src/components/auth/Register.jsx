@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import useFetch from '../../hooks/useFetch'
+import { explainApiError } from '../../utils/errorMessages'
 import Layout from '../layout/Layout'
 import {
   validateDateOfBirth,
@@ -101,7 +102,7 @@ const Register = () => {
         PhoneNumber: form.phone,
       },
       () => navigate('/register/success'),
-      (err) => setApiError(err.message || 'Algo salió mal. Intentá de nuevo.')
+      (err) => setApiError(explainApiError(err, 'No se pudo completar el registro'))
     )
   }
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import useFetch from './useFetch'
+import { explainApiError } from '../utils/errorMessages'
 
 /** Active trainers from GET /user/activeTrainers. */
 const useTrainers = () => {
@@ -12,7 +13,7 @@ const useTrainers = () => {
       'user/activeTrainers',
       true,
       (data) => setTrainers(Array.isArray(data) ? data : []),
-      (err) => setTrainerError(err?.message ?? 'No se pudieron cargar los entrenadores.')
+      (err) => setTrainerError(explainApiError(err, 'No se pudieron cargar los entrenadores.'))
     )
   }, [])
 

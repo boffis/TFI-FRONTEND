@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { FaTrash, FaTriangleExclamation } from 'react-icons/fa6'
 import { useNavigate } from 'react-router'
 import useFetch from '../../../../hooks/useFetch'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const UserDeleteCard = ({ userId, userName }) => {
   const { dele, isLoading } = useFetch()
@@ -17,7 +18,7 @@ const UserDeleteCard = ({ userId, userName }) => {
       true,
       () => navigate('/admin/dashboard'),
       (err) => {
-        setError(err?.message ?? 'No se pudo eliminar la cuenta.')
+        setError(explainApiError(err, 'No se pudo eliminar la cuenta.'))
         setConfirming(false)
       }
     )

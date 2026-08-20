@@ -1,9 +1,10 @@
 import { useState, useContext } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link, useLocation, useNavigate } from 'react-router'
 import useFetch from '../../hooks/useFetch'
 import Layout from '../layout/Layout'
 import { validateEmail, validatePassword } from './validation'
 import { AuthContext } from '../../services/authContext/AuthContext'
+import { explainApiError } from '../../utils/errorMessages'
 
 const inputClass = (hasError) =>
   `w-full rounded-lg border bg-zinc-900 px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none ${
@@ -24,7 +25,10 @@ const Field = ({ label, id, error, children }) => (
 
 const Login = () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const { handleLogin } = useContext(AuthContext)
+  // Set by useFetch or ProtectedLogin when they end the session.
+  const sessionExpired = location.state?.sessionExpired === true
   const { post, isLoading } = useFetch()
   const [errors, setErrors] = useState({})
   const [apiError, setApiError] = useState(null)
@@ -66,7 +70,7 @@ const Login = () => {
         handleLogin(res)
         navigate('/home')
       },
-      (err) => setApiError(err.message || 'Algo salió mal. Intentá de nuevo.')
+      (err) => setApiError(explainApiError(err, 'No se pudo iniciar sesión'))
     )
   }
 
@@ -80,6 +84,12 @@ const Login = () => {
             Registrate
           </Link>
         </p>
+
+        {sessionExpired && !apiError && (
+          <p className="mt-6 rounded-lg border border-orange-500/40 bg-orange-500/10 px-4 py-3 text-sm text-orange-300">
+            Tu sesión venció. Iniciá sesión de nuevo para continuar.
+          </p>
+        )}
 
         <form onSubmit={handleSubmit} noValidate className="mt-8 space-y-5">
           <Field label="Correo electrónico" id="email" error={errors.email}>

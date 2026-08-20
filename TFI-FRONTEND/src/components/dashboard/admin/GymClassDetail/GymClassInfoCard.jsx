@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import { FaPencil, FaCheck, FaXmark, FaCalendarDays } from 'react-icons/fa6'
 import useFetch from '../../../../hooks/useFetch'
 import useTrainers from '../../../../hooks/useTrainers'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const Field = ({ label, value }) => (
   <div>
@@ -79,7 +80,7 @@ const GymClassInfoCard = ({ classData, onUpdated }) => {
         setEditing(false)
         onUpdated()
       },
-      (err) => setFeedback({ type: 'error', msg: err?.message ?? 'No se pudo actualizar la clase.' })
+      (err) => setFeedback({ type: 'error', msg: explainApiError(err, 'No se pudo actualizar la clase.') })
     )
   }
 

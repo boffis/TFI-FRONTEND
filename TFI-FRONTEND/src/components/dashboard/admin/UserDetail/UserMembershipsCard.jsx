@@ -4,6 +4,7 @@ import { useContext, useState } from 'react'
 import { AuthContext } from '../../../../services/authContext/AuthContext'
 import useFetch from '../../../../hooks/useFetch'
 import { formatDate } from '../../../../utils/formatters'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const UserMembershipsCard = ({ memberships, allowCancel = false, isAdmin = false, onRevoked }) => {
   const { handleCancelMembership } = useContext(AuthContext)
@@ -43,7 +44,7 @@ const UserMembershipsCard = ({ memberships, allowCancel = false, isAdmin = false
       },
       (err) => {
         console.error('Cancel subscription error:', err)
-        setModalState({ isOpen: true, type: 'error', message: err?.message || 'No se pudo revocar la membresía. Intentá de nuevo.' })
+        setModalState({ isOpen: true, type: 'error', message: explainApiError(err, 'No se pudo revocar la membresía') })
         setCancellingId(null)
       }
     )

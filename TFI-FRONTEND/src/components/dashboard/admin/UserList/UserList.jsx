@@ -4,6 +4,7 @@ import UserFilters from './UserFilters'
 import UserSortControls from './UserSortControls'
 import UserTable from './UserTable'
 import UserPagination from './UserPagination'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const DEFAULT_PAGE_SIZE = 10
 
@@ -52,7 +53,7 @@ const UserList = () => {
         ]
         setAllUsers(merged)
       },
-      (err) => setError(err?.message ?? 'No se pudieron cargar los usuarios.')
+      (err) => setError(explainApiError(err, 'No se pudieron cargar los usuarios.'))
     )
   }, [])
 

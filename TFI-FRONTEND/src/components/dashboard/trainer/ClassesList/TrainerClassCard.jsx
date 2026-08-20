@@ -4,6 +4,7 @@ import useFetch from '../../../../hooks/useFetch'
 import { formatDateTime } from '../../../../utils/formatters'
 import EditableNameAndDescription from '../EditableNameAndDescription'
 import AttendanceRoster from '../../../shared/AttendanceRoster'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const TrainerClassCard = ({ classData, trainerId, onUpdated }) => {
   const { get, isLoading: loadingClients } = useFetch()
@@ -17,7 +18,7 @@ const TrainerClassCard = ({ classData, trainerId, onUpdated }) => {
       `GymClass/${classData.gymClassId}/clients`,
       true,
       (data) => setClients(Array.isArray(data) ? data : []),
-      (err) => setClientsError(err?.message ?? 'No se pudieron cargar los clientes inscriptos.')
+      (err) => setClientsError(explainApiError(err, 'No se pudieron cargar los clientes inscriptos.'))
     )
   }, [classData.gymClassId])
 

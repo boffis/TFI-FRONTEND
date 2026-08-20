@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import { FaPlus } from 'react-icons/fa'
 import useFetch from '../../../../hooks/useFetch'
 import MembershipPlanTable from './MembershipPlanTable'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const SectionHeader = ({ title, subtitle, count, onAction, actionLabel }) => (
   <div className="flex items-start justify-between mb-6 mt-2">
@@ -44,7 +45,7 @@ const MembershipPlanList = () => {
       'MembershipPlan/admin',
       true,
       data => setPlans(Array.isArray(data) ? data : []),
-      err => setError(err?.message ?? 'No se pudieron cargar los planes de membresía.')
+      err => setError(explainApiError(err, 'No se pudieron cargar los planes de membresía.'))
     )
   }, [])
 

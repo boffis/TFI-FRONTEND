@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import useFetch from '../../../../hooks/useFetch'
 import { AuthContext } from '../../../../services/authContext/AuthContext'
 import TrainerScheduleCard from './TrainerScheduleCard'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const TrainerSchedulesList = () => {
   const { user } = useContext(AuthContext)
@@ -15,7 +16,7 @@ const TrainerSchedulesList = () => {
       'GymClassSchedule',
       true,
       (data) => setSchedules(Array.isArray(data) ? data : []),
-      (err) => setError(err?.message ?? 'No se pudieron cargar tus horarios.')
+      (err) => setError(explainApiError(err, 'No se pudieron cargar tus horarios.'))
     )
   }, [])
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import useFetch from '../../../../hooks/useFetch'
 import { DataTable, Section, StatCard } from './MetricsPrimitives'
 import { formatMoney, formatPercent } from '../../../../utils/formatters'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const Metrics = () => {
   const { get, isLoading } = useFetch()
@@ -14,7 +15,7 @@ const Metrics = () => {
       'Metrics',
       true,
       (data) => setMetrics(data),
-      (err) => setError(err?.message ?? 'No se pudieron cargar las métricas.')
+      (err) => setError(explainApiError(err, 'No se pudieron cargar las métricas.'))
     )
   }, [])
 

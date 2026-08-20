@@ -3,6 +3,7 @@ import { FaMoneyBillWave } from 'react-icons/fa'
 import useFetch from '../../../../hooks/useFetch'
 import FormField, { inputCls } from '../../../forms/FormField'
 import { formatMoney } from '../../../../utils/formatters'
+import { explainApiError } from '../../../../utils/errorMessages'
 
 const GrantCashMembershipCard = ({ userId, onGranted }) => {
   const { get, post, isLoading } = useFetch()
@@ -17,7 +18,7 @@ const GrantCashMembershipCard = ({ userId, onGranted }) => {
       'membershipPlan',
       false,
       (data) => setPlans(data ?? []),
-      (err) => setPlansError(err?.message ?? 'No se pudieron cargar los planes.')
+      (err) => setPlansError(explainApiError(err, 'No se pudieron cargar los planes.'))
     )
   }, [])
 
@@ -34,7 +35,7 @@ const GrantCashMembershipCard = ({ userId, onGranted }) => {
         setSelectedPlanId('')
         onGranted()
       },
-      (err) => setFeedback({ type: 'error', msg: err?.message ?? 'No se pudo otorgar la membresía.' })
+      (err) => setFeedback({ type: 'error', msg: explainApiError(err, 'No se pudo otorgar la membresía.') })
     )
   }
 
