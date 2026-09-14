@@ -14,7 +14,7 @@ const UserTableRow = ({ user }) => {
   const badgeClass = ROLE_BADGE[user.role] ?? 'bg-zinc-700/30 text-zinc-400 border-zinc-600/30'
 
   const formattedDob = user.dateOfBirth
-    ? new Date(user.dateOfBirth).toLocaleDateString('es-AR', {
+    ? new Date(user.dateOfBirth.split('T')[0] + 'T00:00:00').toLocaleDateString('es-AR', {
         day: '2-digit', month: 'short', year: 'numeric',
       })
     : '—'

@@ -28,7 +28,7 @@ const GymClassScheduleInstancesCard = ({ gymClasses }) => {
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {gymClasses.map((cls) => {
+        {[...gymClasses].sort((a, b) => new Date(a.schedule) - new Date(b.schedule)).map((cls) => {
           const date = cls.schedule 
             ? new Date(cls.schedule).toLocaleString('es-AR', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
             : '—'
